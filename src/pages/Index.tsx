@@ -113,7 +113,7 @@ const popularContent = [
   },
   {
     id: 3,
-    title: 'Cricket Rising: South Africa's Journey',
+    title: "Cricket Rising: South Africa's Journey",
     image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2067&auto=format&fit=crop',
     duration: '38:45',
     views: '1.5M'
@@ -165,7 +165,7 @@ const continueWatchingContent = [
   },
   {
     id: 4,
-    title: 'Women's Football Revolution in Africa',
+    title: "Women's Football Revolution in Africa",
     image: 'https://images.unsplash.com/photo-1571844088753-57e210e84e0d?q=80&w=1776&auto=format&fit=crop',
     duration: '41:37',
     views: '1.5M'
@@ -189,7 +189,7 @@ const newReleasesContent = [
   },
   {
     id: 3,
-    title: 'Surfing Champions: Africa's Coastal Heroes',
+    title: "Surfing Champions: Africa's Coastal Heroes",
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop',
     duration: '35:48',
     views: '890K'
