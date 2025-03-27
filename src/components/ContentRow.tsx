@@ -1,16 +1,7 @@
-
 import React, { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ContentCard from './ContentCard';
-
-interface Content {
-  id: number;
-  title: string;
-  image: string;
-  duration?: string;
-  views?: string;
-  live?: boolean;
-}
+import { Content } from '../types/content';
 
 interface ContentRowProps {
   title: string;

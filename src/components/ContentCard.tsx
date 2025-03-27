@@ -1,15 +1,6 @@
-
 import React, { useState } from 'react';
 import { Play, ThumbsUp, Plus, MoreVertical, Circle } from 'lucide-react';
-
-interface Content {
-  id: number;
-  title: string;
-  image: string;
-  duration?: string;
-  views?: string;
-  live?: boolean;
-}
+import { Content } from '../types/content';
 
 interface ContentCardProps {
   content: Content;
