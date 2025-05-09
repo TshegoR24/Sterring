@@ -1,10 +1,12 @@
-
 import React, { useState } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const categories = [
-  'All', 'Football', 'Basketball', 'Athletics', 'Rugby', 'Cricket', 
-  'Boxing', 'MMA', 'Tennis', 'Volleyball', 'Swimming', 'Esports'
+  'All',
+  'Live Games',
+  'Top Documentaries',
+  'Sport Films',
+  'Original Shows'
 ];
 
 const CategorySelector: React.FC = () => {
@@ -28,10 +30,10 @@ const CategorySelector: React.FC = () => {
       <div className="flex items-center">
         <button 
           onClick={() => handleScroll('left')}
-          className={`absolute left-0 z-10 bg-netflix-black/80 p-1 rounded-full backdrop-blur-sm ${scrollPosition <= 0 ? 'opacity-0' : 'opacity-100'}`}
+          className={`absolute left-0 z-10 bg-inmotion-dark/80 p-1 rounded-full backdrop-blur-sm ${scrollPosition <= 0 ? 'opacity-0' : 'opacity-100'}`}
           disabled={scrollPosition <= 0}
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={24} className="text-inmotion-light" />
         </button>
         
         <div 
@@ -44,8 +46,8 @@ const CategorySelector: React.FC = () => {
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap ${
                 selectedCategory === category 
-                  ? 'bg-white text-netflix-black' 
-                  : 'bg-netflix-dark border border-netflix-gray/30 text-white hover:bg-netflix-gray/20'
+                  ? 'bg-inmotion-accent text-inmotion-dark' 
+                  : 'bg-inmotion-dark border border-inmotion-gray/30 text-inmotion-light hover:bg-inmotion-gray/20'
               }`}
             >
               {category}
@@ -55,9 +57,9 @@ const CategorySelector: React.FC = () => {
         
         <button 
           onClick={() => handleScroll('right')}
-          className="absolute right-0 z-10 bg-netflix-black/80 p-1 rounded-full backdrop-blur-sm"
+          className="absolute right-0 z-10 bg-inmotion-dark/80 p-1 rounded-full backdrop-blur-sm"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={24} className="text-inmotion-light" />
         </button>
       </div>
     </div>

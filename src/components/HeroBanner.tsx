@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Play, Info } from 'lucide-react';
 
@@ -6,94 +5,94 @@ import { Play, Info } from 'lucide-react';
 const featuredContent = [
   {
     id: 1,
-    title: 'African Champions League Final',
-    description: 'The biggest club competition in African football reaches its climax as two giants battle for continental supremacy.',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2936&auto=format&fit=crop',
-    category: 'Football'
+    title: 'Premier League: Arsenal vs Chelsea',
+    description: 'Watch the biggest match of the season live as two football giants battle for supremacy.',
+    image: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2024&auto=format&fit=crop',
+    category: 'Live Games'
   },
   {
     id: 2,
-    title: 'Lagos Marathon 2023',
-    description: 'Follow the thrilling race through the streets of Lagos as elite runners compete for glory.',
-    image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?q=80&w=2940&auto=format&fit=crop',
-    category: 'Athletics'
+    title: 'The Science of Champions',
+    description: 'An exclusive documentary exploring the cutting-edge technology behind modern sports.',
+    image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=2070&auto=format&fit=crop',
+    category: 'Documentaries'
   },
   {
     id: 3,
-    title: 'Basketball Africa League Finals',
-    description: 'The continent\'s premier basketball competition comes to an exciting conclusion.',
-    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=2869&auto=format&fit=crop',
-    category: 'Basketball'
+    title: 'Rising Stars: Next Generation',
+    description: 'Follow the journey of young athletes as they chase their dreams of becoming champions.',
+    image: 'https://images.unsplash.com/photo-1585201731775-0597e1be4bfb?q=80&w=2070&auto=format&fit=crop',
+    category: 'Original Shows'
   }
 ];
 
 const HeroBanner: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  
-  const featured = featuredContent[currentIndex];
-  
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
   useEffect(() => {
-    // Auto-rotate featured content
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % featuredContent.length);
-      setIsLoaded(false);
-    }, 8000);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  useEffect(() => {
-    // Preload image and set loaded state
-    const img = new Image();
-    img.src = featured.image;
-    img.onload = () => setIsLoaded(true);
-  }, [currentIndex, featured.image]);
+    const timer = setInterval(() => {
+      if (!isHovered) {
+        setCurrentSlide((prev) => (prev + 1) % featuredContent.length);
+      }
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [isHovered]);
+
+  const currentContent = featuredContent[currentSlide];
 
   return (
-    <div className="relative h-[70vh] md:h-[80vh] w-full overflow-hidden">
-      <div 
-        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={{ backgroundImage: `url(${featured.image})` }}
-      />
-      
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 netflix-gradient" />
-      
+    <div 
+      className="relative h-[70vh] w-full overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img
+          src={currentContent.image}
+          alt={currentContent.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-inmotion-dark via-inmotion-dark/50 to-transparent" />
+      </div>
+
       {/* Content */}
-      <div className="container mx-auto px-4 h-full flex items-end pb-16 md:pb-24 relative z-10">
-        <div className="w-full md:w-1/2 animate-fade-in">
-          <span className="inline-block text-netflix-red font-medium text-sm md:text-base mb-2">
-            {featured.category}
-          </span>
-          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-shadow">
-            {featured.title}
-          </h1>
-          <p className="text-sm md:text-base text-white/80 mb-6 max-w-lg text-shadow">
-            {featured.description}
-          </p>
-          
-          <div className="flex flex-wrap gap-3">
-            <button className="flex items-center gap-2 bg-white text-netflix-black px-6 py-2 rounded font-medium transition hover:bg-white/90">
-              <Play size={20} />
-              <span>Play</span>
-            </button>
-            <button className="flex items-center gap-2 bg-netflix-gray/30 text-white px-6 py-2 rounded font-medium backdrop-blur-sm transition hover:bg-netflix-gray/40">
-              <Info size={20} />
-              <span>More Info</span>
-            </button>
+      <div className="relative h-full flex items-center">
+        <div className="container mx-auto px-4 md:px-12">
+          <div className="max-w-2xl space-y-4 animate-fade-in">
+            <span className="inline-block px-3 py-1 bg-inmotion-accent text-inmotion-dark text-sm font-medium rounded-full">
+              {currentContent.category}
+            </span>
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-white">
+              {currentContent.title}
+            </h1>
+            <p className="text-lg md:text-xl text-inmotion-light">
+              {currentContent.description}
+            </p>
+            <div className="flex space-x-4 pt-4">
+              <button className="flex items-center space-x-2 bg-inmotion-accent text-inmotion-dark px-6 py-3 rounded-lg font-medium hover:bg-inmotion-accent/90 transition">
+                <Play size={20} />
+                <span>Start Watching</span>
+              </button>
+              <button className="flex items-center space-x-2 bg-inmotion-dark/50 text-white px-6 py-3 rounded-lg font-medium hover:bg-inmotion-dark/70 transition backdrop-blur-sm">
+                <Info size={20} />
+                <span>More Info</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      
-      {/* Pagination Indicators */}
-      <div className="absolute bottom-6 right-6 flex space-x-2">
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {featuredContent.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex ? 'bg-white w-4' : 'bg-white/50'
+            onClick={() => setCurrentSlide(index)}
+            className={`w-3 h-3 rounded-full transition ${
+              currentSlide === index ? 'bg-inmotion-accent' : 'bg-white/50'
             }`}
           />
         ))}
