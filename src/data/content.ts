@@ -374,3 +374,4 @@ export const allContent: Content[] = [
   ...romanceMovies,
   ...crimeMovies,
 ];
+

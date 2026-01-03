@@ -32,3 +32,4 @@ export interface Category {
   name: string;
   content: Content[];
 }
+

@@ -63,3 +63,4 @@ export const ContentRow = ({ category }: ContentRowProps) => {
     </div>
   );
 };
+

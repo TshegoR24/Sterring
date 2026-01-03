@@ -37,3 +37,4 @@ export const ContentCard = ({ content, className }: ContentCardProps) => {
     </div>
   );
 };
+
