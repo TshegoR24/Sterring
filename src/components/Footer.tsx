@@ -1,68 +1,45 @@
-import React from 'react';
-import { Instagram, Twitter, Facebook, Youtube } from 'lucide-react';
-
-const Footer: React.FC = () => {
+export const Footer = () => {
   return (
-    <footer className="bg-inmotion-dark py-12 mt-12">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center mb-6">
-          <div className="flex space-x-4">
-            <a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">
-              <Facebook size={24} />
-            </a>
-            <a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">
-              <Instagram size={24} />
-            </a>
-            <a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">
-              <Twitter size={24} />
-            </a>
-            <a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">
-              <Youtube size={24} />
-            </a>
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm mb-8">
+    <footer className="bg-black/80 border-t border-white/10 mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">About InMotion</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Careers</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Privacy</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Speed Test</a></li>
+            <h3 className="text-white font-bold text-lg mb-4">SA Cinema</h3>
+            <p className="text-white/60 text-sm">
+              Your premier destination for South African cinema.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-white font-semibold mb-4">Categories</h4>
+            <ul className="space-y-2 text-white/60 text-sm">
+              <li><a href="#" className="hover:text-white transition-colors">Drama</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Comedy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Thriller</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Action</a></li>
             </ul>
           </div>
           <div>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Help Center</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Press</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Cookie Preferences</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Legal Notices</a></li>
+            <h4 className="text-white font-semibold mb-4">About</h4>
+            <ul className="space-y-2 text-white/60 text-sm">
+              <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
             </ul>
           </div>
           <div>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Account</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Ways to Watch</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Corporate Information</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Only on InMotion</a></li>
-            </ul>
-          </div>
-          <div>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Media Center</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Terms of Use</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Contact Us</a></li>
-              <li><a href="#" className="text-inmotion-gray hover:text-inmotion-accent transition">Sports Partners</a></li>
+            <h4 className="text-white font-semibold mb-4">Connect</h4>
+            <ul className="space-y-2 text-white/60 text-sm">
+              <li><a href="#" className="hover:text-white transition-colors">Facebook</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Instagram</a></li>
             </ul>
           </div>
         </div>
-        
-        <div className="text-inmotion-gray text-xs">
-          <p>&copy; 2024 InMotion. All rights reserved.</p>
+        <div className="mt-8 pt-8 border-t border-white/10 text-center text-white/60 text-sm">
+          <p>&copy; 2024 SA Cinema. All rights reserved.</p>
         </div>
       </div>
     </footer>
   );
 };
-
-export default Footer;

@@ -1,75 +1,39 @@
-import React, { useState } from 'react';
-import { Play, ThumbsUp, Plus, MoreVertical, Circle } from 'lucide-react';
-import { Content } from '../types/content';
+import { Play } from "lucide-react";
+import { Content } from "@/types/content";
+import { cn } from "@/lib/utils";
 
 interface ContentCardProps {
   content: Content;
+  className?: string;
 }
 
-const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  
+export const ContentCard = ({ content, className }: ContentCardProps) => {
   return (
-    <div 
-      className="relative group rounded-md overflow-hidden cursor-pointer card-hover"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <div
+      className={cn(
+        "group relative flex-shrink-0 cursor-pointer transition-all duration-300 hover:scale-105",
+        className
+      )}
     >
-      {/* Image */}
-      <div className="aspect-video bg-netflix-dark relative overflow-hidden">
-        <img 
-          src={content.image} 
-          alt={content.title} 
+      <div className="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-900 shadow-lg">
+        <img
+          src={content.imageUrl}
+          alt={content.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          loading="lazy"
         />
-        
-        {/* Live Badge */}
-        {content.live && (
-          <div className="absolute top-2 left-2 bg-netflix-red px-2 py-0.5 rounded-sm text-xs font-semibold flex items-center gap-1">
-            <Circle size={6} className="fill-current animate-pulse-subtle" />
-            LIVE
-          </div>
-        )}
-        
-        {/* Duration Badge */}
-        {content.duration && !content.live && (
-          <div className="absolute bottom-2 right-2 bg-black/70 px-1.5 py-0.5 rounded-sm text-xs">
-            {content.duration}
-          </div>
-        )}
-        
-        {/* Hover Overlay */}
-        <div className={`absolute inset-0 bg-black/30 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="absolute bottom-0 w-full p-3 bg-gradient-to-t from-black/90 to-transparent">
-            <div className="flex items-center gap-2 mb-2">
-              <button className="bg-white text-netflix-black rounded-full p-1.5 transition hover:bg-white/90">
-                <Play size={16} className="fill-current" />
-              </button>
-              <button className="bg-netflix-dark/80 text-white rounded-full p-1.5 border border-white/30 transition hover:border-white">
-                <Plus size={16} />
-              </button>
-              <button className="bg-netflix-dark/80 text-white rounded-full p-1.5 border border-white/30 transition hover:border-white">
-                <ThumbsUp size={16} />
-              </button>
-              <div className="flex-grow"></div>
-              <button className="bg-netflix-dark/80 text-white rounded-full p-1.5 border border-white/30 transition hover:border-white">
-                <MoreVertical size={16} />
-              </button>
-            </div>
-            
-            {/* Content Info */}
-            <div className="flex items-center text-xs gap-2 text-white/80">
-              {content.views && <span>{content.views} views</span>}
-            </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <div className="bg-white rounded-full p-4 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-xl">
+            <Play className="h-7 w-7 text-black ml-1 stroke-[3]" />
           </div>
         </div>
       </div>
-      
-      {/* Title */}
-      <h3 className="mt-2 text-sm font-medium line-clamp-1">{content.title}</h3>
+      <div className="mt-2">
+        <h3 className="text-white font-medium text-sm line-clamp-1 group-hover:text-white/80 transition-colors">
+          {content.title}
+        </h3>
+        <p className="text-white/60 text-xs mt-1">{content.year}</p>
+      </div>
     </div>
   );
 };
-
-export default ContentCard;

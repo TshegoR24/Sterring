@@ -1,132 +1,376 @@
-// Mock data for content rows
-export const liveContent = [
+import { Content, Category } from "@/types/content";
+
+// Featured South African movies
+const featuredMovies: Content[] = [
   {
-    id: 1,
-    title: 'Premier League Live: Arsenal vs Chelsea',
-    image: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2024&auto=format&fit=crop',
-    live: true,
-    views: '1.5M watching',
-    category: 'Live Shows'
+    id: "1",
+    title: "Tsotsi",
+    description: "A young street thug steals a car only to discover a baby in the backseat. This Academy Award-winning film follows his journey of redemption.",
+    type: "movie",
+    genres: ["Drama", "Crime"],
+    year: 2005,
+    rating: "R",
+    duration: "94 min",
+    imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=1200&fit=crop",
+    featured: true,
   },
   {
-    id: 2,
-    title: 'NBA Finals: Lakers vs Celtics',
-    image: 'https://images.unsplash.com/photo-1546519638-68e109acd27d?q=80&w=2090&auto=format&fit=crop',
-    live: true,
-    views: '890K watching',
-    category: 'Live Shows'
+    id: "2",
+    title: "District 9",
+    description: "A science fiction thriller set in Johannesburg where aliens have been living in slum-like conditions for decades.",
+    type: "movie",
+    genres: ["Sci-Fi", "Thriller", "Action"],
+    year: 2009,
+    rating: "R",
+    duration: "112 min",
+    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
+    featured: true,
   },
   {
-    id: 3,
-    title: 'Tennis Grand Slam: Wimbledon Finals',
-    image: 'https://images.unsplash.com/photo-1595435934753-5f8b0f8c1c5f?q=80&w=1778&auto=format&fit=crop',
-    live: true,
-    views: '340K watching',
-    category: 'Live Shows'
-  }
+    id: "3",
+    title: "Invictus",
+    description: "Nelson Mandela, in his first term as President of South Africa, initiates a unique venture to unite the apartheid-torn land.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2009,
+    rating: "PG-13",
+    duration: "134 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+    featured: true,
+  },
 ];
 
-export const filmsContent = [
+// Drama movies
+const dramaMovies: Content[] = [
   {
-    id: 1,
-    title: 'The Beautiful Game',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2936&auto=format&fit=crop',
-    duration: '2:15:00',
-    views: '1.2M',
-    category: 'Films'
+    id: "4",
+    title: "Cry, the Beloved Country",
+    description: "A story of racial injustice and reconciliation in apartheid-era South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 1995,
+    rating: "PG-13",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
   },
   {
-    id: 2,
-    title: 'Champions of Tomorrow',
-    image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?q=80&w=2940&auto=format&fit=crop',
-    duration: '1:45:00',
-    views: '845K',
-    category: 'Films'
+    id: "5",
+    title: "Yesterday",
+    description: "A young mother discovers she is HIV positive and must find a way to tell her daughter before she dies.",
+    type: "movie",
+    genres: ["Drama"],
+    year: 2004,
+    rating: "PG-13",
+    duration: "96 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
   },
   {
-    id: 3,
-    title: 'The Last Shot',
-    image: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=2869&auto=format&fit=crop',
-    duration: '1:55:00',
-    views: '650K',
-    category: 'Films'
-  }
+    id: "6",
+    title: "Mandela: Long Walk to Freedom",
+    description: "A chronicle of Nelson Mandela's life journey from his childhood in a rural village to becoming President of South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "146 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "7",
+    title: "The Bang Bang Club",
+    description: "Four photographers document the final days of apartheid in South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2010,
+    rating: "R",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "8",
+    title: "Sarafina!",
+    description: "A young girl leads a student uprising against apartheid in Soweto.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 1992,
+    rating: "PG-13",
+    duration: "117 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
 ];
 
-export const documentariesContent = [
+// Comedy movies
+const comedyMovies: Content[] = [
   {
-    id: 1,
-    title: 'The Science of Speed',
-    image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=2070&auto=format&fit=crop',
-    duration: '58:12',
-    views: '2.1M',
-    category: 'Documentaries'
+    id: "9",
+    title: "Material",
+    description: "A young Muslim man must choose between his family's expectations and his dream of becoming a stand-up comedian.",
+    type: "movie",
+    genres: ["Comedy", "Drama"],
+    year: 2012,
+    rating: "PG-13",
+    duration: "97 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
   },
   {
-    id: 2,
-    title: 'Inside the Mind of Champions',
-    image: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?q=80&w=2012&auto=format&fit=crop',
-    duration: '45:22',
-    views: '3.4M',
-    category: 'Documentaries'
+    id: "10",
+    title: "Happiness is a Four-Letter Word",
+    description: "Three best friends navigate love, career, and family in modern Johannesburg.",
+    type: "movie",
+    genres: ["Comedy", "Romance"],
+    year: 2016,
+    rating: "PG-13",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
   },
   {
-    id: 3,
-    title: 'The Evolution of Sports',
-    image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?q=80&w=2067&auto=format&fit=crop',
-    duration: '38:45',
-    views: '1.5M',
-    category: 'Documentaries'
-  }
-];
-
-export const tvShowsContent = [
-  {
-    id: 1,
-    title: 'Sports Talk: Weekly Roundup',
-    image: 'https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?q=80&w=1974&auto=format&fit=crop',
-    duration: '42:10',
-    views: '2.3M',
-    category: 'TV Shows'
+    id: "11",
+    title: "The Wound",
+    description: "A coming-of-age story set during a traditional Xhosa initiation ritual.",
+    type: "movie",
+    genres: ["Drama"],
+    year: 2017,
+    rating: "R",
+    duration: "88 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
   },
   {
-    id: 2,
-    title: 'Behind the Scenes: Training Camp',
-    image: 'https://images.unsplash.com/photo-1580746738995-c246add43b05?q=80&w=2024&auto=format&fit=crop',
-    duration: '36:58',
-    views: '1.8M',
-    category: 'TV Shows'
+    id: "12",
+    title: "Fanie Fourie's Lobola",
+    description: "A romantic comedy about a white man and a black woman who fall in love and must navigate traditional lobola negotiations.",
+    type: "movie",
+    genres: ["Comedy", "Romance"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "100 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
+  },
+];
+
+// Thriller movies
+const thrillerMovies: Content[] = [
+  {
+    id: "13",
+    title: "Number 37",
+    description: "A wheelchair-bound man witnesses a murder and must use his wits to survive when the killer comes looking for him.",
+    type: "movie",
+    genres: ["Thriller", "Crime"],
+    year: 2018,
+    rating: "R",
+    duration: "88 min",
+    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
   },
   {
-    id: 3,
-    title: 'Rising Stars: Next Generation',
-    image: 'https://images.unsplash.com/photo-1585201731775-0597e1be4bfb?q=80&w=2070&auto=format&fit=crop',
-    duration: '49:25',
-    views: '2.7M',
-    category: 'TV Shows'
-  }
+    id: "14",
+    title: "Five Fingers for Marseilles",
+    description: "A young man returns to his hometown seeking redemption, but finds it overrun by corruption and violence.",
+    type: "movie",
+    genres: ["Thriller", "Action", "Crime"],
+    year: 2017,
+    rating: "R",
+    duration: "120 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "15",
+    title: "The Forgotten Kingdom",
+    description: "A young man returns to Lesotho to bury his father and discovers his roots and a new purpose.",
+    type: "movie",
+    genres: ["Drama"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "96 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "16",
+    title: "Sew the Winter to My Skin",
+    description: "A legendary outlaw becomes a folk hero in 1950s South Africa.",
+    type: "movie",
+    genres: ["Thriller", "Action", "Historical"],
+    year: 2018,
+    rating: "R",
+    duration: "128 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
 ];
 
-// For the trending section, we'll mix content from all categories
-export const trendingContent = [
-  ...liveContent.slice(0, 2),
-  ...filmsContent.slice(0, 2),
-  ...documentariesContent.slice(0, 2),
-  ...tvShowsContent.slice(0, 1)
+// Action movies
+const actionMovies: Content[] = [
+  {
+    id: "17",
+    title: "Blood Diamond",
+    description: "A fisherman, a smuggler, and a syndicate of businessmen match wits over the possession of a priceless diamond.",
+    type: "movie",
+    genres: ["Action", "Drama", "Thriller"],
+    year: 2006,
+    rating: "R",
+    duration: "143 min",
+    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "18",
+    title: "Safe House",
+    description: "A young CIA agent is tasked with looking after a fugitive in a safe house attack.",
+    type: "movie",
+    genres: ["Action", "Thriller"],
+    year: 2012,
+    rating: "R",
+    duration: "115 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "19",
+    title: "Chappie",
+    description: "In the near future, a police droid is stolen and given new programming, becoming the first robot with the ability to think and feel.",
+    type: "movie",
+    genres: ["Action", "Sci-Fi", "Thriller"],
+    year: 2015,
+    rating: "R",
+    duration: "120 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
+  },
 ];
 
-// For continue watching, we'll also mix content
-export const continueWatchingContent = [
-  ...filmsContent.slice(0, 1),
-  ...documentariesContent.slice(0, 1),
-  ...tvShowsContent.slice(0, 1),
-  ...liveContent.slice(0, 1)
+// Historical movies
+const historicalMovies: Content[] = [
+  {
+    id: "20",
+    title: "A United Kingdom",
+    description: "The true story of the forbidden love between the King of Botswana and a white British woman in the 1940s.",
+    type: "movie",
+    genres: ["Historical", "Romance", "Drama"],
+    year: 2016,
+    rating: "PG-13",
+    duration: "111 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "21",
+    title: "Winnie",
+    description: "The story of Winnie Madikizela-Mandela, one of the most misunderstood and yet compelling figures in recent history.",
+    type: "movie",
+    genres: ["Historical", "Drama"],
+    year: 2011,
+    rating: "R",
+    duration: "111 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "22",
+    title: "Catch a Fire",
+    description: "The true story of a South African man who becomes a freedom fighter after being wrongfully accused of terrorism.",
+    type: "movie",
+    genres: ["Historical", "Drama", "Thriller"],
+    year: 2006,
+    rating: "PG-13",
+    duration: "101 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
 ];
 
-// For new releases, we'll show the latest content from each category
-export const newReleasesContent = [
-  ...liveContent.slice(0, 1),
-  ...filmsContent.slice(0, 1),
-  ...documentariesContent.slice(0, 1),
-  ...tvShowsContent.slice(0, 1)
+// Romance movies
+const romanceMovies: Content[] = [
+  {
+    id: "23",
+    title: "Dis ek, Anna",
+    description: "A woman confronts her abusive stepfather after years of silence.",
+    type: "movie",
+    genres: ["Drama", "Thriller"],
+    year: 2015,
+    rating: "R",
+    duration: "100 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "24",
+    title: "The First Grader",
+    description: "An 84-year-old Kenyan man fights for his right to an education.",
+    type: "movie",
+    genres: ["Drama"],
+    year: 2010,
+    rating: "PG-13",
+    duration: "103 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
+];
+
+// Crime movies
+const crimeMovies: Content[] = [
+  {
+    id: "25",
+    title: "Gangster's Paradise: Jerusalema",
+    description: "A young man rises from petty crime to become one of Johannesburg's most notorious gangsters.",
+    type: "movie",
+    genres: ["Crime", "Thriller", "Action"],
+    year: 2008,
+    rating: "R",
+    duration: "119 min",
+    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "26",
+    title: "Four Corners",
+    description: "A 13-year-old chess prodigy must navigate the dangerous world of Cape Town's gangs.",
+    type: "movie",
+    genres: ["Crime", "Drama"],
+    year: 2013,
+    rating: "R",
+    duration: "119 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
+];
+
+export const categories: Category[] = [
+  {
+    id: "featured",
+    name: "Featured",
+    content: featuredMovies,
+  },
+  {
+    id: "drama",
+    name: "Drama",
+    content: dramaMovies,
+  },
+  {
+    id: "comedy",
+    name: "Comedy",
+    content: comedyMovies,
+  },
+  {
+    id: "thriller",
+    name: "Thriller",
+    content: thrillerMovies,
+  },
+  {
+    id: "action",
+    name: "Action",
+    content: actionMovies,
+  },
+  {
+    id: "historical",
+    name: "Historical",
+    content: historicalMovies,
+  },
+  {
+    id: "romance",
+    name: "Romance",
+    content: romanceMovies,
+  },
+  {
+    id: "crime",
+    name: "Crime",
+    content: crimeMovies,
+  },
+];
+
+export const allContent: Content[] = [
+  ...featuredMovies,
+  ...dramaMovies,
+  ...comedyMovies,
+  ...thrillerMovies,
+  ...actionMovies,
+  ...historicalMovies,
+  ...romanceMovies,
+  ...crimeMovies,
 ];

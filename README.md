@@ -1,4 +1,6 @@
-# Welcome to your Lovable project
+# SA Cinema - South African Movie Streaming Platform
+
+A modern streaming platform showcasing South African cinema with an Apple TV-inspired interface.
 
 ## Project info
 
