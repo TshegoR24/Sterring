@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ContentCard } from "./ContentCard";
 import { Category } from "@/types/content";
@@ -22,31 +23,62 @@ export const ContentRow = ({ category }: ContentRowProps) => {
   };
 
   return (
-    <div className="mb-12">
-      <div className="flex items-center justify-between mb-5 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">{category.name}</h2>
-        <div className="flex space-x-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-white hover:bg-white/10 h-9 w-9 rounded-full"
-            onClick={() => scroll("left")}
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-white hover:bg-white/10 h-9 w-9 rounded-full"
-            onClick={() => scroll("right")}
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Button>
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
+      className="mb-16"
+    >
+      {/* Category Header - Premium OTT style */}
+      <div className="flex items-center justify-between mb-6 px-8">
+        <motion.h2
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold text-white"
+        >
+          {category.name}
+        </motion.h2>
+        <motion.span
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-sm text-neutral-400 hover:text-white cursor-pointer transition-colors"
+        >
+          View all →
+        </motion.span>
+        <div className="flex items-center gap-2">
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/20 h-10 w-10 rounded-full border border-white/20 backdrop-blur-sm"
+              onClick={() => scroll("left")}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/20 h-10 w-10 rounded-full border border-white/20 backdrop-blur-sm"
+              onClick={() => scroll("right")}
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </motion.div>
         </div>
       </div>
+
+      {/* Scrollable Content - Horizontal scrolling */}
       <div
         ref={scrollRef}
-        className="flex space-x-4 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-8 pb-4"
+        className="flex gap-4 overflow-x-scroll scrollbar-hide px-8 pb-6"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -56,11 +88,10 @@ export const ContentRow = ({ category }: ContentRowProps) => {
           <ContentCard
             key={item.id}
             content={item}
-            className="w-[150px] sm:w-[180px] md:w-[200px] lg:w-[220px]"
+            className="flex-shrink-0"
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
-

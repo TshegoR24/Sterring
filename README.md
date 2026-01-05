@@ -1,6 +1,21 @@
 # SA Cinema - South African Movie Streaming Platform
 
-A modern streaming platform showcasing South African cinema with an Apple TV-inspired interface.
+A professional OTT (Over-The-Top) streaming platform showcasing South African cinema with a modern, Netflix/Disney+ inspired interface. Built with React, TypeScript, and Tailwind CSS.
+
+## ✨ Features
+
+- 🎬 **Hero Carousel**: Auto-rotating featured movies with smooth transitions
+- 🔍 **Advanced Search**: Real-time search with instant results
+- 🎭 **Movie Categories**: Organized by genres (Drama, Comedy, Thriller, Action, Historical, Romance, Crime)
+- 📱 **Fully Responsive**: Mobile-first design that adapts to all screen sizes
+- 🎨 **Modern UI**: Dark theme with cinematic aesthetics
+- ⭐ **Movie Ratings**: Display ratings and reviews
+- 🎥 **Movie Detail Pages**: Comprehensive movie information with trailers
+- 👤 **User Authentication**: Login and signup pages (ready for backend integration)
+- 🌓 **Theme Toggle**: Dark/light mode support
+- ⚡ **Performance Optimized**: Lazy loading, code splitting, and optimized images
+- ♿ **Accessible**: WCAG compliant with keyboard navigation
+- 🔎 **SEO Optimized**: Meta tags, Open Graph, and semantic HTML
 
 ## Project info
 

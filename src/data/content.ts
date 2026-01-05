@@ -321,6 +321,166 @@ const crimeMovies: Content[] = [
   },
 ];
 
+// Award-Winning South African Films
+const awardWinningMovies: Content[] = [
+  ...featuredMovies,
+  {
+    id: "6",
+    title: "Mandela: Long Walk to Freedom",
+    description: "A chronicle of Nelson Mandela's life journey from his childhood in a rural village to becoming President of South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "146 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "7",
+    title: "The Bang Bang Club",
+    description: "Four photographers document the final days of apartheid in South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2010,
+    rating: "R",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
+];
+
+// Township Stories
+const townshipStories: Content[] = [
+  {
+    id: "1",
+    title: "Tsotsi",
+    description: "A young street thug steals a car only to discover a baby in the backseat. This Academy Award-winning film follows his journey of redemption.",
+    type: "movie",
+    genres: ["Drama", "Crime"],
+    year: 2005,
+    rating: "R",
+    duration: "94 min",
+    imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "4",
+    title: "Cry, the Beloved Country",
+    description: "A story of racial injustice and reconciliation in apartheid-era South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 1995,
+    rating: "PG-13",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "8",
+    title: "Sarafina!",
+    description: "A young girl leads a student uprising against apartheid in Soweto.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 1992,
+    rating: "PG-13",
+    duration: "117 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "25",
+    title: "Gangster's Paradise: Jerusalema",
+    description: "A young man rises from petty crime to become one of Johannesburg's most notorious gangsters.",
+    type: "movie",
+    genres: ["Crime", "Thriller", "Action"],
+    year: 2008,
+    rating: "R",
+    duration: "119 min",
+    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
+  },
+];
+
+// True SA History
+const trueSAHistory: Content[] = [
+  {
+    id: "3",
+    title: "Invictus",
+    description: "Nelson Mandela, in his first term as President of South Africa, initiates a unique venture to unite the apartheid-torn land.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2009,
+    rating: "PG-13",
+    duration: "134 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "6",
+    title: "Mandela: Long Walk to Freedom",
+    description: "A chronicle of Nelson Mandela's life journey from his childhood in a rural village to becoming President of South Africa.",
+    type: "movie",
+    genres: ["Drama", "Historical"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "146 min",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "21",
+    title: "Winnie",
+    description: "The story of Winnie Madikizela-Mandela, one of the most misunderstood and yet compelling figures in recent history.",
+    type: "movie",
+    genres: ["Historical", "Drama"],
+    year: 2011,
+    rating: "R",
+    duration: "111 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "22",
+    title: "Catch a Fire",
+    description: "The true story of a South African man who becomes a freedom fighter after being wrongfully accused of terrorism.",
+    type: "movie",
+    genres: ["Historical", "Drama", "Thriller"],
+    year: 2006,
+    rating: "PG-13",
+    duration: "101 min",
+    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+  },
+];
+
+// Local Comedy Classics
+const localComedyClassics: Content[] = [
+  {
+    id: "9",
+    title: "Material",
+    description: "A young Muslim man must choose between his family's expectations and his dream of becoming a stand-up comedian.",
+    type: "movie",
+    genres: ["Comedy", "Drama"],
+    year: 2012,
+    rating: "PG-13",
+    duration: "97 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "10",
+    title: "Happiness is a Four-Letter Word",
+    description: "Three best friends navigate love, career, and family in modern Johannesburg.",
+    type: "movie",
+    genres: ["Comedy", "Romance"],
+    year: 2016,
+    rating: "PG-13",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "12",
+    title: "Fanie Fourie's Lobola",
+    description: "A romantic comedy about a white man and a black woman who fall in love and must navigate traditional lobola negotiations.",
+    type: "movie",
+    genres: ["Comedy", "Romance"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "100 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
+  },
+];
+
 export const categories: Category[] = [
   {
     id: "featured",
@@ -328,14 +488,29 @@ export const categories: Category[] = [
     content: featuredMovies,
   },
   {
+    id: "award-winning",
+    name: "Award-Winning South African Films",
+    content: awardWinningMovies,
+  },
+  {
+    id: "township-stories",
+    name: "Township Stories",
+    content: townshipStories,
+  },
+  {
+    id: "true-history",
+    name: "True SA History",
+    content: trueSAHistory,
+  },
+  {
+    id: "comedy-classics",
+    name: "Local Comedy Classics",
+    content: localComedyClassics,
+  },
+  {
     id: "drama",
     name: "Drama",
     content: dramaMovies,
-  },
-  {
-    id: "comedy",
-    name: "Comedy",
-    content: comedyMovies,
   },
   {
     id: "thriller",
@@ -346,21 +521,6 @@ export const categories: Category[] = [
     id: "action",
     name: "Action",
     content: actionMovies,
-  },
-  {
-    id: "historical",
-    name: "Historical",
-    content: historicalMovies,
-  },
-  {
-    id: "romance",
-    name: "Romance",
-    content: romanceMovies,
-  },
-  {
-    id: "crime",
-    name: "Crime",
-    content: crimeMovies,
   },
 ];
 
