@@ -11,10 +11,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-neutral-900 to-black text-white relative overflow-hidden">
-      {/* Layered background for depth */}
-      <div className="fixed inset-0 bg-gradient-to-b from-black via-neutral-900/50 to-black pointer-events-none z-0" />
-      <div className="fixed inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none z-0" />
-      
       <Navbar />
       
       {/* Hero Section */}
@@ -41,4 +37,5 @@ const Index = () => {
 };
 
 export default Index;
+
 

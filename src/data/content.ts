@@ -12,6 +12,31 @@ const featuredMovies: Content[] = [
     rating: "R",
     duration: "94 min",
     imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=1200&fit=crop",
+    videoUrl: "/Tsotsi 2005 Trailer.mp4",
+    videoStart: 3,
+    videoEnd: 109,
+    featured: true,
+    director: "Gavin Hood",
+    cast: [
+      { name: "Presley Chweneyagae", role: "Tsotsi" },
+      { name: "Terry Pheto", role: "Miriam" },
+      { name: "Kenneth Nkosi", role: "Aap" },
+      { name: "Mothusi Magano", role: "Boston" },
+      { name: "Zenzo Ngqobe", role: "Butcher" },
+    ],
+    creativeStatement: "We wanted to tell a story of redemption that felt raw, authentic, and unapologetically South African. Tsotsi is about the universal human capacity for change.",
+  },
+  {
+    id: "8",
+    title: "Sarafina!",
+    description: "A young girl leads a student uprising against apartheid in Soweto. An inspiring musical drama about the struggle for freedom.",
+    type: "movie",
+    genres: ["Drama", "Historical", "Musical"],
+    year: 1992,
+    rating: "PG-13",
+    duration: "117 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+    videoUrl: "/Sarafina Trailer.mp4",
     featured: true,
   },
   {
@@ -534,4 +559,5 @@ export const allContent: Content[] = [
   ...romanceMovies,
   ...crimeMovies,
 ];
+
 
