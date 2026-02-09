@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
+import { ChevronLeft, ChevronRight, Volume2, VolumeX, Play, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Content } from "@/types/content";
 import { useNavigate } from "react-router-dom";
@@ -194,21 +194,19 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
               className="flex items-center gap-2 rounded-md bg-white px-6 py-3 text-black font-semibold hover:bg-neutral-200 transition"
               onClick={() => navigate(`/movie/${currentContent.id}`)}
             >
-              ▶ Play
+              <Play className="h-4 w-4 fill-black" /> Watch Now
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="rounded-md bg-white/20 px-6 py-3 text-white backdrop-blur hover:bg-white/30 transition"
+              className="flex items-center gap-2 rounded-md bg-white/20 px-6 py-3 text-white backdrop-blur hover:bg-white/30 transition"
               onClick={() => navigate(`/movie/${currentContent.id}`)}
             >
-              More Info
+              <Plus className="h-4 w-4" /> Add to Watchlist
             </motion.button>
           </div>
         </motion.div>
       </div>
-
-      {/* Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
         {featuredContent.map((_, index) => (
           <motion.button
@@ -217,8 +215,8 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
             className={`h-2 rounded-full transition-all ${index === currentIndex
-                ? "w-12 bg-white shadow-lg"
-                : "w-2 bg-white/40 hover:bg-white/60"
+              ? "w-12 bg-white shadow-lg"
+              : "w-2 bg-white/40 hover:bg-white/60"
               }`}
             aria-label={`Go to slide ${index + 1}`}
           />
