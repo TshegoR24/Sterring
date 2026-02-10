@@ -10,9 +10,9 @@ const Index = () => {
   const contentCategories = categories.filter((cat) => cat.id !== "featured");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-neutral-900 to-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <Navbar />
-      
+
       {/* Hero Section */}
       {featuredCategory && (
         <motion.div
@@ -23,14 +23,14 @@ const Index = () => {
           <HeroCarousel featuredContent={featuredCategory.content} />
         </motion.div>
       )}
-      
-      {/* Content Rows */}
-      <div className="relative z-10 mt-8 pb-16">
+
+      {/* Content Rows - Increased spacing */}
+      <div className="relative z-10 mt-16 pb-20">
         {contentCategories.map((category, index) => (
           <ContentRow key={category.id} category={category} />
         ))}
       </div>
-      
+
       <Footer />
     </div>
   );

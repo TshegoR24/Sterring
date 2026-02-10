@@ -11,32 +11,47 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/5 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b border-white/5 transition-all">
+        <div className="max-w-[1920px] mx-auto px-8 lg:px-12">
           <div className="flex items-center justify-between h-20">
-            <div className="flex items-center space-x-12">
-              <Link to="/" className="text-3xl font-black tracking-tighter hover:opacity-80 transition-opacity">
+            {/* Logo and Navigation */}
+            <div className="flex items-center space-x-16">
+              <Link to="/" className="text-4xl font-black tracking-tighter hover:opacity-80 transition-opacity">
                 <span className="text-sterring-orange">Sterring</span>
                 <span className="text-white">!</span>
               </Link>
-              <div className="hidden md:flex items-center space-x-8">
-                <Link to="/" className="text-white hover:text-sterring-orange transition-colors text-sm font-medium">
+              <div className="hidden md:flex items-center space-x-10">
+                <Link
+                  to="/"
+                  className="text-white text-base font-semibold hover:text-sterring-orange transition-smooth relative group"
+                >
                   Home
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sterring-orange group-hover:w-full transition-all duration-300"></span>
                 </Link>
-                <Link to="/movies" className="text-white/70 hover:text-white transition-colors text-sm font-medium">
+                <Link
+                  to="/movies"
+                  className="text-white/70 text-base font-medium hover:text-white transition-smooth relative group"
+                >
                   Movies
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
                 </Link>
-                <Link to="/categories" className="text-white/70 hover:text-white transition-colors text-sm font-medium">
+                <Link
+                  to="/categories"
+                  className="text-white/70 text-base font-medium hover:text-white transition-smooth relative group"
+                >
                   Categories
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+
+            {/* Actions */}
+            <div className="flex items-center space-x-5">
               <ThemeToggle />
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-white/10 rounded-full"
+                className="text-white hover:bg-white/10 hover:scale-110 rounded-full transition-smooth w-11 h-11"
                 onClick={() => setIsSearchOpen(true)}
                 aria-label="Search"
               >
@@ -45,7 +60,7 @@ export const Navbar = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-white/10 rounded-full md:hidden"
+                className="text-white hover:bg-white/10 hover:scale-110 rounded-full md:hidden transition-smooth w-11 h-11"
                 aria-label="Menu"
               >
                 <Menu className="h-5 w-5" />
@@ -53,7 +68,7 @@ export const Navbar = () => {
               <Link to="/login">
                 <Button
                   variant="default"
-                  className="bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-md px-6 hidden sm:flex items-center gap-2"
+                  className="bg-sterring-orange hover:bg-sterring-orange/90 hover:scale-105 text-white font-semibold rounded-lg px-7 py-2.5 hidden sm:flex items-center gap-2 transition-smooth shadow-lg"
                 >
                   <LogIn className="h-4 w-4" />
                   <span className="text-sm">Sign In</span>
