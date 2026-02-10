@@ -3,43 +3,92 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+
+  /* Night Theme (Dark) - Default */
+  :root,
+  [data-theme="night"] {
+    --theme-bg: 0 0% 0%;
+    /* Pure Black */
+    --theme-bg-elevated: 0 0% 4%;
+    /* Charcoal for cards */
+    --theme-text: 0 0% 98%;
+    /* Crisp white */
+    --theme-text-muted: 0 0% 65%;
+    /* Muted gray */
+    --theme-border: 0 0% 12%;
+    /* Subtle borders */
+    --theme-card: 0 0% 4%;
+    /* Card background */
+    --theme-accent: 16 100% 60%;
+    /* Vibrant Orange */
+
     --background: 0 0% 0%;
-    /* Pure Black - Netflix/Apple TV style */
     --foreground: 0 0% 98%;
-    /* Crisp white for maximum contrast */
-
     --card: 0 0% 4%;
-    /* Charcoal for subtle depth */
     --card-foreground: 0 0% 98%;
-
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
-
     --primary: 16 100% 60%;
-    /* Vibrant Orange - Spotify-inspired */
     --primary-foreground: 0 0% 100%;
-
     --secondary: 195 100% 50%;
-    /* Electric Blue for interactive elements */
     --secondary-foreground: 0 0% 100%;
-
     --muted: 0 0% 10%;
     --muted-foreground: 0 0% 65%;
-
     --accent: 142 76% 36%;
-    /* Spotify Green for success states */
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 0 0% 12%;
     --input: 0 0% 12%;
     --ring: 16 100% 60%;
-    /* Match primary */
-
     --radius: 0.5rem;
+  }
+
+  /* Day Theme (Light) */
+  [data-theme="day"] {
+    --theme-bg: 0 0% 98%;
+    /* Off-white background */
+    --theme-bg-elevated: 0 0% 100%;
+    /* Pure white for cards */
+    --theme-text: 0 0% 10%;
+    /* Dark text */
+    --theme-text-muted: 0 0% 45%;
+    /* Muted dark gray */
+    --theme-border: 0 0% 88%;
+    /* Light borders */
+    --theme-card: 0 0% 100%;
+    /* White cards */
+    --theme-accent: 16 100% 50%;
+    /* Slightly darker orange for contrast */
+
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 16 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 195 100% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 92%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 16 100% 50%;
+    --radius: 0.5rem;
+  }
+
+  /* Smooth theme transitions */
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease !important;
   }
 }
 
