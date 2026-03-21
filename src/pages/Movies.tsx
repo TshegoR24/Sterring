@@ -1,10 +1,13 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ContentRow } from "@/components/ContentRow";
+import { GenreFilter } from "@/components/GenreFilter";
 import { categories } from "@/data/content";
+import { Content } from "@/types/content";
 import { Clapperboard, Play, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 // Pull the Local Movies category from shared data
 const localMoviesCat = categories.find((c) => c.id === "local-movies")!;
@@ -13,6 +16,8 @@ const localMoviesCat = categories.find((c) => c.id === "local-movies")!;
 const hero = localMoviesCat?.content[0];
 
 const Movies = () => {
+  const [filtered, setFiltered] = useState<Content[]>(localMoviesCat?.content ?? []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <Navbar />
@@ -95,13 +100,16 @@ const Movies = () => {
         </div>
       </div>
 
-      {/* ── Content Rows ────────────────────────────────────────────────── */}
+      {/* ── Genre Filter + Content Row ──────────────────────────────────── */}
       <div className="relative z-10 pb-20 mt-4">
-
         {localMoviesCat && (
-          <ContentRow category={localMoviesCat} />
+          <>
+            <GenreFilter content={localMoviesCat.content} onFilter={setFiltered} />
+            <ContentRow
+              category={{ ...localMoviesCat, content: filtered }}
+            />
+          </>
         )}
-
       </div>
 
       <Footer />

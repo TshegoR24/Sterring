@@ -82,19 +82,6 @@ export const Navbar = () => {
                   <Search className="h-5 w-5" />
                 </Button>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.08, transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] } }}
-                whileTap={{ scale: 0.96 }}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white hover:bg-white/10 rounded-full transition-all duration-200 w-11 h-11 md:hidden"
-                  aria-label="Menu"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </motion.div>
               <Link to="/login">
                 <motion.div
                   whileHover={{
@@ -117,6 +104,42 @@ export const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {/* ── Mobile bottom navigation (hidden on md+) ─────────────────────── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10">
+        <div className="flex items-center justify-around h-16 px-2">
+          {navLinks.map(({ to, label, icon: Icon }) => {
+            const isActive = location.pathname === to;
+            return (
+              <Link
+                key={to}
+                to={to}
+                className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-0 px-1 transition-colors"
+              >
+                <Icon
+                  className={`w-5 h-5 transition-colors ${
+                    isActive ? "text-sterring-orange" : "text-white/50"
+                  }`}
+                />
+                <span
+                  className={`text-[10px] font-semibold truncate max-w-[60px] ${
+                    isActive ? "text-sterring-orange" : "text-white/40"
+                  }`}
+                >
+                  {label === "My Watchlist" ? "Watchlist" : label}
+                </span>
+                {isActive && (
+                  <motion.div
+                    layoutId="mobile-nav-indicator"
+                    className="absolute top-0 left-0 right-0 h-0.5 bg-sterring-orange rounded-full"
+                  />
+                )}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
       <SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );

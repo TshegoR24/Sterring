@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { ContentRow } from "@/components/ContentRow";
+import { ContinueWatchingRow } from "@/components/ContinueWatchingRow";
 import { Footer } from "@/components/Footer";
 import { categories } from "@/data/content";
 
@@ -24,9 +25,12 @@ const Index = () => {
         </motion.div>
       )}
 
-      {/* Content Rows - Increased spacing */}
-      <div className="relative z-10 mt-16 pb-20">
-        {contentCategories.map((category, index) => (
+      {/* Content Rows */}
+      <div className="relative z-10 mt-8 pb-20">
+        {/* Continue Watching — only visible after user has played something */}
+        <ContinueWatchingRow />
+
+        {contentCategories.map((category) => (
           <ContentRow key={category.id} category={category} />
         ))}
       </div>

@@ -31,7 +31,7 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
         scale: 1.04,
         transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }
       }}
-      onClick={() => navigate(`/movie/${content.id}`)}
+      onClick={() => navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`)}
     >
       {/* Thumbnail — fixed size box, image always fills with object-cover */}
       <div className="relative w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[360px] overflow-hidden rounded-lg bg-neutral-900 flex-shrink-0">
@@ -85,7 +85,7 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
             className="flex items-center justify-center gap-1.5 md:gap-2 w-full rounded-lg bg-white/95 px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base text-black font-semibold transition-all duration-200 shadow-lg min-h-[44px]"
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/movie/${content.id}`);
+              navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`);
             }}
           >
             <Play className="h-4 w-4 fill-black" />

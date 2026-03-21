@@ -1,21 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Play, ArrowLeft, Star, Plus, VolumeX, Volume2, Expand } from "lucide-react";
+import { Play, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { allContent } from "@/data/content";
 import { ContentCard } from "@/components/ContentCard";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
+import { useWatchlist } from "@/contexts/WatchlistContext";
+import { useContinueWatching } from "@/contexts/ContinueWatchingContext";
+import { useVolumePreference } from "@/hooks/useVolumePreference";
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const movie = allContent.find((m) => m.id === id);
+  const { toggle, has } = useWatchlist();
+  const { upsert } = useContinueWatching();
+  const { isMuted, setMuted } = useVolumePreference();
 
   // Showmax-style Preview State
   const [showVideo, setShowVideo] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -46,7 +51,7 @@ const MovieDetail = () => {
       if (p !== undefined) {
         p.catch(() => {
           // Browser blocked autoplay with sound — fall back to muted
-          setIsMuted(true);
+          setMuted(true);
           video.muted = true;
           video.play().catch((e) => console.error("Video play failed:", e));
         });
@@ -60,7 +65,25 @@ const MovieDetail = () => {
       video.addEventListener("canplay", attemptPlay, { once: true });
       return () => video.removeEventListener("canplay", attemptPlay);
     }
-  }, [showVideo]);
+  }, [showVideo, setMuted]);
+
+  // Effect 3: Track watch progress every 10s
+  useEffect(() => {
+    if (!showVideo || !movie) return;
+    const interval = setInterval(() => {
+      if (!videoRef.current) return;
+      upsert({
+        id: movie.id,
+        title: movie.title,
+        imageUrl: movie.imageUrl,
+        type: movie.type,
+        progressSeconds: Math.floor(videoRef.current.currentTime),
+        durationSeconds: Math.floor(videoRef.current.duration || 3600),
+        timestamp: Date.now(),
+      });
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [showVideo, movie, upsert]);
 
   if (!movie) {
     return (
@@ -78,13 +101,15 @@ const MovieDetail = () => {
     .filter((m) => m.id !== movie.id && m.genres.some((genre) => movie.genres.includes(genre)))
     .slice(0, 6);
 
-  const rating = 8.5; // Mock rating
+  const rating = 8.5;
   const hasVideo = Boolean(movie.videoUrl);
+  const inWatchlist = has(movie.id);
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+      const next = !isMuted;
+      videoRef.current.muted = next;
+      setMuted(next);
     }
   };
 
@@ -203,7 +228,7 @@ const MovieDetail = () => {
               <Button
                 size="lg"
                 className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
-                onClick={() => toggleFullscreen()} // Simulated full player logic
+                onClick={() => toggleFullscreen()}
               >
                 <Play className="mr-2 h-6 w-6 fill-white" />
                 Play Now
@@ -211,10 +236,15 @@ const MovieDetail = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-white/10 hover:bg-white/20 border-white/20 text-white text-base md:text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-md transition-all hover:scale-105"
+                className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-md transition-all hover:scale-105 ${
+                  inWatchlist
+                    ? "bg-sterring-orange/20 border-sterring-orange text-sterring-orange"
+                    : "bg-white/10 hover:bg-white/20 border-white/20 text-white"
+                }`}
+                onClick={() => toggle(movie)}
               >
-                <Plus className="mr-2 h-6 w-6" />
-                Watchlist
+                {inWatchlist ? <Check className="mr-2 h-6 w-6" /> : <Plus className="mr-2 h-6 w-6" />}
+                {inWatchlist ? "In Watchlist" : "Add to Watchlist"}
               </Button>
             </motion.div>
 
