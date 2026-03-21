@@ -1,6 +1,6 @@
 import { Content, Category } from "@/types/content";
 
-// Featured South African movies
+// ── Featured (Hero Carousel) ─────────────────────────────────────────────
 const featuredMovies: Content[] = [
   {
     id: "1",
@@ -24,12 +24,14 @@ const featuredMovies: Content[] = [
       { name: "Mothusi Magano", role: "Boston" },
       { name: "Zenzo Ngqobe", role: "Butcher" },
     ],
-    creativeStatement: "We wanted to tell a story of redemption that felt raw, authentic, and unapologetically South African. Tsotsi is about the universal human capacity for change.",
+    creativeStatement:
+      "We wanted to tell a story of redemption that felt raw, authentic, and unapologetically South African. Tsotsi is about the universal human capacity for change.",
   },
   {
     id: "8",
     title: "Sarafina!",
-    description: "A young girl leads a student uprising against apartheid in Soweto. An inspiring musical drama about the struggle for freedom.",
+    description:
+      "A young girl leads a student uprising against apartheid in Soweto. An inspiring musical drama about the struggle for freedom.",
     type: "movie",
     genres: ["Drama", "Historical", "Musical"],
     year: 1992,
@@ -52,7 +54,6 @@ const featuredMovies: Content[] = [
     videoUrl: "/TheLastRanger.mp4",
     featured: true,
   },
-
   {
     id: "11",
     title: "The Wound",
@@ -68,10 +69,211 @@ const featuredMovies: Content[] = [
   },
 ];
 
-// Drama movies
-const dramaMovies: Content[] = [
+// ── Local Movies ─────────────────────────────────────────────────────────
+const localMovies: Content[] = [
   {
-    id: "4",
+    id: "lm-1",
+    title: "Tsotsi",
+    description: "A young street thug steals a car only to discover a baby in the backseat. Academy Award-winning South African drama.",
+    synopsis: "TSOTSI tells the story of six days in the life of a ruthless young gang leader who ends up caring for a baby accidentally kidnapped during a car-jacking. Tsotsi is an adaptation of the novel of the same name by Athol Fugard.",
+    type: "movie",
+    genres: ["Drama", "Crime"],
+    year: 2005,
+    rating: "R",
+    duration: "94 min",
+    imageUrl: "/Sterring/p160709_v_h9_ae (1).jpg",
+    videoUrl: "/Sterring/Tsotsi 2005 Trailer (1).mp4",
+  },
+  {
+    id: "lm-2",
+    title: "Gangster's Paradise: Jerusalema",
+    description: "A young man rises from petty crime to become one of Johannesburg's most notorious gangsters.",
+    synopsis: "After failing to make it into university, a young man from Soweto starts out on a life of crime. He rapidly rises up the ranks of the criminal underworld in Hillbrow, Johannesburg.",
+    type: "movie",
+    genres: ["Crime", "Thriller"],
+    year: 2008,
+    rating: "R",
+    duration: "119 min",
+    imageUrl: "/Sterring/MV5BYjVlMGFhMzMtNGIzNC00MzM2LWIzMzctYTkxNWEwZjA2NzAzXkEyXkFqcGc@._V1_.jpg",
+    videoUrl: "/Sterring/JERUSALEMA_ GANGSTERS PARADISE _Full HD Movie_ NTJANA MOVIES.mp4",
+  },
+  {
+    id: "lm-3",
+    title: "The Wound (Inxeba)",
+    description: "A coming-of-age story set during a traditional Xhosa initiation ritual that challenges notions of masculinity.",
+    synopsis: "Xolani, a lonely factory worker, joins the men of his community in the mountains of the Eastern Cape to initiate a group of teenage boys into manhood. When a defiant initiate from the city discovers his best-kept secret, Xolani's entire existence begins to unravel.",
+    type: "movie",
+    genres: ["Drama"],
+    year: 2017,
+    rating: "R",
+    duration: "88 min",
+    imageUrl: "/Sterring/48376e03e52cf428dd65fe7b9ba2f1a9-e1519918120112.jpeg",
+    videoUrl: "/Sterring/‘Inxeba (‘The Wound’)’ official trailer (1).mp4",
+  },
+  {
+    id: "lm-4",
+    title: "The Last Ranger",
+    description: "A cinematic film trailer about conservation and survival in the African wilderness.",
+    synopsis: "A story about a young ranger working to protect rhinos from poachers in a South African game reserve. The film explores the human cost of the poaching crisis.",
+    type: "movie",
+    genres: ["Documentary", "Nature"],
+    year: 2024,
+    rating: "PG",
+    duration: "2 min",
+    imageUrl: "/Sterring/images (3) (1).jpg",
+    videoUrl: "/Sterring/The Last Ranger Trailer _ South African Film Festival (1).mp4",
+  },
+  {
+    id: "lm-5",
+    title: "Sarafina!",
+    description: "A young girl leads a student uprising against apartheid in Soweto. An inspiring musical drama about the struggle for freedom.",
+    synopsis: "Students involved in the Soweto Riots are inspired by a teacher to protest against making Afrikaans the official language of their school. However, their protest soon turns violently out of control.",
+    type: "movie",
+    genres: ["Drama", "Musical"],
+    year: 1992,
+    rating: "PG-13",
+    duration: "117 min",
+    imageUrl: "/Sterring/images (4).jpg",
+    videoUrl: "/Sterring/Sarafina Trailer (1).mp4",
+  },
+];
+
+// ── Local TV Shows ────────────────────────────────────────────────────────
+const localTVShows: Content[] = [
+  {
+    id: "tv-1",
+    title: "Ayeye",
+    description: "A hilarious South African comedy series following three young men navigating life, friendship, and hustle in the city.",
+    synopsis: "Ayeye follows three fun-loving friends trying to make it in Johannesburg. Packed with authentic township humour, relatable struggles, and heart, this series became a local fan favourite for its sharp wit and brilliant performances.",
+    type: "series",
+    genres: ["Comedy", "Drama"],
+    year: 2015,
+    rating: "PG-13",
+    duration: "30 min",
+    imageUrl: "/Sterring Tv Shows/AYEYE.jpg",
+    videoUrl: "/Sterring Tv Shows/#AYEYE - Season 1, Episode 1.mp4",
+  },
+  {
+    id: "tv-2",
+    title: "B'Dazzled by Bonang",
+    description: "South Africa's queen of media, Bonang Matheba, gives fans an exclusive look into her glamorous and relentless lifestyle.",
+    synopsis: "B'Dazzled follows Bonang Matheba as she juggles her thriving media career, business ventures, and personal life. The reality series gives an intimate, unfiltered look at one of South Africa's most iconic celebrities.",
+    type: "series",
+    genres: ["Reality", "Lifestyle"],
+    year: 2022,
+    rating: "PG",
+    duration: "45 min",
+    imageUrl: "/Sterring Tv Shows/Bonang-Matheba_Bdazzled-by-Bonang-e1721310529309.jpg",
+    videoUrl: "/Sterring Tv Shows/Bonang B'Dazzled Episode 3_ I'm Back in South Africa... see what I've been getting up to ;-).mp4",
+  },
+  {
+    id: "tv-3",
+    title: "City Ses'la",
+    description: "A beloved South African sitcom set in a Johannesburg block of flats, exploring the vibrant and comedic lives of its diverse tenants.",
+    synopsis: "City Ses'la follows the colourful residents of an inner-city apartment block in Johannesburg. The series blends comedy, drama, and social commentary, celebrating the spirit of South Africa's diverse urban communities.",
+    type: "series",
+    genres: ["Comedy", "Drama"],
+    year: 2004,
+    rating: "PG",
+    duration: "30 min",
+    imageUrl: "/Sterring Tv Shows/City Ses'la.jpg",
+    videoUrl: "/Sterring Tv Shows/CITY SES'LA EP 201.mp4",
+  },
+  {
+    id: "tv-4",
+    title: "Ses'Top La",
+    description: "A sharp South African sitcom that follows the chaotic and comedic misadventures of an unconventional family.",
+    synopsis: "Ses'Top La is a hilarious family comedy set in South Africa, following the day-to-day chaos of an eccentric household. The show blends relatable family dynamics with sharp local humour, earning it a dedicated following.",
+    type: "series",
+    genres: ["Comedy", "Family"],
+    year: 2018,
+    rating: "PG",
+    duration: "30 min",
+    imageUrl: "/Sterring Tv Shows/Ses'Top La.jpg",
+    videoUrl: "/Sterring Tv Shows/Ses' Top La _ S1E1 _ Full Episode _ South Africa.mp4",
+  },
+  {
+    id: "tv-5",
+    title: "Yizo Yizo",
+    description: "A groundbreaking South African drama series depicting the harsh realities of township high school life, including gang violence and social pressures.",
+    synopsis: "Yizo Yizo broke barriers on South African television with its unflinching portrayal of township school life. The series sparked national debate and is considered one of the most important and influential local TV productions ever made.",
+    type: "series",
+    genres: ["Drama", "Crime"],
+    year: 1999,
+    rating: "R",
+    duration: "60 min",
+    imageUrl: "/Sterring Tv Shows/Yizo Yizo.jpg",
+    videoUrl: "/Sterring Tv Shows/Yizo Yizo S1 E1.mp4",
+  },
+];
+
+// ── Local Comedy Classics ─────────────────────────────────────────────────
+const localComedyClassics: Content[] = [
+  {
+    id: "cc-1",
+    title: "Material",
+    description:
+      "A young Muslim man must choose between his family's expectations and his dream of becoming a stand-up comedian.",
+    type: "movie",
+    genres: ["Comedy", "Drama"],
+    year: 2012,
+    rating: "PG-13",
+    duration: "97 min",
+    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "cc-2",
+    title: "Happiness is a Four-Letter Word",
+    description: "Three best friends navigate love, career, and family in modern Johannesburg.",
+    type: "movie",
+    genres: ["Comedy", "Romance"],
+    year: 2016,
+    rating: "PG-13",
+    duration: "106 min",
+    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "cc-3",
+    title: "Fanie Fourie's Lobola",
+    description:
+      "A romantic comedy about a white man and a black woman who fall in love and must navigate traditional lobola negotiations.",
+    type: "movie",
+    genres: ["Comedy", "Romance"],
+    year: 2013,
+    rating: "PG-13",
+    duration: "100 min",
+    imageUrl: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "cc-4",
+    title: "Vaya",
+    description:
+      "Three young people arrive in Johannesburg for the first time and are swept up in the city's chaos and vibrancy.",
+    type: "movie",
+    genres: ["Comedy", "Drama"],
+    year: 2016,
+    rating: "PG-13",
+    duration: "95 min",
+    imageUrl: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "cc-5",
+    title: "Khumba",
+    description:
+      "A half-striped zebra sets out on a journey across the Karoo to find his stripes and discover his true self.",
+    type: "movie",
+    genres: ["Comedy", "Animation", "Family"],
+    year: 2013,
+    rating: "PG",
+    duration: "85 min",
+    imageUrl: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&h=1200&fit=crop",
+  },
+];
+
+// ── Local Drama ───────────────────────────────────────────────────────────
+const localDrama: Content[] = [
+  {
+    id: "dr-1",
     title: "Cry, the Beloved Country",
     description: "A story of racial injustice and reconciliation in apartheid-era South Africa.",
     type: "movie",
@@ -82,9 +284,10 @@ const dramaMovies: Content[] = [
     imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
   },
   {
-    id: "5",
+    id: "dr-2",
     title: "Yesterday",
-    description: "A young mother discovers she is HIV positive and must find a way to tell her daughter before she dies.",
+    description:
+      "A young mother discovers she is HIV positive and must find a way to tell her daughter before she dies.",
     type: "movie",
     genres: ["Drama"],
     year: 2004,
@@ -93,270 +296,21 @@ const dramaMovies: Content[] = [
     imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
   },
   {
-    id: "6",
-    title: "Mandela: Long Walk to Freedom",
-    description: "A chronicle of Nelson Mandela's life journey from his childhood in a rural village to becoming President of South Africa.",
+    id: "dr-3",
+    title: "The Wound",
+    description:
+      "A coming-of-age story set during a traditional Xhosa initiation ritual that challenges notions of masculinity.",
     type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 2013,
-    rating: "PG-13",
-    duration: "146 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "7",
-    title: "The Bang Bang Club",
-    description: "Four photographers document the final days of apartheid in South Africa.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 2010,
-    rating: "R",
-    duration: "106 min",
-    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "8",
-    title: "Sarafina!",
-    description: "A young girl leads a student uprising against apartheid in Soweto.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 1992,
-    rating: "PG-13",
-    duration: "117 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-];
-
-// Comedy movies
-const comedyMovies: Content[] = [
-  {
-    id: "9",
-    title: "Material",
-    description: "A young Muslim man must choose between his family's expectations and his dream of becoming a stand-up comedian.",
-    type: "movie",
-    genres: ["Comedy", "Drama"],
-    year: 2012,
-    rating: "PG-13",
-    duration: "97 min",
-    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "10",
-    title: "Happiness is a Four-Letter Word",
-    description: "Three best friends navigate love, career, and family in modern Johannesburg.",
-    type: "movie",
-    genres: ["Comedy", "Romance"],
-    year: 2016,
-    rating: "PG-13",
-    duration: "106 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-
-  {
-    id: "12",
-    title: "Fanie Fourie's Lobola",
-    description: "A romantic comedy about a white man and a black woman who fall in love and must navigate traditional lobola negotiations.",
-    type: "movie",
-    genres: ["Comedy", "Romance"],
-    year: 2013,
-    rating: "PG-13",
-    duration: "100 min",
-    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
-  },
-];
-
-// Thriller movies
-const thrillerMovies: Content[] = [
-  {
-    id: "13",
-    title: "Number 37",
-    description: "A wheelchair-bound man witnesses a murder and must use his wits to survive when the killer comes looking for him.",
-    type: "movie",
-    genres: ["Thriller", "Crime"],
-    year: 2018,
-    rating: "R",
-    duration: "88 min",
-    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "14",
-    title: "Five Fingers for Marseilles",
-    description: "A young man returns to his hometown seeking redemption, but finds it overrun by corruption and violence.",
-    type: "movie",
-    genres: ["Thriller", "Action", "Crime"],
+    genres: ["Drama"],
     year: 2017,
     rating: "R",
-    duration: "120 min",
-    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "15",
-    title: "The Forgotten Kingdom",
-    description: "A young man returns to Lesotho to bury his father and discovers his roots and a new purpose.",
-    type: "movie",
-    genres: ["Drama"],
-    year: 2013,
-    rating: "PG-13",
-    duration: "96 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "16",
-    title: "Sew the Winter to My Skin",
-    description: "A legendary outlaw becomes a folk hero in 1950s South Africa.",
-    type: "movie",
-    genres: ["Thriller", "Action", "Historical"],
-    year: 2018,
-    rating: "R",
-    duration: "128 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-  },
-];
-
-// Action movies
-const actionMovies: Content[] = [
-  {
-    id: "17",
-    title: "Blood Diamond",
-    description: "A fisherman, a smuggler, and a syndicate of businessmen match wits over the possession of a priceless diamond.",
-    type: "movie",
-    genres: ["Action", "Drama", "Thriller"],
-    year: 2006,
-    rating: "R",
-    duration: "143 min",
-    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "18",
-    title: "Safe House",
-    description: "A young CIA agent is tasked with looking after a fugitive in a safe house attack.",
-    type: "movie",
-    genres: ["Action", "Thriller"],
-    year: 2012,
-    rating: "R",
-    duration: "115 min",
-    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "19",
-    title: "Chappie",
-    description: "In the near future, a police droid is stolen and given new programming, becoming the first robot with the ability to think and feel.",
-    type: "movie",
-    genres: ["Action", "Sci-Fi", "Thriller"],
-    year: 2015,
-    rating: "R",
-    duration: "120 min",
-    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
-  },
-];
-
-// Historical movies
-const historicalMovies: Content[] = [
-  {
-    id: "20",
-    title: "A United Kingdom",
-    description: "The true story of the forbidden love between the King of Botswana and a white British woman in the 1940s.",
-    type: "movie",
-    genres: ["Historical", "Romance", "Drama"],
-    year: 2016,
-    rating: "PG-13",
-    duration: "111 min",
+    duration: "88 min",
     imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
   },
   {
-    id: "21",
-    title: "Winnie",
-    description: "The story of Winnie Madikizela-Mandela, one of the most misunderstood and yet compelling figures in recent history.",
-    type: "movie",
-    genres: ["Historical", "Drama"],
-    year: 2011,
-    rating: "R",
-    duration: "111 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "22",
-    title: "Catch a Fire",
-    description: "The true story of a South African man who becomes a freedom fighter after being wrongfully accused of terrorism.",
-    type: "movie",
-    genres: ["Historical", "Drama", "Thriller"],
-    year: 2006,
-    rating: "PG-13",
-    duration: "101 min",
-    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
-  },
-];
-
-// Romance movies
-const romanceMovies: Content[] = [
-  {
-    id: "23",
-    title: "Dis ek, Anna",
-    description: "A woman confronts her abusive stepfather after years of silence.",
-    type: "movie",
-    genres: ["Drama", "Thriller"],
-    year: 2015,
-    rating: "R",
-    duration: "100 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "24",
-    title: "The First Grader",
-    description: "An 84-year-old Kenyan man fights for his right to an education.",
-    type: "movie",
-    genres: ["Drama"],
-    year: 2010,
-    rating: "PG-13",
-    duration: "103 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-  },
-];
-
-// Crime movies
-const crimeMovies: Content[] = [
-  {
-    id: "25",
-    title: "Gangster's Paradise: Jerusalema",
-    description: "A young man rises from petty crime to become one of Johannesburg's most notorious gangsters.",
-    type: "movie",
-    genres: ["Crime", "Thriller", "Action"],
-    year: 2008,
-    rating: "R",
-    duration: "119 min",
-    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "26",
-    title: "Four Corners",
-    description: "A 13-year-old chess prodigy must navigate the dangerous world of Cape Town's gangs.",
-    type: "movie",
-    genres: ["Crime", "Drama"],
-    year: 2013,
-    rating: "R",
-    duration: "119 min",
-    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
-  },
-];
-
-// Award-Winning South African Films
-const awardWinningMovies: Content[] = [
-  ...featuredMovies,
-  {
-    id: "6",
-    title: "Mandela: Long Walk to Freedom",
-    description: "A chronicle of Nelson Mandela's life journey from his childhood in a rural village to becoming President of South Africa.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 2013,
-    rating: "PG-13",
-    duration: "146 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "7",
+    id: "dr-4",
     title: "The Bang Bang Club",
-    description: "Four photographers document the final days of apartheid in South Africa.",
+    description: "Four photographers document the final violent days of apartheid in South Africa.",
     type: "movie",
     genres: ["Drama", "Historical"],
     year: 2010,
@@ -364,141 +318,21 @@ const awardWinningMovies: Content[] = [
     duration: "106 min",
     imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
   },
-];
-
-// Township Stories
-const townshipStories: Content[] = [
   {
-    id: "1",
-    title: "Tsotsi",
-    description: "A young street thug steals a car only to discover a baby in the backseat. This Academy Award-winning film follows his journey of redemption.",
-    type: "movie",
-    genres: ["Drama", "Crime"],
-    year: 2005,
-    rating: "R",
-    duration: "94 min",
-    imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "4",
-    title: "Cry, the Beloved Country",
-    description: "A story of racial injustice and reconciliation in apartheid-era South Africa.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 1995,
-    rating: "PG-13",
-    duration: "106 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "8",
-    title: "Sarafina!",
-    description: "A young girl leads a student uprising against apartheid in Soweto.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 1992,
-    rating: "PG-13",
-    duration: "117 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "25",
-    title: "Gangster's Paradise: Jerusalema",
-    description: "A young man rises from petty crime to become one of Johannesburg's most notorious gangsters.",
-    type: "movie",
-    genres: ["Crime", "Thriller", "Action"],
-    year: 2008,
-    rating: "R",
-    duration: "119 min",
-    imageUrl: "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&h=1200&fit=crop",
-  },
-];
-
-// True SA History
-const trueSAHistory: Content[] = [
-  {
-    id: "3",
-    title: "Invictus",
-    description: "Nelson Mandela, in his first term as President of South Africa, initiates a unique venture to unite the apartheid-torn land.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 2009,
-    rating: "PG-13",
-    duration: "134 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "6",
-    title: "Mandela: Long Walk to Freedom",
-    description: "A chronicle of Nelson Mandela's life journey from his childhood in a rural village to becoming President of South Africa.",
-    type: "movie",
-    genres: ["Drama", "Historical"],
-    year: 2013,
-    rating: "PG-13",
-    duration: "146 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "21",
-    title: "Winnie",
-    description: "The story of Winnie Madikizela-Mandela, one of the most misunderstood and yet compelling figures in recent history.",
-    type: "movie",
-    genres: ["Historical", "Drama"],
-    year: 2011,
-    rating: "R",
-    duration: "111 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "22",
+    id: "dr-5",
     title: "Catch a Fire",
-    description: "The true story of a South African man who becomes a freedom fighter after being wrongfully accused of terrorism.",
+    description:
+      "The true story of a South African man who becomes a freedom fighter after being wrongfully accused of terrorism.",
     type: "movie",
-    genres: ["Historical", "Drama", "Thriller"],
+    genres: ["Drama", "Historical", "Thriller"],
     year: 2006,
     rating: "PG-13",
     duration: "101 min",
-    imageUrl: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=1200&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=1200&fit=crop",
   },
 ];
 
-// Local Comedy Classics
-const localComedyClassics: Content[] = [
-  {
-    id: "9",
-    title: "Material",
-    description: "A young Muslim man must choose between his family's expectations and his dream of becoming a stand-up comedian.",
-    type: "movie",
-    genres: ["Comedy", "Drama"],
-    year: 2012,
-    rating: "PG-13",
-    duration: "97 min",
-    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "10",
-    title: "Happiness is a Four-Letter Word",
-    description: "Three best friends navigate love, career, and family in modern Johannesburg.",
-    type: "movie",
-    genres: ["Comedy", "Romance"],
-    year: 2016,
-    rating: "PG-13",
-    duration: "106 min",
-    imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-  },
-  {
-    id: "12",
-    title: "Fanie Fourie's Lobola",
-    description: "A romantic comedy about a white man and a black woman who fall in love and must navigate traditional lobola negotiations.",
-    type: "movie",
-    genres: ["Comedy", "Romance"],
-    year: 2013,
-    rating: "PG-13",
-    duration: "100 min",
-    imageUrl: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800&h=1200&fit=crop",
-  },
-];
-
+// ── Exports ───────────────────────────────────────────────────────────────
 export const categories: Category[] = [
   {
     id: "featured",
@@ -506,19 +340,14 @@ export const categories: Category[] = [
     content: featuredMovies,
   },
   {
-    id: "award-winning",
-    name: "Award-Winning South African Films",
-    content: awardWinningMovies,
+    id: "local-movies",
+    name: "Local Movies",
+    content: localMovies,
   },
   {
-    id: "township-stories",
-    name: "Township Stories",
-    content: townshipStories,
-  },
-  {
-    id: "true-history",
-    name: "True SA History",
-    content: trueSAHistory,
+    id: "local-tv-shows",
+    name: "Local TV Shows",
+    content: localTVShows,
   },
   {
     id: "comedy-classics",
@@ -526,31 +355,16 @@ export const categories: Category[] = [
     content: localComedyClassics,
   },
   {
-    id: "drama",
-    name: "Drama",
-    content: dramaMovies,
-  },
-  {
-    id: "thriller",
-    name: "Thriller",
-    content: thrillerMovies,
-  },
-  {
-    id: "action",
-    name: "Action",
-    content: actionMovies,
+    id: "local-drama",
+    name: "Local Drama",
+    content: localDrama,
   },
 ];
 
 export const allContent: Content[] = [
   ...featuredMovies,
-  ...dramaMovies,
-  ...comedyMovies,
-  ...thrillerMovies,
-  ...actionMovies,
-  ...historicalMovies,
-  ...romanceMovies,
-  ...crimeMovies,
+  ...localMovies,
+  ...localTVShows,
+  ...localComedyClassics,
+  ...localDrama,
 ];
-
-

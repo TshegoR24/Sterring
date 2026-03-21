@@ -1,14 +1,21 @@
 import { useState } from "react";
-import { Search, Menu, User, LogIn } from "lucide-react";
+import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
 import { ThemeToggle } from "./ThemeToggle";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+
+const navLinks = [
+  { to: "/", label: "Home", icon: Home },
+  { to: "/movies", label: "Movies", icon: Clapperboard },
+  { to: "/tv-shows", label: "TV Shows", icon: Tv },
+  { to: "/watchlist", label: "My Watchlist", icon: Bookmark },
+];
 
 export const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <>
@@ -16,38 +23,50 @@ export const Navbar = () => {
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo and Navigation */}
-            <div className="flex items-center space-x-8 md:space-x-16">
+            <div className="flex items-center space-x-8 md:space-x-12">
               <Link to="/" className="text-3xl md:text-4xl font-black tracking-tighter hover:opacity-90 transition-opacity duration-200">
                 <span className="text-sterring-orange">Sterring</span>
                 <span className="text-white">!</span>
               </Link>
-              <div className="hidden md:flex items-center space-x-10">
-                <Link
-                  to="/"
-                  className="text-white text-base font-medium hover:text-sterring-orange transition-colors duration-200 relative group"
-                >
-                  Home
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sterring-orange group-hover:w-full transition-all duration-250 ease-out"></span>
-                </Link>
-                <Link
-                  to="/movies"
-                  className="text-white/90 text-base font-medium hover:text-white transition-colors duration-200 relative group"
-                >
-                  Movies
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sterring-orange group-hover:w-full transition-all duration-250 ease-out"></span>
-                </Link>
-                <Link
-                  to="/series"
-                  className="text-white/90 text-base font-medium hover:text-white transition-colors duration-200 relative group"
-                >
-                  Series
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sterring-orange group-hover:w-full transition-all duration-250 ease-out"></span>
-                </Link>
+
+              {/* Desktop nav links */}
+              <div className="hidden md:flex items-center space-x-1">
+                {navLinks.map(({ to, label, icon: Icon }) => {
+                  const isActive = location.pathname === to;
+                  return (
+                    <Link
+                      key={to}
+                      to={to}
+                      className={`
+                        flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium
+                        transition-all duration-200 relative group
+                        ${isActive
+                          ? "text-sterring-orange bg-sterring-orange/10"
+                          : "text-white/80 hover:text-white hover:bg-white/8"
+                        }
+                      `}
+                    >
+                      <Icon
+                        className={`w-4 h-4 flex-shrink-0 transition-colors duration-200 ${
+                          isActive ? "text-sterring-orange" : "text-white/60 group-hover:text-white"
+                        }`}
+                      />
+                      <span>{label}</span>
+                      {/* Active indicator */}
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-indicator"
+                          className="absolute -bottom-px left-0 right-0 h-0.5 bg-sterring-orange rounded-full"
+                        />
+                      )}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
             {/* Actions - Mobile optimized */}
-            <div className="flex items-center space-x-3 md:space-x-5">
+            <div className="flex items-center space-x-2 md:space-x-4">
               <ThemeToggle />
               <motion.div
                 whileHover={{ scale: 1.08, transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] } }}
@@ -87,7 +106,7 @@ export const Navbar = () => {
                 >
                   <Button
                     variant="default"
-                    className="bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-lg px-7 py-2.5 hidden sm:flex items-center gap-2 transition-all duration-200 shadow-lg"
+                    className="bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-lg px-6 py-2.5 hidden sm:flex items-center gap-2 transition-all duration-200 shadow-lg"
                   >
                     <LogIn className="h-4 w-4" />
                     <span className="text-sm">Sign In</span>
@@ -102,5 +121,3 @@ export const Navbar = () => {
     </>
   );
 };
-
-

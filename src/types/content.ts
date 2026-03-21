@@ -18,6 +18,7 @@ export interface Content {
   id: string;
   title: string;
   description: string;
+  synopsis?: string;
   type: "movie" | "series";
   genres: string[];
   year: number;

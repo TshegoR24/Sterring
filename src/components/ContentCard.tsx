@@ -16,7 +16,7 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
   return (
     <motion.div
       className={cn(
-        "group relative min-w-[140px] sm:min-w-[180px] md:min-w-[220px] cursor-pointer overflow-hidden rounded-lg",
+        "group relative w-[140px] sm:w-[180px] md:w-[220px] lg:w-[240px] flex-none cursor-pointer overflow-hidden rounded-lg",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -33,12 +33,12 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
       }}
       onClick={() => navigate(`/movie/${content.id}`)}
     >
-      {/* Thumbnail - Mobile responsive */}
-      <div className="relative overflow-hidden rounded-lg bg-neutral-900">
+      {/* Thumbnail — fixed size box, image always fills with object-cover */}
+      <div className="relative w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[360px] overflow-hidden rounded-lg bg-neutral-900 flex-shrink-0">
         <motion.img
           src={content.imageUrl}
           alt={content.title}
-          className="h-[210px] sm:h-[270px] md:h-[320px] lg:h-[340px] w-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
           loading="lazy"
         />
 
