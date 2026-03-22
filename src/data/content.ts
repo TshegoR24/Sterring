@@ -151,7 +151,7 @@ const localTVShows: Content[] = [
     rating: "PG-13",
     duration: "30 min",
     imageUrl: "/Sterring Tv Shows/AYEYE.jpg",
-    videoUrl: "/Sterring Tv Shows/#AYEYE - Season 1, Episode 1.mp4",
+    videoUrl: "/Sterring Tv Shows/AYEYE - Season 1, Episode 1.mp4",
   },
   {
     id: "tv-2",
