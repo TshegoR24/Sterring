@@ -12,7 +12,7 @@ const featuredMovies: Content[] = [
     rating: "R",
     duration: "94 min",
     imageUrl: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=1200&fit=crop",
-    videoUrl: "/Tsotsi 2005 Trailer.mp4",
+    videoUrl: "/Sterring/Tsotsi 2005 Trailer (1).mp4",
     videoStart: 3,
     videoEnd: 109,
     featured: true,
@@ -38,7 +38,7 @@ const featuredMovies: Content[] = [
     rating: "PG-13",
     duration: "117 min",
     imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
-    videoUrl: "/Sarafina Trailer.mp4",
+    videoUrl: "/Sterring/Sarafina Trailer (1).mp4",
     featured: true,
   },
   {
@@ -51,7 +51,7 @@ const featuredMovies: Content[] = [
     rating: "PG",
     duration: "2 min",
     imageUrl: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&h=1200&fit=crop",
-    videoUrl: "/TheLastRanger.mp4",
+    videoUrl: "/Sterring/The Last Ranger Trailer _ South African Film Festival (1).mp4",
     featured: true,
   },
   {
@@ -64,7 +64,7 @@ const featuredMovies: Content[] = [
     rating: "R",
     duration: "88 min",
     imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-    videoUrl: "/InxebaTrailer.mp4",
+    videoUrl: "/Sterring/‘Inxeba (‘The Wound’)’ official trailer (1).mp4",
     featured: true,
   },
 ];
@@ -107,7 +107,7 @@ const localMovies: Content[] = [
     year: 2017,
     rating: "R",
     duration: "88 min",
-    imageUrl: "/Sterring/48376e03e52cf428dd65fe7b9ba2f1a9-e1519918120112.jpeg",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
     videoUrl: "/Sterring/‘Inxeba (‘The Wound’)’ official trailer (1).mp4",
   },
   {
