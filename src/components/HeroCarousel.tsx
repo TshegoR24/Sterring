@@ -213,7 +213,7 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
                 whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(255,255,255,0.3)' }}
                 whileTap={{ scale: 0.98 }}
                 className="flex items-center justify-center gap-2 md:gap-3 rounded-lg bg-white px-8 md:px-10 py-3.5 md:py-4 text-base md:text-lg text-black font-bold hover:bg-white/95 transition-all duration-300 shadow-2xl relative overflow-hidden group min-h-[44px]"
-                onClick={() => navigate(`/movie/${currentContent.id}`)}
+                onClick={() => navigate(currentContent.type === "series" ? `/show/${currentContent.id}` : `/movie/${currentContent.id}`)}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 <Play className="h-5 w-5 md:h-6 md:w-6 fill-black relative z-10" />
@@ -225,7 +225,7 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
                 whileHover={{ scale: 1.05, borderColor: 'rgba(255,255,255,0.6)' }}
                 whileTap={{ scale: 0.98 }}
                 className="hidden sm:flex items-center justify-center gap-2 md:gap-3 rounded-lg bg-white/20 px-8 md:px-10 py-3.5 md:py-4 text-base md:text-lg text-white font-semibold backdrop-blur-xl hover:bg-white/30 transition-all duration-300 border-2 border-white/30 shadow-xl min-h-[44px]"
-                onClick={() => navigate(`/movie/${currentContent.id}`)}
+                onClick={() => navigate(currentContent.type === "series" ? `/show/${currentContent.id}` : `/movie/${currentContent.id}`)}
               >
                 <Info className="h-5 w-5 md:h-6 md:w-6" />
                 More Info

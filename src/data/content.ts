@@ -1,7 +1,7 @@
 import { Content, Category } from "@/types/content";
 
 // ── Featured (Hero Carousel) ─────────────────────────────────────────────
-const featuredMovies: Content[] = [
+const featuredContent: Content[] = [
   {
     id: "1",
     title: "Tsotsi",
@@ -28,6 +28,19 @@ const featuredMovies: Content[] = [
       "We wanted to tell a story of redemption that felt raw, authentic, and unapologetically South African. Tsotsi is about the universal human capacity for change.",
   },
   {
+    id: "tv-1",
+    title: "Ayeye",
+    description: "A hilarious South African comedy series following three young men navigating life, friendship, and hustle in the city.",
+    type: "series",
+    genres: ["Comedy", "Drama"],
+    year: 2015,
+    rating: "PG-13",
+    duration: "30 min",
+    imageUrl: "/Sterring Tv Shows/AYEYE.jpg",
+    videoUrl: "/Sterring Tv Shows/AYEYE - Season 1, Episode 1.mp4",
+    featured: true,
+  },
+  {
     id: "8",
     title: "Sarafina!",
     description:
@@ -39,6 +52,19 @@ const featuredMovies: Content[] = [
     duration: "117 min",
     imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&h=1200&fit=crop",
     videoUrl: "/Sterring/Sarafina Trailer (1).mp4",
+    featured: true,
+  },
+  {
+    id: "tv-2",
+    title: "B'Dazzled by Bonang",
+    description: "South Africa's queen of media, Bonang Matheba, gives fans an exclusive look into her glamorous and relentless lifestyle.",
+    type: "series",
+    genres: ["Reality", "Lifestyle"],
+    year: 2022,
+    rating: "PG",
+    duration: "45 min",
+    imageUrl: "/Sterring Tv Shows/Bonang-Matheba_Bdazzled-by-Bonang-e1721310529309.jpg",
+    videoUrl: "/Sterring Tv Shows/Bonang B'Dazzled Episode 3_ I'm Back in South Africa... see what I've been getting up to ;-).mp4",
     featured: true,
   },
   {
@@ -55,16 +81,16 @@ const featuredMovies: Content[] = [
     featured: true,
   },
   {
-    id: "11",
-    title: "The Wound",
-    description: "A coming-of-age story set during a traditional Xhosa initiation ritual.",
-    type: "movie",
-    genres: ["Drama"],
-    year: 2017,
+    id: "tv-5",
+    title: "Yizo Yizo",
+    description: "A groundbreaking South African drama series depicting the harsh realities of township high school life, including gang violence and social pressures.",
+    type: "series",
+    genres: ["Drama", "Crime"],
+    year: 1999,
     rating: "R",
-    duration: "88 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
-    videoUrl: "/Sterring/‘Inxeba (‘The Wound’)’ official trailer (1).mp4",
+    duration: "60 min",
+    imageUrl: "/Sterring Tv Shows/Yizo Yizo.jpg",
+    videoUrl: "/Sterring Tv Shows/Yizo Yizo S1 E1.mp4",
     featured: true,
   },
 ];
@@ -337,7 +363,7 @@ export const categories: Category[] = [
   {
     id: "featured",
     name: "Featured",
-    content: featuredMovies,
+    content: featuredContent,
   },
   {
     id: "local-movies",
@@ -362,7 +388,7 @@ export const categories: Category[] = [
 ];
 
 export const allContent: Content[] = [
-  ...featuredMovies,
+  ...featuredContent,
   ...localMovies,
   ...localTVShows,
   ...localComedyClassics,
