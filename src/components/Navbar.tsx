@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
-import { ThemeToggle } from "./ThemeToggle";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -67,7 +66,6 @@ export const Navbar = () => {
 
             {/* Actions - Mobile optimized */}
             <div className="flex items-center space-x-2 md:space-x-4">
-              <ThemeToggle />
               <motion.div
                 whileHover={{ scale: 1.08, transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] } }}
                 whileTap={{ scale: 0.96 }}

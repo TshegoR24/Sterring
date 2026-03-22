@@ -36,7 +36,7 @@ const featuredContent: Content[] = [
     year: 2015,
     rating: "PG-13",
     duration: "30 min",
-    imageUrl: "/Sterring Tv Shows/AYEYE.jpg",
+    imageUrl: "/Sterring Tv Shows/AYEYE-new.jpg",
     videoUrl: "/Sterring Tv Shows/AYEYE - Season 1, Episode 1.mp4",
     featured: true,
   },
@@ -133,7 +133,7 @@ const localMovies: Content[] = [
     year: 2017,
     rating: "R",
     duration: "88 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+    imageUrl: "/Sterring/48376e03e52cf428dd65fe7b9ba2f1a9-e1519918120112.jpeg",
     videoUrl: "/Sterring/‘Inxeba (‘The Wound’)’ official trailer (1).mp4",
   },
   {
@@ -176,7 +176,7 @@ const localTVShows: Content[] = [
     year: 2015,
     rating: "PG-13",
     duration: "30 min",
-    imageUrl: "/Sterring Tv Shows/AYEYE.jpg",
+    imageUrl: "/Sterring Tv Shows/AYEYE-new.jpg",
     videoUrl: "/Sterring Tv Shows/AYEYE - Season 1, Episode 1.mp4",
   },
   {
@@ -331,7 +331,7 @@ const localDrama: Content[] = [
     year: 2017,
     rating: "R",
     duration: "88 min",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1200&fit=crop",
+    imageUrl: "/Sterring/48376e03e52cf428dd65fe7b9ba2f1a9-e1519918120112.jpeg",
   },
   {
     id: "dr-4",
