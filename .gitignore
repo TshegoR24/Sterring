@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 
+# Large media files (videos, audio) - host these externally
+*.mp4
+*.mkv
+*.mov
+*.avi
+*.webm
+*.mp3
+*.wav
+*.flac
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
