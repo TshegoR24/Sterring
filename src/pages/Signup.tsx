@@ -36,7 +36,7 @@ const Signup = () => {
         <div className="w-full max-w-md">
           <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8">
             <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
-            <p className="text-white/60 mb-8">Join SA Cinema and start streaming</p>
+            <p className="text-white/60 mb-8">Join Sterring and start streaming</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
