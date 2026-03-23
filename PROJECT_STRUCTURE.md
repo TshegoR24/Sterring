@@ -1,9 +1,9 @@
-# SA Cinema - Project Structure
+# Sterring - Project Structure
 
 ## 📁 Folder Structure
 
 ```
-african-sportstreamer/
+sterring/
 ├── public/                    # Static assets
 │   ├── favicon.ico
 │   └── robots.txt

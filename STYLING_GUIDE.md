@@ -1,4 +1,4 @@
-# SA Cinema - Styling Guide
+# Sterring - Styling Guide
 
 ## 🎨 Design Principles
 

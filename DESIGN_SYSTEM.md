@@ -1,8 +1,8 @@
-# SA Cinema - Premium Design System
+# Sterring - Premium Design System
 
 ## 🎬 Cinematic Design Philosophy
 
-SA Cinema embodies a premium, cinematic OTT experience that celebrates South African storytelling. The design combines:
+Sterring embodies a premium, cinematic OTT experience that celebrates South African storytelling. The design combines:
 
 - **Cinematic Depth**: Multi-layer gradients, film grain, and subtle shadows
 - **Cultural Authenticity**: South African-specific categories and content organization

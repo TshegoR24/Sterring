@@ -1,4 +1,4 @@
-# SA Cinema - South African Movie Streaming Platform
+# Sterring - South African Movie Streaming Platform
 
 A professional OTT (Over-The-Top) streaming platform showcasing South African cinema with a modern, Netflix/Disney+ inspired interface. Built with React, TypeScript, and Tailwind CSS.
 
