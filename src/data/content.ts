@@ -375,22 +375,10 @@ export const categories: Category[] = [
     name: "Local TV Shows",
     content: localTVShows,
   },
-  {
-    id: "comedy-classics",
-    name: "Local Comedy Classics",
-    content: localComedyClassics,
-  },
-  {
-    id: "local-drama",
-    name: "Local Drama",
-    content: localDrama,
-  },
 ];
 
 export const allContent: Content[] = [
   ...featuredContent,
   ...localMovies,
   ...localTVShows,
-  ...localComedyClassics,
-  ...localDrama,
 ];

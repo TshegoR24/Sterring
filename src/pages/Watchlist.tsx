@@ -1,12 +1,55 @@
 import { Navbar } from "@/components/Navbar";
 import { ContentCard } from "@/components/ContentCard";
 import { useWatchlist } from "@/contexts/WatchlistContext";
-import { Bookmark, Play, Trash2 } from "lucide-react";
+import { Bookmark, Play, Trash2, Share2, Copy, Plus, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { allContent } from "@/data/content";
+import { toast } from "sonner";
+import { useState, useEffect } from "react";
+import { Content } from "@/types/content";
 
 const Watchlist = () => {
-  const { items, remove } = useWatchlist();
+  const { items, remove, add, has } = useWatchlist();
+  const [searchParams] = useSearchParams();
+  const [displayItems, setDisplayItems] = useState<Content[]>([]);
+  const [isSharedView, setIsSharedView] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const sharedIds = searchParams.get("ids");
+    if (sharedIds) {
+      const ids = sharedIds.split(",");
+      const sharedItems = allContent.filter((item) => ids.includes(item.id));
+      setDisplayItems(sharedItems);
+      setIsSharedView(true);
+    } else {
+      setDisplayItems(items);
+      setIsSharedView(false);
+    }
+  }, [searchParams, items]);
+
+  const handleShare = () => {
+    if (items.length === 0) {
+      toast.error("Your watchlist is empty!");
+      return;
+    }
+    const ids = items.map((i) => i.id).join(",");
+    const url = `${window.location.origin}/watchlist?ids=${ids}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    toast.success("Watchlist link copied to clipboard!");
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleSaveAll = () => {
+    displayItems.forEach((item) => {
+      if (!has(item.id)) {
+        add(item);
+      }
+    });
+    toast.success("All items added to your watchlist!");
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -24,11 +67,34 @@ const Watchlist = () => {
             <Bookmark className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight">My Watchlist</h1>
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight">
+              {isSharedView ? "Shared Watchlist" : "My Watchlist"}
+            </h1>
             <p className="text-white/50 text-sm mt-0.5">
-              {items.length > 0 ? `${items.length} title${items.length !== 1 ? "s" : ""} saved` : "Keep track of what you want to watch next"}
+              {displayItems.length > 0 
+                ? `${displayItems.length} title${displayItems.length !== 1 ? "s" : ""} ${isSharedView ? "shared with you" : "saved"}` 
+                : isSharedView ? "This shared list is empty" : "Keep track of what you want to watch next"}
             </p>
           </div>
+
+          {/* Share/Save Button */}
+          {!isSharedView ? (
+            <button
+              onClick={handleShare}
+              className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/10 rounded-lg text-sm font-semibold transition-all group/share"
+            >
+              {copied ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4 text-white/70 group-hover/share:text-white transition-colors" />}
+              <span>{copied ? "Copied!" : "Share"}</span>
+            </button>
+          ) : (
+            <button
+              onClick={handleSaveAll}
+              className="ml-auto flex items-center gap-2 px-4 py-2 bg-sterring-orange hover:bg-sterring-orange/90 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-sterring-orange/20"
+            >
+              <Plus className="w-4 h-4" />
+              Save All to My Watchlist
+            </button>
+          )}
         </motion.div>
 
         {/* Divider */}
@@ -36,7 +102,7 @@ const Watchlist = () => {
 
         {/* Content */}
         <AnimatePresence mode="wait">
-          {items.length === 0 ? (
+          {displayItems.length === 0 ? (
             <motion.div
               key="empty"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -55,9 +121,13 @@ const Watchlist = () => {
                   transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                 />
               </div>
-              <h2 className="text-2xl font-bold mb-3 text-white">Your watchlist is empty</h2>
+              <h2 className="text-2xl font-bold mb-3 text-white">
+                {isSharedView ? "This shared watchlist is empty" : "Your watchlist is empty"}
+              </h2>
               <p className="text-white/50 max-w-sm leading-relaxed mb-8">
-                Browse movies and TV shows, then hit the <strong>+ Watchlist</strong> button to save them here.
+                {isSharedView 
+                  ? "The link you followed doesn't contain any titles, or they are no longer available."
+                  : "Browse movies and TV shows, then hit the + Watchlist button to save them here."}
               </p>
               <Link
                 to="/"
@@ -74,7 +144,7 @@ const Watchlist = () => {
               animate={{ opacity: 1 }}
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4"
             >
-              {items.map((item, i) => (
+              {displayItems.map((item, i) => (
                 <motion.div
                   key={item.id}
                   layout
@@ -82,17 +152,19 @@ const Watchlist = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.35, delay: i * 0.04 }}
-                  className="relative"
+                  className="relative group"
                 >
                   <ContentCard content={item} index={i} className="w-full" />
-                  {/* Remove from watchlist button */}
-                  <button
-                    onClick={() => remove(item.id)}
-                    className="absolute top-2 right-2 z-30 w-8 h-8 rounded-full bg-black/70 hover:bg-red-600/90 border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
-                    aria-label="Remove from watchlist"
-                  >
-                    <Trash2 className="w-3.5 h-3.5 text-white" />
-                  </button>
+                  {/* Remove from watchlist button — only in personal view */}
+                  {!isSharedView && (
+                    <button
+                      onClick={() => remove(item.id)}
+                      className="absolute top-2 right-2 z-30 w-8 h-8 rounded-full bg-black/70 hover:bg-red-600/90 border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                      aria-label="Remove from watchlist"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-white" />
+                    </button>
+                  )}
                 </motion.div>
               ))}
             </motion.div>

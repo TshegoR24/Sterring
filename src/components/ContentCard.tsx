@@ -74,6 +74,11 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
               </>
             )}
           </div>
+          
+          <p className="text-[10px] sm:text-xs text-white/70 mb-3 line-clamp-3 leading-relaxed">
+            {content.synopsis || content.description}
+          </p>
+
           <motion.button
             whileHover={{
               scale: 1.04,
