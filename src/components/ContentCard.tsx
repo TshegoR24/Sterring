@@ -19,6 +19,7 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
 
   const handleWatchlistToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     toggle(content);
     if (!inWatchlist) {
       toast.success(`Added "${content.title}" to watchlist`);
@@ -61,19 +62,6 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
           className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300"
           initial={false}
         />
-
-        {/* Watchlist bookmark button — top-right corner on hover */}
-        <button
-          onClick={handleWatchlistToggle}
-          className={`absolute top-2 right-2 z-20 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md border
-            ${inWatchlist
-              ? "bg-sterring-orange/30 border-sterring-orange/60 text-sterring-orange opacity-100"
-              : "bg-black/50 border-white/20 text-white/80 opacity-0 group-hover:opacity-100 hover:bg-white/20 hover:text-white"
-            }`}
-          aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
-        >
-          <Bookmark className={`w-4 h-4 ${inWatchlist ? "fill-current" : ""}`} />
-        </button>
       </div>
 
       {/* Hover Overlay - Apple TV-style refined reveal */}
@@ -106,25 +94,57 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
             {content.synopsis || content.description}
           </p>
 
-          <motion.button
-            whileHover={{
-              scale: 1.04,
-              y: -1,
-              backgroundColor: "rgba(255,255,255,1)",
-              transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
-            }}
-            whileTap={{ scale: 0.96 }}
-            className="flex items-center justify-center gap-1.5 md:gap-2 w-full rounded-lg bg-white/95 px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base text-black font-semibold transition-all duration-200 shadow-lg min-h-[44px]"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`);
-            }}
-          >
-            <Play className="h-4 w-4 fill-black" />
-            Play
-          </motion.button>
+          {/* Action buttons row */}
+          <div className="flex items-center gap-2">
+            <motion.button
+              whileHover={{
+                scale: 1.04,
+                y: -1,
+                backgroundColor: "rgba(255,255,255,1)",
+                transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
+              }}
+              whileTap={{ scale: 0.96 }}
+              className="flex items-center justify-center gap-1.5 md:gap-2 flex-1 rounded-lg bg-white/95 px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base text-black font-semibold transition-all duration-200 shadow-lg min-h-[44px]"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`);
+              }}
+            >
+              <Play className="h-4 w-4 fill-black" />
+              Play
+            </motion.button>
+
+            {/* Watchlist button inside overlay */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleWatchlistToggle}
+              className={`flex items-center justify-center w-[44px] h-[44px] rounded-lg border transition-all duration-200 flex-shrink-0 ${
+                inWatchlist
+                  ? "bg-sterring-orange/30 border-sterring-orange text-sterring-orange"
+                  : "bg-white/15 border-white/30 text-white hover:bg-white/25"
+              }`}
+              aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
+            >
+              <Bookmark className={`w-5 h-5 ${inWatchlist ? "fill-current" : ""}`} />
+            </motion.button>
+          </div>
         </motion.div>
       </motion.div>
+
+      {/* Watchlist bookmark — always visible when in watchlist, shows on hover otherwise.
+           Positioned AFTER the overlay in DOM so it renders on top (z-30). */}
+      <button
+        onClick={handleWatchlistToggle}
+        className={`absolute top-2 right-2 z-30 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md border
+          ${inWatchlist
+            ? "bg-sterring-orange/30 border-sterring-orange/60 text-sterring-orange opacity-100"
+            : "bg-black/50 border-white/20 text-white/80 opacity-0 group-hover:opacity-100 hover:bg-white/20 hover:text-white"
+          }`}
+        aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
+      >
+        <Bookmark className={`w-4 h-4 ${inWatchlist ? "fill-current" : ""}`} />
+      </button>
 
       {/* Shadow enhancement - Apple TV depth */}
       <div className="absolute inset-0 rounded-lg shadow-lg group-hover:shadow-2xl transition-shadow duration-300 pointer-events-none" />
