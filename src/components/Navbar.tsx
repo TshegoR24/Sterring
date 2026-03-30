@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, Plus } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
-import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { to: "/", label: "Home", icon: Home },
@@ -14,7 +15,38 @@ const navLinks = [
 
 export const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    setIsUserMenuOpen(false);
+    navigate("/");
+  };
+
+  // Get user initials for avatar
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <>
@@ -64,7 +96,7 @@ export const Navbar = () => {
               </div>
             </div>
 
-            {/* Actions - Mobile optimized */}
+            {/* Actions */}
             <div className="flex items-center space-x-2 md:space-x-4">
               <motion.div
                 whileHover={{ scale: 1.08, transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] } }}
@@ -80,24 +112,97 @@ export const Navbar = () => {
                   <Search className="h-5 w-5" />
                 </Button>
               </motion.div>
-              <Link to="/login">
-                <motion.div
-                  whileHover={{
-                    scale: 1.04,
-                    y: -1,
-                    transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
-                  }}
-                  whileTap={{ scale: 0.96 }}
-                >
-                  <Button
-                    variant="default"
-                    className="bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-lg px-6 py-2.5 hidden sm:flex items-center gap-2 transition-all duration-200 shadow-lg"
+
+              {isAuthenticated && user ? (
+                /* ── Logged-in user dropdown ─────────────────────────────── */
+                <div className="relative" ref={dropdownRef}>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="hidden sm:flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-white/8 hover:bg-white/12 border border-white/10 transition-all duration-200"
                   >
-                    <LogIn className="h-4 w-4" />
-                    <span className="text-sm">Sign In</span>
-                  </Button>
-                </motion.div>
-              </Link>
+                    {/* Avatar */}
+                    <div className="w-8 h-8 rounded-full bg-sterring-orange flex items-center justify-center text-white text-xs font-bold">
+                      {getInitials(user.name)}
+                    </div>
+                    <span className="text-white text-sm font-medium max-w-[100px] truncate hidden lg:block">
+                      {user.name.split(" ")[0]}
+                    </span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-white/60 transition-transform duration-200 ${isUserMenuOpen ? "rotate-180" : ""}`} />
+                  </motion.button>
+
+                  {/* Dropdown menu */}
+                  <AnimatePresence>
+                    {isUserMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                        className="absolute right-0 top-full mt-2 w-64 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50"
+                      >
+                        {/* User info */}
+                        <div className="px-4 py-3.5 border-b border-white/10">
+                          <p className="text-white font-semibold text-sm truncate">{user.name}</p>
+                          <p className="text-white/50 text-xs truncate mt-0.5">{user.email}</p>
+                        </div>
+
+                        {/* Menu items */}
+                        <div className="py-1.5">
+                          <Link
+                            to="/watchlist"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/8 transition-colors"
+                          >
+                            <Bookmark className="w-4 h-4 text-white/50" />
+                            My Watchlist
+                          </Link>
+                          <Link
+                            to="/movies"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/8 transition-colors"
+                          >
+                            <Clapperboard className="w-4 h-4 text-white/50" />
+                            Browse Movies
+                          </Link>
+                        </div>
+
+                        {/* Sign out */}
+                        <div className="border-t border-white/10 py-1.5">
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                          >
+                            <LogOut className="w-4 h-4" />
+                            Sign Out
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                /* ── Sign In button (not logged in) ──────────────────────── */
+                <Link to="/login">
+                  <motion.div
+                    whileHover={{
+                      scale: 1.04,
+                      y: -1,
+                      transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
+                    }}
+                    whileTap={{ scale: 0.96 }}
+                  >
+                    <Button
+                      variant="default"
+                      className="bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-lg px-6 py-2.5 hidden sm:flex items-center gap-2 transition-all duration-200 shadow-lg"
+                    >
+                      <LogIn className="h-4 w-4" />
+                      <span className="text-sm">Sign In</span>
+                    </Button>
+                  </motion.div>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -135,6 +240,26 @@ export const Navbar = () => {
               </Link>
             );
           })}
+          {/* Mobile user icon */}
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-0 px-1"
+            >
+              <div className="w-5 h-5 rounded-full bg-sterring-orange flex items-center justify-center">
+                <span className="text-[8px] font-bold text-white">{user ? getInitials(user.name) : "U"}</span>
+              </div>
+              <span className="text-[10px] font-semibold text-white/40">Sign Out</span>
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-0 px-1"
+            >
+              <User className="w-5 h-5 text-white/50" />
+              <span className="text-[10px] font-semibold text-white/40">Sign In</span>
+            </Link>
+          )}
         </div>
       </nav>
 

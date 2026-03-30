@@ -5,17 +5,37 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // If already logged in, redirect
+  if (isAuthenticated) {
+    navigate("/", { replace: true });
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would authenticate the user
-    alert("Login functionality would be implemented here");
-    navigate("/");
+    setIsSubmitting(true);
+
+    const result = await login(email, password);
+
+    if (result.success) {
+      toast.success("Welcome back! 🎬");
+      navigate("/");
+    } else {
+      toast.error(result.error || "Login failed");
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -40,6 +60,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/40"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -47,15 +68,26 @@ const Login = () => {
                 <Label htmlFor="password" className="text-white">
                   Password
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/40"
-                  required
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/40 pr-11"
+                    required
+                    disabled={isSubmitting}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 translate-y-[1px] text-white/40 hover:text-white/70 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center justify-between">
@@ -70,16 +102,24 @@ const Login = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-white text-black hover:bg-white/90 text-lg py-6 rounded-full font-semibold"
+                disabled={isSubmitting}
+                className="w-full bg-sterring-orange hover:bg-sterring-orange/90 text-white text-lg py-6 rounded-full font-semibold disabled:opacity-50"
               >
-                Sign In
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Signing in…
+                  </>
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-white/60">
                 Don't have an account?{" "}
-                <Link to="/signup" className="text-white hover:underline font-semibold">
+                <Link to="/signup" className="text-sterring-orange hover:underline font-semibold">
                   Sign up
                 </Link>
               </p>
@@ -93,5 +133,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

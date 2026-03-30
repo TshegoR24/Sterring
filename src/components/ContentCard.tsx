@@ -2,7 +2,9 @@ import { Content } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Bookmark } from "lucide-react";
+import { useWatchlist } from "@/contexts/WatchlistContext";
+import { toast } from "sonner";
 
 interface ContentCardProps {
   content: Content;
@@ -12,6 +14,18 @@ interface ContentCardProps {
 
 export const ContentCard = ({ content, className, index }: ContentCardProps) => {
   const navigate = useNavigate();
+  const { toggle, has } = useWatchlist();
+  const inWatchlist = has(content.id);
+
+  const handleWatchlistToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggle(content);
+    if (!inWatchlist) {
+      toast.success(`Added "${content.title}" to watchlist`);
+    } else {
+      toast.info(`Removed "${content.title}" from watchlist`);
+    }
+  };
 
   return (
     <motion.div
@@ -47,6 +61,19 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
           className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300"
           initial={false}
         />
+
+        {/* Watchlist bookmark button — top-right corner on hover */}
+        <button
+          onClick={handleWatchlistToggle}
+          className={`absolute top-2 right-2 z-20 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md border
+            ${inWatchlist
+              ? "bg-sterring-orange/30 border-sterring-orange/60 text-sterring-orange opacity-100"
+              : "bg-black/50 border-white/20 text-white/80 opacity-0 group-hover:opacity-100 hover:bg-white/20 hover:text-white"
+            }`}
+          aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
+        >
+          <Bookmark className={`w-4 h-4 ${inWatchlist ? "fill-current" : ""}`} />
+        </button>
       </div>
 
       {/* Hover Overlay - Apple TV-style refined reveal */}
@@ -104,4 +131,3 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
     </motion.div>
   );
 };
-
