@@ -1,16 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown } from "lucide-react";
+import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { useDownloads } from "@/contexts/DownloadContext";
 
 const navLinks = [
   { to: "/", label: "Home", icon: Home },
   { to: "/movies", label: "Movies", icon: Clapperboard },
   { to: "/tv-shows", label: "TV Shows", icon: Tv },
   { to: "/watchlist", label: "My Watchlist", icon: Bookmark },
+  { to: "/downloads", label: "Downloads", icon: Download },
 ];
 
 export const Navbar = () => {
@@ -19,6 +21,7 @@ export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+  const { count: downloadCount } = useDownloads();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -64,6 +67,7 @@ export const Navbar = () => {
               <div className="hidden md:flex items-center space-x-1">
                 {navLinks.map(({ to, label, icon: Icon }) => {
                   const isActive = location.pathname === to;
+                  const badge = to === "/downloads" && downloadCount > 0 ? downloadCount : null;
                   return (
                     <Link
                       key={to}
@@ -83,6 +87,11 @@ export const Navbar = () => {
                         }`}
                       />
                       <span>{label}</span>
+                      {badge && (
+                        <span className="ml-0.5 min-w-[18px] h-[18px] rounded-full bg-sterring-orange text-white text-[10px] font-bold flex items-center justify-center px-1">
+                          {badge}
+                        </span>
+                      )}
                       {/* Active indicator */}
                       {isActive && (
                         <motion.span
@@ -157,6 +166,19 @@ export const Navbar = () => {
                           >
                             <Bookmark className="w-4 h-4 text-white/50" />
                             My Watchlist
+                          </Link>
+                          <Link
+                            to="/downloads"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/8 transition-colors"
+                          >
+                            <Download className="w-4 h-4 text-white/50" />
+                            <span>Downloads</span>
+                            {downloadCount > 0 && (
+                              <span className="ml-auto min-w-[20px] h-5 rounded-full bg-sterring-orange/20 border border-sterring-orange/40 text-sterring-orange text-[10px] font-bold flex items-center justify-center px-1.5">
+                                {downloadCount}
+                              </span>
+                            )}
                           </Link>
                           <Link
                             to="/movies"

@@ -4,26 +4,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Content } from "@/types/content";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { useDownloads } from "@/contexts/DownloadContext";
 
-/* ─── localStorage helpers ─────────────────────────────────────────────── */
-const DL_KEY = "sterring_downloads";
-
-const getDownloads = (): string[] => {
-  try {
-    return JSON.parse(localStorage.getItem(DL_KEY) || "[]");
-  } catch {
-    return [];
-  }
-};
-
-const saveDownload = (id: string) => {
-  const dl = getDownloads();
-  if (!dl.includes(id)) localStorage.setItem(DL_KEY, JSON.stringify([...dl, id]));
-};
-
-const removeDownload = (id: string) => {
-  const dl = getDownloads().filter((d) => d !== id);
-  localStorage.setItem(DL_KEY, JSON.stringify(dl));
+/* ─── Helper: trigger a real browser download for a local video ─────────── */
+const triggerFileDownload = (url: string, filename: string) => {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
 
 /* ─── Component ────────────────────────────────────────────────────────── */
@@ -34,14 +24,12 @@ interface DownloadButtonProps {
 
 export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProps) => {
   const { isAuthenticated } = useAuth();
-  const [isDownloaded, setIsDownloaded] = useState(false);
+  const { add, remove, has } = useDownloads();
+
+  const isDownloaded = has(content.id);
   const [showModal, setShowModal] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
-
-  useEffect(() => {
-    setIsDownloaded(getDownloads().includes(content.id));
-  }, [content.id]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -52,9 +40,7 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
     }
 
     if (isDownloaded) {
-      // Remove download
-      removeDownload(content.id);
-      setIsDownloaded(false);
+      remove(content.id);
       toast.info(`"${content.title}" removed from downloads`);
       return;
     }
@@ -73,13 +59,21 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
         if (prev >= 100) {
           clearInterval(interval);
           setIsDownloading(false);
-          saveDownload(content.id);
-          setIsDownloaded(true);
+
+          // 1. Persist to context/localStorage
+          add(content);
+
+          // 2. Trigger a real file download if a videoUrl exists
+          if (content.videoUrl) {
+            const safeTitle = content.title.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_");
+            const ext = content.videoUrl.split(".").pop()?.split("?")[0] || "mp4";
+            triggerFileDownload(content.videoUrl, `${safeTitle}.${ext}`);
+          }
+
           toast.success(`"${content.title}" is now available offline!`);
           setTimeout(() => setShowModal(false), 1500);
           return 100;
         }
-        // Simulate variable speed: fast start, slow middle, fast end
         const remaining = 100 - prev;
         const step = Math.max(1, Math.min(remaining * 0.15 + Math.random() * 3, 12));
         return Math.min(prev + step, 100);
@@ -87,7 +81,7 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
     }, 200);
 
     return () => clearInterval(interval);
-  }, [isDownloading, content.id, content.title]);
+  }, [isDownloading, content, add]);
 
   const closeModal = () => {
     setShowModal(false);

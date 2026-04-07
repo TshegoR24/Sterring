@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Play, Bookmark } from "lucide-react";
 import { useWatchlist } from "@/contexts/WatchlistContext";
 import { toast } from "sonner";
+import { DownloadButton } from "@/components/DownloadButton";
 
 interface ContentCardProps {
   content: Content;
@@ -128,6 +129,9 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
             >
               <Bookmark className={`w-5 h-5 ${inWatchlist ? "fill-current" : ""}`} />
             </motion.button>
+
+            {/* Download button inside overlay */}
+            <DownloadButton content={content} variant="icon" />
           </div>
         </motion.div>
       </motion.div>
