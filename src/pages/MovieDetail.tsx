@@ -12,6 +12,7 @@ import { useContinueWatching } from "@/contexts/ContinueWatchingContext";
 import { useVolumePreference } from "@/hooks/useVolumePreference";
 import { DownloadButton } from "@/components/DownloadButton";
 import { ContentProtection } from "@/components/ContentProtection";
+import { XRayPanel } from "@/components/XRayPanel";
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,8 @@ const MovieDetail = () => {
   // Showmax-style Preview State
   const [showVideo, setShowVideo] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Effect 1: 5-second countdown keyed on the movie id (stable string, not object reference)
@@ -153,9 +156,17 @@ const MovieDetail = () => {
                 preload="auto"
                 muted={isMuted}
                 onCanPlay={() => setIsVideoLoading(false)}
+                onPlay={() => setIsPaused(false)}
+                onPause={() => setIsPaused(true)}
+                onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
+              />
+              <XRayPanel 
+                cast={movie.cast || []} 
+                currentTime={currentTime} 
+                isPaused={isPaused && showVideo} 
               />
             </div>
           )}

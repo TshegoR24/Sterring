@@ -18,8 +18,30 @@ const featuredContent: Content[] = [
     featured: true,
     director: "Gavin Hood",
     cast: [
-      { name: "Presley Chweneyagae", role: "Tsotsi" },
-      { name: "Terry Pheto", role: "Miriam" },
+      { 
+        id: "c1",
+        name: "Presley Chweneyagae", 
+        role: "Tsotsi",
+        imageUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop",
+        seenIn: ["The Number (2017)", "iNumber Number (2013)"],
+        age: 39,
+        height: "5'8\" (1.73m)",
+        born: "October 19, 1984",
+        birthPlace: "North West Province, South Africa",
+        sceneTimestamps: [[0, 60], [100, 200]] // Example timestamps
+      },
+      { 
+        id: "c2",
+        name: "Terry Pheto", 
+        role: "Miriam",
+        imageUrl: "https://images.unsplash.com/photo-1531123897727-8f129e1bfa82?w=200&h=200&fit=crop",
+        seenIn: ["Catch a Fire (2006)", "Mandela: Long Walk to Freedom (2013)"],
+        age: 43,
+        height: "5'5\" (1.65m)",
+        born: "May 11, 1981",
+        birthPlace: "Evaton, South Africa",
+        sceneTimestamps: [[30, 90]]
+      },
       { name: "Kenneth Nkosi", role: "Aap" },
       { name: "Mothusi Magano", role: "Boston" },
       { name: "Zenzo Ngqobe", role: "Butcher" },

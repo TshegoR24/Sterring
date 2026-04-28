@@ -1,7 +1,14 @@
 export interface CastMember {
+  id?: string;
   name: string;
   role: string;
   imageUrl?: string;
+  seenIn?: string[];
+  age?: number | string;
+  height?: string;
+  born?: string;
+  birthPlace?: string;
+  sceneTimestamps?: [number, number][];
 }
 
 export interface Filmmaker {

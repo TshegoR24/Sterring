@@ -12,6 +12,7 @@ import { useContinueWatching } from "@/contexts/ContinueWatchingContext";
 import { useVolumePreference } from "@/hooks/useVolumePreference";
 import { DownloadButton } from "@/components/DownloadButton";
 import { ContentProtection } from "@/components/ContentProtection";
+import { XRayPanel } from "@/components/XRayPanel";
 
 const TVShowDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,6 +24,8 @@ const TVShowDetail = () => {
 
   const [showVideo, setShowVideo] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // 5-second countdown then crossfade
@@ -131,9 +134,17 @@ const TVShowDetail = () => {
                 preload="auto"
                 muted={isMuted}
                 onCanPlay={() => setIsVideoLoading(false)}
+                onPlay={() => setIsPaused(false)}
+                onPause={() => setIsPaused(true)}
+                onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
+              />
+              <XRayPanel 
+                cast={show.cast || []} 
+                currentTime={currentTime} 
+                isPaused={isPaused && showVideo} 
               />
             </div>
           )}
