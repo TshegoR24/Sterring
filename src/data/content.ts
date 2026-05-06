@@ -61,6 +61,41 @@ const featuredContent: Content[] = [
     imageUrl: "/Sterring Tv Shows/AYEYE-new.jpg",
     videoUrl: "/Sterring Tv Shows/AYEYE - Season 1, Episode 1.mp4",
     featured: true,
+    cast: [
+      {
+        id: "ay-c1",
+        name: "Mpho Osei-Bonsu",
+        role: "Mpho",
+        imageUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop",
+        seenIn: ["Scandal! (2013)", "Intersexions (2011)"],
+        age: 38,
+        born: "1986",
+        birthPlace: "Johannesburg, South Africa",
+        sceneTimestamps: [[0, 120], [200, 400]]
+      },
+      {
+        id: "ay-c2",
+        name: "Thabo Malema",
+        role: "Thabo",
+        imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop",
+        seenIn: ["Generations: The Legacy (2014)", "High Rollers (2016)"],
+        age: 35,
+        born: "1989",
+        birthPlace: "Soweto, South Africa",
+        sceneTimestamps: [[0, 80], [150, 350]]
+      },
+      {
+        id: "ay-c3",
+        name: "Siyanda Manyati",
+        role: "Siyanda",
+        imageUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop",
+        seenIn: ["Soul City (2012)", "Isibaya (2013)"],
+        age: 33,
+        born: "1991",
+        birthPlace: "Durban, South Africa",
+        sceneTimestamps: [[50, 200], [300, 450]]
+      },
+    ],
   },
   {
     id: "8",
@@ -114,6 +149,42 @@ const featuredContent: Content[] = [
     imageUrl: "/Sterring Tv Shows/Yizo Yizo.jpg",
     videoUrl: "/Sterring Tv Shows/Yizo Yizo S1 E1.mp4",
     featured: true,
+    cast: [
+      {
+        id: "yy-c1",
+        name: "Menzi Ngubane",
+        role: "Mpho 'Papa Action'",
+        imageUrl: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=200&h=200&fit=crop",
+        seenIn: ["Isidingo (1998)", "Generations (2000)", "Zone 14 (2005)"],
+        age: 57,
+        height: "5'10\" (1.78m)",
+        born: "April 20, 1967",
+        birthPlace: "KwaZulu-Natal, South Africa",
+        sceneTimestamps: [[0, 180], [300, 600]]
+      },
+      {
+        id: "yy-c2",
+        name: "Fats Bookholane",
+        role: "Sticks",
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
+        seenIn: ["Gaz'lam (2001)", "Isidingo (2002)"],
+        age: 52,
+        born: "1972",
+        birthPlace: "Soweto, South Africa",
+        sceneTimestamps: [[60, 250], [400, 700]]
+      },
+      {
+        id: "yy-c3",
+        name: "Zola Hashatsi",
+        role: "Zwakala",
+        imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop",
+        seenIn: ["Isibaya (2012)", "Mzansi Magic Shorts (2014)"],
+        age: 48,
+        born: "1976",
+        birthPlace: "Alexandra, South Africa",
+        sceneTimestamps: [[100, 300], [500, 800]]
+      },
+    ],
   },
 ];
 
@@ -144,6 +215,42 @@ const localMovies: Content[] = [
     duration: "119 min",
     imageUrl: "/Sterring/MV5BYjVlMGFhMzMtNGIzNC00MzM2LWIzMzctYTkxNWEwZjA2NzAzXkEyXkFqcGc@._V1_.jpg",
     videoUrl: "/Sterring/JERUSALEMA_ GANGSTERS PARADISE _Full HD Movie_ NTJANA MOVIES.mp4",
+    cast: [
+      {
+        id: "jer-c1",
+        name: "Rapulana Seiphemo",
+        role: "Lucky Kunene",
+        imageUrl: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&h=200&fit=crop",
+        seenIn: ["Tsotsi (2005)", "Inxeba (2017)", "iNumber Number (2013)"],
+        age: 53,
+        height: "5'11\" (1.80m)",
+        born: "February 19, 1971",
+        birthPlace: "Soweto, South Africa",
+        sceneTimestamps: [[0, 300], [500, 900], [1200, 1800]]
+      },
+      {
+        id: "jer-c2",
+        name: "Ronnie Nyakale",
+        role: "Zakes",
+        imageUrl: "https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=200&h=200&fit=crop",
+        seenIn: ["The Number (2006)", "Gaz'lam (2003)"],
+        age: 49,
+        born: "1975",
+        birthPlace: "Johannesburg, South Africa",
+        sceneTimestamps: [[100, 400], [700, 1100]]
+      },
+      {
+        id: "jer-c3",
+        name: "Shelley Thuynsma",
+        role: "Lerato",
+        imageUrl: "https://images.unsplash.com/photo-1531123897727-8f129e1bfa82?w=200&h=200&fit=crop",
+        seenIn: ["Isidingo (2007)", "Mtunzini.com (2010)"],
+        age: 44,
+        born: "1980",
+        birthPlace: "Cape Town, South Africa",
+        sceneTimestamps: [[200, 600], [900, 1300]]
+      },
+    ],
   },
   {
     id: "lm-3",
@@ -156,7 +263,43 @@ const localMovies: Content[] = [
     rating: "R",
     duration: "88 min",
     imageUrl: "/Sterring/48376e03e52cf428dd65fe7b9ba2f1a9-e1519918120112.jpeg",
-    videoUrl: "/Sterring/‘Inxeba (‘The Wound’)’ official trailer (1).mp4",
+    videoUrl: "/Sterring/'Inxeba ('The Wound')' official trailer (1).mp4",
+    cast: [
+      {
+        id: "wnd-c1",
+        name: "Nakhane Toure",
+        role: "Xolani",
+        imageUrl: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=200&h=200&fit=crop",
+        seenIn: ["Tell Me Sweet Something (2015)"],
+        age: 36,
+        height: "5'9\" (1.75m)",
+        born: "October 28, 1988",
+        birthPlace: "East London, Eastern Cape, South Africa",
+        sceneTimestamps: [[0, 200], [400, 800]]
+      },
+      {
+        id: "wnd-c2",
+        name: "Bongile Mantsai",
+        role: "Vija",
+        imageUrl: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=200&h=200&fit=crop",
+        seenIn: ["Kalushi (2016)", "Mzansi Magic Originals (2018)"],
+        age: 40,
+        born: "1984",
+        birthPlace: "Eastern Cape, South Africa",
+        sceneTimestamps: [[50, 300], [600, 1000]]
+      },
+      {
+        id: "wnd-c3",
+        name: "Niza Jay Ncoyini",
+        role: "Kwanda",
+        imageUrl: "https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?w=200&h=200&fit=crop",
+        seenIn: ["Inxeba: The Wound (2017)"],
+        age: 28,
+        born: "1996",
+        birthPlace: "Johannesburg, South Africa",
+        sceneTimestamps: [[100, 350], [700, 1100]]
+      },
+    ],
   },
   {
     id: "lm-4",
