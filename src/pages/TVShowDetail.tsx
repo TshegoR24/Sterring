@@ -128,7 +128,7 @@ const TVShowDetail = () => {
                 key={show.id}
                 ref={videoRef}
                 src={show.videoUrl}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 loop
                 playsInline
                 preload="auto"
@@ -140,12 +140,25 @@ const TVShowDetail = () => {
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
+                onClick={() => {
+                  if (videoRef.current) {
+                    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
+                  }
+                }}
               />
-              <XRayPanel 
-                cast={show.cast || []} 
-                currentTime={currentTime} 
-                isPaused={isPaused && showVideo} 
-              />
+            </div>
+          )}
+
+          {/* XRay panel — z-40 so it sits above gradient overlays (z-10/z-20) */}
+          {hasVideo && (
+            <div className="absolute inset-0 z-40 pointer-events-none">
+              <div className="pointer-events-auto">
+                <XRayPanel
+                  cast={show.cast || []}
+                  currentTime={currentTime}
+                  isPaused={isPaused && showVideo}
+                />
+              </div>
             </div>
           )}
 

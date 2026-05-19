@@ -150,7 +150,7 @@ const MovieDetail = () => {
                 key={movie.id}
                 ref={videoRef}
                 src={movie.videoUrl}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 loop
                 playsInline
                 preload="auto"
@@ -162,12 +162,25 @@ const MovieDetail = () => {
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
+                onClick={() => {
+                  if (videoRef.current) {
+                    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
+                  }
+                }}
               />
-              <XRayPanel 
-                cast={movie.cast || []} 
-                currentTime={currentTime} 
-                isPaused={isPaused && showVideo} 
-              />
+            </div>
+          )}
+
+          {/* XRay panel — z-40 so it sits above gradient overlays (z-10/z-20) */}
+          {hasVideo && (
+            <div className="absolute inset-0 z-40 pointer-events-none">
+              <div className="pointer-events-auto">
+                <XRayPanel
+                  cast={movie.cast || []}
+                  currentTime={currentTime}
+                  isPaused={isPaused && showVideo}
+                />
+              </div>
             </div>
           )}
 
