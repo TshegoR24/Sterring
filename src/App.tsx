@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
 import Movies from "./pages/Movies";
 import TVShows from "./pages/TVShows";
+import Anime from "./pages/Anime";
 import Downloads from "./pages/Downloads";
 import { WatchlistProvider } from "./contexts/WatchlistContext";
 import { ContinueWatchingProvider } from "./contexts/ContinueWatchingContext";
@@ -39,6 +40,7 @@ const App = () => (
                   <Route path="/watchlist" element={<Watchlist />} />
                   <Route path="/movies" element={<Movies />} />
                   <Route path="/tv-shows" element={<TVShows />} />
+                  <Route path="/anime" element={<Anime />} />
                   <Route path="/downloads" element={<Downloads />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

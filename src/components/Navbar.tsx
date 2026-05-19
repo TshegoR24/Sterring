@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown, Download } from "lucide-react";
+import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown, Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ const navLinks = [
   { to: "/", label: "Home", icon: Home },
   { to: "/movies", label: "Movies", icon: Clapperboard },
   { to: "/tv-shows", label: "TV Shows", icon: Tv },
+  { to: "/anime", label: "Anime", icon: Sparkles },
   { to: "/watchlist", label: "My Watchlist", icon: Bookmark },
   { to: "/downloads", label: "Downloads", icon: Download },
 ];

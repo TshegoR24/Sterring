@@ -523,6 +523,94 @@ const localDrama: Content[] = [
   },
 ];
 
+// ── Anime ─────────────────────────────────────────────────────────────────
+const animeContent: Content[] = [
+  {
+    id: "an-1",
+    title: "Attack on Titan",
+    description:
+      "In a world where humanity lives within enormous walled cities to protect themselves from Titans, a young boy vows to exterminate the Titans after one destroys his hometown.",
+    synopsis:
+      "Several hundred years ago, humans were nearly exterminated by Titans — gigantic humanoid creatures that ate humans seemingly for pleasure. Humanity built huge walls to keep the Titans out, but when a Colossal Titan breaches the wall, young Eren Yeager watches his mother be eaten alive and swears revenge.",
+    type: "series",
+    genres: ["Action", "Drama", "Fantasy"],
+    year: 2013,
+    rating: "R",
+    duration: "24 min",
+    imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "an-2",
+    title: "Naruto",
+    description:
+      "A young ninja with a powerful fox demon sealed within him dreams of becoming the greatest ninja in his village and earning the respect of his peers.",
+    synopsis:
+      "Twelve years before the start of the story, the Nine-Tailed Demon Fox attacked the Hidden Leaf Village and was sealed into a newborn, Naruto Uzumaki. Naruto grows up shunned by his village but remains determined to become Hokage.",
+    type: "series",
+    genres: ["Action", "Adventure", "Comedy"],
+    year: 2002,
+    rating: "PG-13",
+    duration: "23 min",
+    imageUrl: "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "an-3",
+    title: "Dragon Ball Z",
+    description:
+      "Son Goku and his friends must defend the Earth against an endless stream of villains, including aliens, androids, and magical creatures.",
+    synopsis:
+      "Goku discovers he is a Saiyan warrior from another planet when his brother Raditz arrives on Earth. Together with his allies, Goku fights increasingly powerful enemies threatening the Earth, transcending his limits again and again.",
+    type: "series",
+    genres: ["Action", "Adventure", "Fantasy"],
+    year: 1989,
+    rating: "PG-13",
+    duration: "24 min",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "an-4",
+    title: "Demon Slayer",
+    description:
+      "A young boy becomes a demon slayer after his family is slaughtered and his sister is turned into a demon, embarking on a journey to find a cure.",
+    synopsis:
+      "Tanjiro Kamado sets out to become a demon slayer after his family is slaughtered and his sister Nezuko is transformed into a demon. He joins the Demon Slayer Corps and trains hard to defeat the powerful Muzan Kibutsuji.",
+    type: "series",
+    genres: ["Action", "Fantasy", "Drama"],
+    year: 2019,
+    rating: "R",
+    duration: "24 min",
+    imageUrl: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "an-5",
+    title: "One Piece",
+    description:
+      "Monkey D. Luffy sets sail to find the legendary treasure One Piece and become the King of the Pirates, gathering a crew of diverse companions along the way.",
+    synopsis:
+      "As a child, Luffy ate a Devil Fruit giving him a rubber body. Years later he sets out to assemble the Straw Hat Pirates and confront the corrupt World Government and fearsome rivals standing between him and the legendary treasure.",
+    type: "series",
+    genres: ["Action", "Adventure", "Comedy"],
+    year: 1999,
+    rating: "PG-13",
+    duration: "24 min",
+    imageUrl: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&h=1200&fit=crop",
+  },
+  {
+    id: "an-6",
+    title: "Death Note",
+    description:
+      "A high school student discovers a supernatural notebook that kills anyone whose name is written in it and uses it to cleanse the world of evil — while being pursued by the world's greatest detective.",
+    synopsis:
+      "Light Yagami stumbles upon the Death Note, a notebook belonging to a Shinigami that kills anyone whose name is written inside. Light uses it to rid the world of criminals, attracting the attention of enigmatic investigator L.",
+    type: "series",
+    genres: ["Thriller", "Drama", "Mystery"],
+    year: 2006,
+    rating: "R",
+    duration: "24 min",
+    imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&h=1200&fit=crop",
+  },
+];
+
 // ── Exports ───────────────────────────────────────────────────────────────
 export const categories: Category[] = [
   {
@@ -540,10 +628,16 @@ export const categories: Category[] = [
     name: "Local TV Shows",
     content: localTVShows,
   },
+  {
+    id: "anime",
+    name: "Anime",
+    content: animeContent,
+  },
 ];
 
 export const allContent: Content[] = [
   ...featuredContent,
   ...localMovies,
   ...localTVShows,
+  ...animeContent,
 ];
