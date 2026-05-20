@@ -41,7 +41,7 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -60 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="absolute left-6 sm:left-10 top-1/2 -translate-y-1/2 z-50 flex flex-col"
+          className="absolute left-6 sm:left-10 top-1/2 -translate-y-1/2 z-[55] flex flex-col"
           style={{ maxHeight: "75vh" }}
         >
           {/* ── Header label ── */}
