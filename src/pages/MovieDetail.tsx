@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Play, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand } from "lucide-react";
+import { Play, Pause, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { allContent } from "@/data/content";
 import { ContentCard } from "@/components/ContentCard";
@@ -22,48 +22,40 @@ const MovieDetail = () => {
   const { upsert } = useContinueWatching();
   const { isMuted, setMuted } = useVolumePreference();
 
-  // Showmax-style Preview State
   const [showVideo, setShowVideo] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
+  const [showXRayHint, setShowXRayHint] = useState(false);
+  const [showPlayOverlay, setShowPlayOverlay] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Effect 1: 5-second countdown keyed on the movie id (stable string, not object reference)
   useEffect(() => {
-    // Reset every time we arrive at a new movie
     setShowVideo(false);
     setIsVideoLoading(true);
-
     if (!id) return;
-
-    const timer = setTimeout(() => {
-      setShowVideo(true);
-    }, 5000);
-
+    const timer = setTimeout(() => setShowVideo(true), 5000);
     return () => clearTimeout(timer);
-  }, [id]); // id is a stable primitive — this is the correct dependency
+  }, [id]);
 
-  // Effect 2: Play the video once it's visible AND loaded
   useEffect(() => {
     if (!showVideo || !videoRef.current) return;
-
     const video = videoRef.current;
     video.volume = 1;
-
     const attemptPlay = () => {
       const p = video.play();
       if (p !== undefined) {
-        p.catch(() => {
-          // Browser blocked autoplay with sound — fall back to muted
+        p.then(() => {
+          // Show X-Ray hint briefly after video starts playing
+          setTimeout(() => setShowXRayHint(true), 1500);
+          setTimeout(() => setShowXRayHint(false), 5000);
+        }).catch(() => {
           setMuted(true);
           video.muted = true;
           video.play().catch((e) => console.error("Video play failed:", e));
         });
       }
     };
-
-    // If already ready, play immediately; otherwise wait for canplay
     if (video.readyState >= 3) {
       attemptPlay();
     } else {
@@ -72,7 +64,6 @@ const MovieDetail = () => {
     }
   }, [showVideo, setMuted]);
 
-  // Effect 3: Track watch progress every 10s
   useEffect(() => {
     if (!showVideo || !movie) return;
     const interval = setInterval(() => {
@@ -101,7 +92,6 @@ const MovieDetail = () => {
     );
   }
 
-  // Find similar movies (same genre)
   const similarMovies = allContent
     .filter((m) => m.id !== movie.id && m.genres.some((genre) => movie.genres.includes(genre)))
     .slice(0, 6);
@@ -119,27 +109,38 @@ const MovieDetail = () => {
   };
 
   const toggleFullscreen = () => {
-    if (videoRef.current) {
-      if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen();
-      }
+    if (videoRef.current?.requestFullscreen) {
+      videoRef.current.requestFullscreen();
     }
   };
+
+  // Click on video to pause/play — this is what triggers X-Ray
+  const handleVideoClick = () => {
+    if (!videoRef.current || !showVideo) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setShowPlayOverlay(false);
+    } else {
+      videoRef.current.pause();
+      setShowPlayOverlay(true);
+    }
+  };
+
+  const hasCast = (movie.cast?.length ?? 0) > 0;
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
 
-      {/* ── Hero Preview Section ─────────────────────────────────────────── */}
       <ContentProtection className="w-full">
         <div className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end">
-          {/* Layer 1: Poster Background (Static) */}
+          {/* Layer 1: Poster */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
             style={{ backgroundImage: `url(${movie.imageUrl})` }}
           />
 
-          {/* Layer 2: Video Player (Crossfades in after 5s) */}
+          {/* Layer 2: Video */}
           {hasVideo && (
             <div
               className={`absolute inset-0 w-full h-full transition-opacity duration-1500 ease-in-out ${
@@ -150,39 +151,72 @@ const MovieDetail = () => {
                 key={movie.id}
                 ref={videoRef}
                 src={movie.videoUrl}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 loop
                 playsInline
                 preload="auto"
                 muted={isMuted}
                 onCanPlay={() => setIsVideoLoading(false)}
-                onPlay={() => setIsPaused(false)}
+                onPlay={() => { setIsPaused(false); setShowPlayOverlay(false); }}
                 onPause={() => setIsPaused(true)}
                 onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
+                onClick={handleVideoClick}
               />
-              <XRayPanel 
-                cast={movie.cast || []} 
-                currentTime={currentTime} 
-                isPaused={isPaused && showVideo} 
-              />
+
+              {/* Play/Pause click overlay icon */}
+              <AnimatePresence>
+                {showPlayOverlay && isPaused && showVideo && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.7 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-black/50 border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                      <Play className="w-9 h-9 fill-white text-white ml-1" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
 
-          {/* Layer 3: Gradients for text legibility */}
-          {/* Top gradient for navbar */}
+          {/* X-Ray Panel — sits at the hero level, not inside the video div */}
+          {hasVideo && hasCast && (
+            <XRayPanel
+              cast={movie.cast || []}
+              currentTime={currentTime}
+              isPaused={isPaused && showVideo}
+            />
+          )}
+
+          {/* X-Ray hint toast */}
+          <AnimatePresence>
+            {showXRayHint && hasCast && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.4 }}
+                className="absolute bottom-28 right-6 z-50 flex items-center gap-2 bg-black/70 border border-white/10 backdrop-blur-md rounded-xl px-4 py-2.5 shadow-xl"
+              >
+                <div className="w-2 h-2 rounded-full bg-sterring-orange animate-pulse" />
+                <span className="text-white/80 text-sm font-medium">Pause to see who's in this scene</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Gradients */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10" />
-          {/* Bottom-to-top gradient for the info section */}
           <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10" />
-          {/* Left-to-right gradient for text readability across the whole width */}
           <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-10" />
 
-          {/* Layer 4: Content Overlay */}
+          {/* Content overlay */}
           <div className="relative z-20 w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 pb-12 sm:pb-16 flex justify-between items-end">
-            
-            {/* Info Block (Bottom Left) */}
             <div className="max-w-2xl flex flex-col">
               <Button
                 variant="ghost"
@@ -227,10 +261,7 @@ const MovieDetail = () => {
                 className="flex flex-wrap gap-2 mb-8"
               >
                 {movie.genres.map((genre) => (
-                  <span
-                    key={genre}
-                    className="px-3 py-1 bg-white/10 border border-white/5 text-white/90 rounded-full text-sm backdrop-blur-md shadow-sm"
-                  >
+                  <span key={genre} className="px-3 py-1 bg-white/10 border border-white/5 text-white/90 rounded-full text-sm backdrop-blur-md shadow-sm">
                     {genre}
                   </span>
                 ))}
@@ -245,7 +276,7 @@ const MovieDetail = () => {
                 <Button
                   size="lg"
                   className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
-                  onClick={() => toggleFullscreen()}
+                  onClick={toggleFullscreen}
                 >
                   <Play className="mr-2 h-6 w-6 fill-white" />
                   Play Now
@@ -263,11 +294,9 @@ const MovieDetail = () => {
                   {inWatchlist ? <Check className="mr-2 h-6 w-6" /> : <Plus className="mr-2 h-6 w-6" />}
                   {inWatchlist ? "In Watchlist" : "Watchlist"}
                 </Button>
-                {/* Download Button */}
                 <DownloadButton content={movie} />
               </motion.div>
 
-              {/* Synopsis - Only visible during video play (Showmax style) */}
               <AnimatePresence>
                 {showVideo && (
                   <motion.div
@@ -285,16 +314,26 @@ const MovieDetail = () => {
               </AnimatePresence>
             </div>
 
-            {/* Video Controls (Bottom Right) */}
+            {/* Video controls */}
             {hasVideo && (
-              <div className="flex flex-col items-end gap-3 pb-2 transition-opacity duration-500 z-30">
+              <div className="flex flex-col items-end gap-3 pb-2 z-30">
                 <AnimatePresence>
                   {showVideo && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       className="flex items-center gap-3"
                     >
+                      {/* Pause/Play button */}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 transition-all hover:scale-110"
+                        onClick={handleVideoClick}
+                        title={isPaused ? "Play" : "Pause"}
+                      >
+                        {isPaused ? <Play className="w-5 h-5 fill-white" /> : <Pause className="w-5 h-5" />}
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -318,9 +357,8 @@ const MovieDetail = () => {
             )}
           </div>
 
-          {/* 5-second Progress Bar Overlay (Bottom Edge) */}
           {hasVideo && !showVideo && !isVideoLoading && (
-            <motion.div 
+            <motion.div
               className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 shadow-[0_0_10px_rgba(255,107,0,0.8)]"
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
@@ -330,37 +368,27 @@ const MovieDetail = () => {
         </div>
       </ContentProtection>
 
-      {/* ── Additional Content Rows ──────────────────────────────────────── */}
       <div className="relative z-20 max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-16">
-
-        
-        {/* If the synopsis isn't overlaid (meaning video hasn't played or there is no video), show it here as a fallback */}
         {!showVideo && (
-           <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.6 }}
-             className="mb-16 max-w-4xl"
-           >
-             <h2 className="text-2xl font-bold text-white mb-4">About the Movie</h2>
-             <p className="text-white/70 text-lg leading-relaxed">
-               {movie.synopsis || movie.description}
-             </p>
-           </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-16 max-w-4xl"
+          >
+            <h2 className="text-2xl font-bold text-white mb-4">About the Movie</h2>
+            <p className="text-white/70 text-lg leading-relaxed">
+              {movie.synopsis || movie.description}
+            </p>
+          </motion.div>
         )}
 
-        {/* Similar Movies */}
         {similarMovies.length > 0 && (
           <div>
             <h2 className="text-xl sm:text-2xl font-semibold text-white mb-6 tracking-tight">More Like This</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
               {similarMovies.map((item, index) => (
-                <ContentCard
-                  key={item.id}
-                  content={item}
-                  index={index}
-                  className="w-full"
-                />
+                <ContentCard key={item.id} content={item} index={index} className="w-full" />
               ))}
             </div>
           </div>
@@ -373,3 +401,4 @@ const MovieDetail = () => {
 };
 
 export default MovieDetail;
+
