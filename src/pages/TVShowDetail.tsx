@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Play, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand, Tv, Clock } from "lucide-react";
+import { Play, Pause, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand, Tv, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { allContent } from "@/data/content";
 import { ContentCard } from "@/components/ContentCard";
@@ -26,9 +26,10 @@ const TVShowDetail = () => {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
+  const [showXRayHint, setShowXRayHint] = useState(false);
+  const [showPlayOverlay, setShowPlayOverlay] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 5-second countdown then crossfade
   useEffect(() => {
     setShowVideo(false);
     setIsVideoLoading(true);
@@ -37,7 +38,6 @@ const TVShowDetail = () => {
     return () => clearTimeout(timer);
   }, [id]);
 
-  // Play once visible
   useEffect(() => {
     if (!showVideo || !videoRef.current) return;
     const video = videoRef.current;
@@ -45,7 +45,10 @@ const TVShowDetail = () => {
     const attemptPlay = () => {
       const p = video.play();
       if (p !== undefined) {
-        p.catch(() => {
+        p.then(() => {
+          setTimeout(() => setShowXRayHint(true), 1500);
+          setTimeout(() => setShowXRayHint(false), 5000);
+        }).catch(() => {
           setMuted(true);
           video.muted = true;
           video.play().catch(console.error);
@@ -60,7 +63,6 @@ const TVShowDetail = () => {
     }
   }, [showVideo, setMuted]);
 
-  // Track watch progress every 10s
   useEffect(() => {
     if (!showVideo || !show) return;
     const interval = setInterval(() => {
@@ -95,6 +97,7 @@ const TVShowDetail = () => {
 
   const hasVideo = Boolean(show.videoUrl);
   const inWatchlist = has(show.id);
+  const hasCast = (show.cast?.length ?? 0) > 0;
 
   const toggleMuteHandler = () => {
     if (videoRef.current) {
@@ -108,11 +111,21 @@ const TVShowDetail = () => {
     videoRef.current?.requestFullscreen?.();
   };
 
+  const handleVideoClick = () => {
+    if (!videoRef.current || !showVideo) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setShowPlayOverlay(false);
+    } else {
+      videoRef.current.pause();
+      setShowPlayOverlay(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
 
-      {/* ── Hero Preview ──────────────────────────────────────────────── */}
       <ContentProtection className="w-full">
         <div className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end">
           {/* Poster */}
@@ -121,33 +134,71 @@ const TVShowDetail = () => {
             style={{ backgroundImage: `url(${show.imageUrl})` }}
           />
 
-          {/* Video crossfade */}
+          {/* Video */}
           {hasVideo && (
             <div className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out ${showVideo ? "opacity-100" : "opacity-0"}`}>
               <video
                 key={show.id}
                 ref={videoRef}
                 src={show.videoUrl}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 loop
                 playsInline
                 preload="auto"
                 muted={isMuted}
                 onCanPlay={() => setIsVideoLoading(false)}
-                onPlay={() => setIsPaused(false)}
+                onPlay={() => { setIsPaused(false); setShowPlayOverlay(false); }}
                 onPause={() => setIsPaused(true)}
                 onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
+                onClick={handleVideoClick}
               />
-              <XRayPanel 
-                cast={show.cast || []} 
-                currentTime={currentTime} 
-                isPaused={isPaused && showVideo} 
-              />
+
+              {/* Play icon flash on pause */}
+              <AnimatePresence>
+                {showPlayOverlay && isPaused && showVideo && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.7 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-black/50 border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                      <Play className="w-9 h-9 fill-white text-white ml-1" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
+
+          {/* X-Ray Panel — at hero container level, not clipped */}
+          {hasVideo && hasCast && (
+            <XRayPanel
+              cast={show.cast || []}
+              currentTime={currentTime}
+              isPaused={isPaused && showVideo}
+            />
+          )}
+
+          {/* X-Ray hint toast */}
+          <AnimatePresence>
+            {showXRayHint && hasCast && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.4 }}
+                className="absolute bottom-28 right-6 z-50 flex items-center gap-2 bg-black/70 border border-white/10 backdrop-blur-md rounded-xl px-4 py-2.5 shadow-xl"
+              >
+                <div className="w-2 h-2 rounded-full bg-sterring-orange animate-pulse" />
+                <span className="text-white/80 text-sm font-medium">Pause to see who's in this scene</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Gradients */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10" />
@@ -161,7 +212,6 @@ const TVShowDetail = () => {
                 <ArrowLeft className="mr-2 h-4 w-4" /> Back
               </Button>
 
-              {/* TV Show badge */}
               <div className="flex items-center gap-2 mb-3">
                 <Tv className="w-4 h-4 text-sterring-orange" />
                 <span className="text-sterring-orange text-xs font-bold uppercase tracking-widest">TV Series</span>
@@ -222,11 +272,9 @@ const TVShowDetail = () => {
                   {inWatchlist ? <Check className="mr-2 h-6 w-6" /> : <Plus className="mr-2 h-6 w-6" />}
                   {inWatchlist ? "In Watchlist" : "Watchlist"}
                 </Button>
-                {/* Download Button */}
                 <DownloadButton content={show} />
               </motion.div>
 
-              {/* Synopsis during playback */}
               <AnimatePresence>
                 {showVideo && (
                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.8 }} className="mt-8 overflow-hidden">
@@ -238,12 +286,21 @@ const TVShowDetail = () => {
               </AnimatePresence>
             </div>
 
-            {/* Volume / Fullscreen controls */}
+            {/* Controls */}
             {hasVideo && (
               <div className="flex flex-col items-end gap-3 pb-2 z-30">
                 <AnimatePresence>
                   {showVideo && (
                     <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-3">
+                      {/* Pause/Play */}
+                      <Button
+                        variant="ghost" size="icon"
+                        className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110"
+                        onClick={handleVideoClick}
+                        title={isPaused ? "Play" : "Pause"}
+                      >
+                        {isPaused ? <Play className="w-5 h-5 fill-white" /> : <Pause className="w-5 h-5" />}
+                      </Button>
                       <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleMuteHandler}>
                         {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                       </Button>
@@ -257,7 +314,6 @@ const TVShowDetail = () => {
             )}
           </div>
 
-          {/* 5s countdown bar */}
           {hasVideo && !showVideo && !isVideoLoading && (
             <motion.div className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 shadow-[0_0_10px_rgba(255,107,0,0.8)]"
               initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 5, ease: "linear" }}
@@ -266,11 +322,10 @@ const TVShowDetail = () => {
         </div>
       </ContentProtection>
 
-      {/* ── Episodes section ─────────────────────────────────────────────── */}
+      {/* Episodes */}
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12">
         <h2 className="text-2xl font-bold text-white mb-6">Episodes</h2>
         <div className="flex flex-col gap-4">
-          {/* Episode 1 card */}
           <motion.div
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/8 rounded-xl p-4 cursor-pointer transition-all group"
@@ -295,13 +350,11 @@ const TVShowDetail = () => {
           </motion.div>
         </div>
 
-        {/* About section */}
         <div className="mt-12 mb-16 max-w-4xl">
           <h2 className="text-2xl font-bold text-white mb-4">About {show.title}</h2>
           <p className="text-white/70 text-lg leading-relaxed">{show.synopsis || show.description}</p>
         </div>
 
-        {/* More Shows */}
         {similarShows.length > 0 && (
           <div>
             <h2 className="text-xl sm:text-2xl font-semibold text-white mb-6 tracking-tight">More Shows</h2>
@@ -320,3 +373,4 @@ const TVShowDetail = () => {
 };
 
 export default TVShowDetail;
+
