@@ -361,5 +361,3 @@ const TVShowDetail = () => {
 };
 
 export default TVShowDetail;
-
-
