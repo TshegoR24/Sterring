@@ -385,7 +385,3 @@ const MovieDetail = () => {
 
 export default MovieDetail;
 
-};
-
-export default MovieDetail;
-
