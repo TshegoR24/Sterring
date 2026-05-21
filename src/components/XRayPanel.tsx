@@ -271,3 +271,4 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
     </AnimatePresence>
   );
 };
+
