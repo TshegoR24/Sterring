@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Play, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand, Tv, Clock } from "lucide-react";
+import { Play, Pause, ArrowLeft, Star, Plus, Check, VolumeX, Volume2, Expand, Tv, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { allContent } from "@/data/content";
 import { ContentCard } from "@/components/ContentCard";
@@ -26,9 +26,9 @@ const TVShowDetail = () => {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
+  const [showXRayHint, setShowXRayHint] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 5-second countdown then crossfade
   useEffect(() => {
     setShowVideo(false);
     setIsVideoLoading(true);
@@ -37,7 +37,6 @@ const TVShowDetail = () => {
     return () => clearTimeout(timer);
   }, [id]);
 
-  // Play once visible
   useEffect(() => {
     if (!showVideo || !videoRef.current) return;
     const video = videoRef.current;
@@ -45,7 +44,10 @@ const TVShowDetail = () => {
     const attemptPlay = () => {
       const p = video.play();
       if (p !== undefined) {
-        p.catch(() => {
+        p.then(() => {
+          setTimeout(() => setShowXRayHint(true), 1500);
+          setTimeout(() => setShowXRayHint(false), 5000);
+        }).catch(() => {
           setMuted(true);
           video.muted = true;
           video.play().catch(console.error);
@@ -60,7 +62,6 @@ const TVShowDetail = () => {
     }
   }, [showVideo, setMuted]);
 
-  // Track watch progress every 10s
   useEffect(() => {
     if (!showVideo || !show) return;
     const interval = setInterval(() => {
@@ -94,6 +95,7 @@ const TVShowDetail = () => {
     .slice(0, 6);
 
   const hasVideo = Boolean(show.videoUrl);
+  const hasCast = (show.cast?.length ?? 0) > 0;
   const inWatchlist = has(show.id);
 
   const toggleMuteHandler = () => {
@@ -106,6 +108,15 @@ const TVShowDetail = () => {
 
   const toggleFullscreen = () => {
     videoRef.current?.requestFullscreen?.();
+  };
+
+  const handleVideoClick = () => {
+    if (!videoRef.current || !showVideo) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+    } else {
+      videoRef.current.pause();
+    }
   };
 
   // "Watch Episode 1" should work immediately, even before the 5s preview
@@ -125,38 +136,27 @@ const TVShowDetail = () => {
     video.requestFullscreen?.();
   };
 
-  // Click anywhere on the hero area (not on a button/link) to toggle play/pause
-  const handleHeroClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('button') || target.closest('a') || target.closest('[role="button"]')) return;
-    if (!videoRef.current || !showVideo) return;
-    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
-  };
-
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
 
-      {/* ── Hero Preview ──────────────────────────────────────────────── */}
       <ContentProtection className="w-full">
-        <div
-          className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end cursor-pointer"
-          onClick={handleHeroClick}
-        >
-          {/* Poster */}
+        <div className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end">
+
+          {/* Layer 1: Poster */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
             style={{ backgroundImage: `url(${show.imageUrl})` }}
           />
 
-          {/* Video crossfade */}
+          {/* Layer 2: Video */}
           {hasVideo && (
-            <div className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out ${showVideo ? "opacity-100" : "opacity-0"}`}>
+            <div className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out pointer-events-none ${showVideo ? "opacity-100" : "opacity-0"}`}>
               <video
                 key={show.id}
                 ref={videoRef}
                 src={show.videoUrl}
-                className="w-full h-full object-cover cursor-pointer"
+                className="w-full h-full object-cover"
                 loop
                 playsInline
                 preload="auto"
@@ -172,9 +172,23 @@ const TVShowDetail = () => {
             </div>
           )}
 
-          {/* XRay panel — z-40 so it sits above gradient overlays (z-10/z-20) */}
-          {hasVideo && (
-            <div className="absolute inset-0 z-40 pointer-events-none">
+          {/* Layer 3: Transparent click-catcher */}
+          {hasVideo && showVideo && (
+            <div
+              className="absolute inset-0 z-10 cursor-pointer"
+              onClick={handleVideoClick}
+              title={isPaused ? "Click to play" : "Click to pause"}
+            />
+          )}
+
+          {/* Layer 4: Gradients — pointer-events-none so clicks pass through */}
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-20 pointer-events-none" />
+
+          {/* Layer 5: X-Ray Panel */}
+          {hasVideo && hasCast && (
+            <div className="absolute inset-0 z-30 pointer-events-none">
               <div className="pointer-events-auto">
                 <XRayPanel
                   cast={show.cast || []}
@@ -185,115 +199,127 @@ const TVShowDetail = () => {
             </div>
           )}
 
-          {/* Gradients — pointer-events-none so clicks reach the video */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-10 pointer-events-none" />
-
-          {/* Content — standard pointer events */}
-          <div className="relative z-20 w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 pb-12 sm:pb-16 flex justify-between items-end">
-            <div className="max-w-2xl flex flex-col">
-              <Button variant="ghost" onClick={() => navigate(-1)} className="w-fit mb-6 text-white/70 hover:text-white hover:bg-white/10 -ml-4">
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back
-              </Button>
-
-              {/* TV Show badge */}
-              <div className="flex items-center gap-2 mb-3">
-                <Tv className="w-4 h-4 text-sterring-orange" />
-                <span className="text-sterring-orange text-xs font-bold uppercase tracking-widest">TV Series</span>
-              </div>
-
-              <motion.h1
-                initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-4 drop-shadow-xl"
-              >
-                {show.title}
-              </motion.h1>
-
+          {/* Layer 6: X-Ray hint toast */}
+          <AnimatePresence>
+            {showXRayHint && hasCast && (
               <motion.div
-                initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex flex-wrap items-center gap-3 mb-6 text-sm text-white/80 font-medium"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.4 }}
+                className="absolute bottom-28 right-6 z-40 flex items-center gap-2 bg-black/70 border border-white/10 backdrop-blur-md rounded-xl px-4 py-2.5 shadow-xl pointer-events-none"
               >
-                <div className="flex items-center gap-1 text-sterring-orange">
-                  <Star className="h-4 w-4 fill-current" />
-                  <span className="font-bold text-white">8.5</span>
+                <div className="w-2 h-2 rounded-full bg-sterring-orange animate-pulse" />
+                <span className="text-white/80 text-sm font-medium">Pause to see who's in this scene</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Layer 7: UI controls */}
+          <div className="absolute inset-0 z-50 flex flex-col justify-end pointer-events-none">
+            <div className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 pb-12 sm:pb-16 flex justify-between items-end">
+
+              <div className="max-w-2xl flex flex-col pointer-events-auto">
+                <Button variant="ghost" onClick={() => navigate(-1)} className="w-fit mb-6 text-white/70 hover:text-white hover:bg-white/10 -ml-4">
+                  <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                </Button>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <Tv className="w-4 h-4 text-sterring-orange" />
+                  <span className="text-sterring-orange text-xs font-bold uppercase tracking-widest">TV Series</span>
                 </div>
-                <span className="text-white/30">•</span>
-                <span>{show.year}</span>
-                <span className="text-white/30">•</span>
-                <div className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /><span>{show.duration}</span></div>
-                <span className="text-white/30">•</span>
-                <span className="px-2 py-0.5 border border-white/20 rounded text-xs text-white/60 uppercase tracking-widest">{show.rating}</span>
-              </motion.div>
 
-              <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }} className="flex flex-wrap gap-2 mb-8">
-                {show.genres.map((genre) => (
-                  <span key={genre} className="px-3 py-1 bg-white/10 border border-white/5 text-white/90 rounded-full text-sm backdrop-blur-md">
-                    {genre}
-                  </span>
-                ))}
-              </motion.div>
-
-              <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap items-center gap-3">
-                <Button
-                  size="lg"
-                  className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
-                  onClick={handlePlayNow}
+                <motion.h1
+                  initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-4 drop-shadow-xl"
                 >
-                  <Play className="mr-2 h-6 w-6 fill-white" />
-                  Watch Episode 1
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-md transition-all hover:scale-105 ${
-                    inWatchlist
-                      ? "bg-sterring-orange/20 border-sterring-orange text-sterring-orange"
-                      : "bg-white/10 hover:bg-white/20 border-white/20 text-white"
-                  }`}
-                  onClick={() => toggle(show)}
+                  {show.title}
+                </motion.h1>
+
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex flex-wrap items-center gap-3 mb-6 text-sm text-white/80 font-medium"
                 >
-                  {inWatchlist ? <Check className="mr-2 h-6 w-6" /> : <Plus className="mr-2 h-6 w-6" />}
-                  {inWatchlist ? "In Watchlist" : "Watchlist"}
-                </Button>
-                {/* Download Button */}
-                <DownloadButton content={show} />
-              </motion.div>
+                  <div className="flex items-center gap-1 text-sterring-orange">
+                    <Star className="h-4 w-4 fill-current" />
+                    <span className="font-bold text-white">8.5</span>
+                  </div>
+                  <span className="text-white/30">•</span>
+                  <span>{show.year}</span>
+                  <span className="text-white/30">•</span>
+                  <div className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /><span>{show.duration}</span></div>
+                  <span className="text-white/30">•</span>
+                  <span className="px-2 py-0.5 border border-white/20 rounded text-xs text-white/60 uppercase tracking-widest">{show.rating}</span>
+                </motion.div>
 
-              {/* Synopsis during playback */}
-              <AnimatePresence>
-                {showVideo && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.8 }} className="mt-8 overflow-hidden">
-                    <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl border-l-2 border-sterring-orange/50 pl-4 py-1 bg-black/20 backdrop-blur-sm rounded-r-xl">
-                      {show.synopsis || show.description}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }} className="flex flex-wrap gap-2 mb-8">
+                  {show.genres.map((genre) => (
+                    <span key={genre} className="px-3 py-1 bg-white/10 border border-white/5 text-white/90 rounded-full text-sm backdrop-blur-md">
+                      {genre}
+                    </span>
+                  ))}
+                </motion.div>
 
-            {/* Volume / Fullscreen controls */}
-            {hasVideo && (
-              <div className="flex flex-col items-end gap-3 pb-2 z-30">
+                <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap items-center gap-3">
+                  <Button
+                    size="lg"
+                    className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
+                    onClick={handlePlayNow}
+                  >
+                    <Play className="mr-2 h-6 w-6 fill-white" />
+                    Watch Episode 1
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-md transition-all hover:scale-105 ${
+                      inWatchlist
+                        ? "bg-sterring-orange/20 border-sterring-orange text-sterring-orange"
+                        : "bg-white/10 hover:bg-white/20 border-white/20 text-white"
+                    }`}
+                    onClick={() => toggle(show)}
+                  >
+                    {inWatchlist ? <Check className="mr-2 h-6 w-6" /> : <Plus className="mr-2 h-6 w-6" />}
+                    {inWatchlist ? "In Watchlist" : "Watchlist"}
+                  </Button>
+                  <DownloadButton content={show} />
+                </motion.div>
+
                 <AnimatePresence>
                   {showVideo && (
-                    <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-3">
-                      <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleMuteHandler}>
-                        {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-                      </Button>
-                      <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleFullscreen}>
-                        <Expand className="w-5 h-5" />
-                      </Button>
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.8 }} className="mt-8 overflow-hidden">
+                      <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl border-l-2 border-sterring-orange/50 pl-4 py-1 bg-black/20 backdrop-blur-sm rounded-r-xl">
+                        {show.synopsis || show.description}
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
-            )}
+
+              {/* Video controls */}
+              {hasVideo && showVideo && (
+                <div className="flex items-center gap-3 pb-2 pointer-events-auto">
+                  <Button
+                    variant="ghost" size="icon"
+                    className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110"
+                    onClick={handleVideoClick}
+                    title={isPaused ? "Play" : "Pause"}
+                  >
+                    {isPaused ? <Play className="w-5 h-5 fill-white" /> : <Pause className="w-5 h-5" />}
+                  </Button>
+                  <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleMuteHandler}>
+                    {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                  </Button>
+                  <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleFullscreen}>
+                    <Expand className="w-5 h-5" />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* 5s countdown bar */}
           {hasVideo && !showVideo && !isVideoLoading && (
             <motion.div className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 shadow-[0_0_10px_rgba(255,107,0,0.8)]"
               initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 5, ease: "linear" }}
@@ -302,11 +328,9 @@ const TVShowDetail = () => {
         </div>
       </ContentProtection>
 
-      {/* ── Episodes section ─────────────────────────────────────────────── */}
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12">
         <h2 className="text-2xl font-bold text-white mb-6">Episodes</h2>
         <div className="flex flex-col gap-4">
-          {/* Episode 1 card */}
           <motion.div
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/8 rounded-xl p-4 cursor-pointer transition-all group"
@@ -331,13 +355,11 @@ const TVShowDetail = () => {
           </motion.div>
         </div>
 
-        {/* About section */}
         <div className="mt-12 mb-16 max-w-4xl">
           <h2 className="text-2xl font-bold text-white mb-4">About {show.title}</h2>
           <p className="text-white/70 text-lg leading-relaxed">{show.synopsis || show.description}</p>
         </div>
 
-        {/* More Shows */}
         {similarShows.length > 0 && (
           <div>
             <h2 className="text-xl sm:text-2xl font-semibold text-white mb-6 tracking-tight">More Shows</h2>
