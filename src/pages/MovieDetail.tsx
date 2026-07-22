@@ -126,13 +126,43 @@ const MovieDetail = () => {
     }
   };
 
+  // "Play Now" should work immediately, even before the 5s preview countdown
+  // finishes — skip straight to the video and start it in the same click.
+  const handlePlayNow = () => {
+    setShowVideo(true);
+    const video = videoRef.current;
+    if (!video) return;
+    const p = video.play();
+    if (p !== undefined) {
+      p.catch(() => {
+        setMuted(true);
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    }
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    }
+  };
+
+  // Click anywhere on the hero area (not on a button/link) to toggle play/pause
+  const handleHeroClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a') || target.closest('[role="button"]')) return;
+    if (!videoRef.current || !showVideo) return;
+    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
 
       {/* ── Hero Preview Section ─────────────────────────────────────────── */}
       <ContentProtection className="w-full">
-        <div className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end">
+        <div
+          className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end cursor-pointer"
+          onClick={handleHeroClick}
+        >
           {/* Layer 1: Poster Background (Static) */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
@@ -162,11 +192,6 @@ const MovieDetail = () => {
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
-                onClick={() => {
-                  if (videoRef.current) {
-                    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
-                  }
-                }}
               />
             </div>
           )}
@@ -184,13 +209,10 @@ const MovieDetail = () => {
             </div>
           )}
 
-          {/* Layer 3: Gradients for text legibility */}
-          {/* Top gradient for navbar */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10" />
-          {/* Bottom-to-top gradient for the info section */}
-          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10" />
-          {/* Left-to-right gradient for text readability across the whole width */}
-          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-10" />
+          {/* Layer 3: Gradients for text legibility — pointer-events-none so clicks reach the video */}
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-10 pointer-events-none" />
 
           {/* Layer 4: Content Overlay */}
           <div className="relative z-20 w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 pb-12 sm:pb-16 flex justify-between items-end">
@@ -258,7 +280,7 @@ const MovieDetail = () => {
                 <Button
                   size="lg"
                   className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
-                  onClick={() => toggleFullscreen()}
+                  onClick={handlePlayNow}
                 >
                   <Play className="mr-2 h-6 w-6 fill-white" />
                   Play Now
@@ -300,7 +322,7 @@ const MovieDetail = () => {
 
             {/* Video Controls (Bottom Right) */}
             {hasVideo && (
-              <div className="flex flex-col items-end gap-3 pb-2 transition-opacity duration-500 z-30">
+              <div className="flex flex-col items-end gap-3 pb-2 z-30">
                 <AnimatePresence>
                   {showVideo && (
                     <motion.div 

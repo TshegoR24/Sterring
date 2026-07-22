@@ -108,13 +108,41 @@ const TVShowDetail = () => {
     videoRef.current?.requestFullscreen?.();
   };
 
+  // "Watch Episode 1" should work immediately, even before the 5s preview
+  // countdown finishes — skip straight to the video and start it in the same click.
+  const handlePlayNow = () => {
+    setShowVideo(true);
+    const video = videoRef.current;
+    if (!video) return;
+    const p = video.play();
+    if (p !== undefined) {
+      p.catch(() => {
+        setMuted(true);
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    }
+    video.requestFullscreen?.();
+  };
+
+  // Click anywhere on the hero area (not on a button/link) to toggle play/pause
+  const handleHeroClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a') || target.closest('[role="button"]')) return;
+    if (!videoRef.current || !showVideo) return;
+    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
 
       {/* ── Hero Preview ──────────────────────────────────────────────── */}
       <ContentProtection className="w-full">
-        <div className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end">
+        <div
+          className="relative w-full h-[85vh] min-h-[600px] max-h-[1000px] overflow-hidden bg-black flex flex-col justify-end cursor-pointer"
+          onClick={handleHeroClick}
+        >
           {/* Poster */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -140,11 +168,6 @@ const TVShowDetail = () => {
                 controlsList="nodownload noremoteplayback"
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
-                onClick={() => {
-                  if (videoRef.current) {
-                    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
-                  }
-                }}
               />
             </div>
           )}
@@ -162,12 +185,12 @@ const TVShowDetail = () => {
             </div>
           )}
 
-          {/* Gradients */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10" />
-          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10" />
-          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-10" />
+          {/* Gradients — pointer-events-none so clicks reach the video */}
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-10 pointer-events-none" />
 
-          {/* Content */}
+          {/* Content — standard pointer events */}
           <div className="relative z-20 w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 pb-12 sm:pb-16 flex justify-between items-end">
             <div className="max-w-2xl flex flex-col">
               <Button variant="ghost" onClick={() => navigate(-1)} className="w-fit mb-6 text-white/70 hover:text-white hover:bg-white/10 -ml-4">
@@ -217,7 +240,7 @@ const TVShowDetail = () => {
                 <Button
                   size="lg"
                   className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
-                  onClick={toggleFullscreen}
+                  onClick={handlePlayNow}
                 >
                   <Play className="mr-2 h-6 w-6 fill-white" />
                   Watch Episode 1
@@ -287,7 +310,7 @@ const TVShowDetail = () => {
           <motion.div
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/8 rounded-xl p-4 cursor-pointer transition-all group"
-            onClick={toggleFullscreen}
+            onClick={handlePlayNow}
           >
             <div className="relative w-40 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-800">
               <img src={show.imageUrl} alt={show.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />

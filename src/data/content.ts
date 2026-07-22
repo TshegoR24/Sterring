@@ -635,9 +635,21 @@ export const categories: Category[] = [
   },
 ];
 
-export const allContent: Content[] = [
+// Some titles (e.g. "Yizo Yizo") are listed in both the Featured carousel
+// and their local category with the same id — dedupe so callers like
+// SearchBar and "similar titles" don't show the same title twice.
+const dedupeById = (items: Content[]): Content[] => {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+};
+
+export const allContent: Content[] = dedupeById([
   ...featuredContent,
   ...localMovies,
   ...localTVShows,
   ...animeContent,
-];
+]);

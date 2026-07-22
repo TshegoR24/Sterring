@@ -40,7 +40,7 @@ export const SearchBar = ({ isOpen, onClose }: SearchBarProps) => {
   }, [query]);
 
   const handleResultClick = (content: Content) => {
-    navigate(`/movie/${content.id}`);
+    navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`);
     setQuery("");
     onClose();
   };
