@@ -18,6 +18,7 @@ import { WatchlistProvider } from "./contexts/WatchlistContext";
 import { ContinueWatchingProvider } from "./contexts/ContinueWatchingContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { DownloadProvider } from "./contexts/DownloadContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
 
 const queryClient = new QueryClient();
 
@@ -27,28 +28,30 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AuthProvider>
-        <DownloadProvider>
-          <WatchlistProvider>
-            <ContinueWatchingProvider>
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/movie/:id" element={<MovieDetail />} />
-                  <Route path="/show/:id" element={<TVShowDetail />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/watchlist" element={<Watchlist />} />
-                  <Route path="/movies" element={<Movies />} />
-                  <Route path="/tv-shows" element={<TVShows />} />
-                  <Route path="/anime" element={<Anime />} />
-                  <Route path="/downloads" element={<Downloads />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </ContinueWatchingProvider>
-          </WatchlistProvider>
-        </DownloadProvider>
+        <NotificationProvider>
+          <DownloadProvider>
+            <WatchlistProvider>
+              <ContinueWatchingProvider>
+                <BrowserRouter>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/movie/:id" element={<MovieDetail />} />
+                    <Route path="/show/:id" element={<TVShowDetail />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/watchlist" element={<Watchlist />} />
+                    <Route path="/movies" element={<Movies />} />
+                    <Route path="/tv-shows" element={<TVShows />} />
+                    <Route path="/anime" element={<Anime />} />
+                    <Route path="/downloads" element={<Downloads />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </ContinueWatchingProvider>
+            </WatchlistProvider>
+          </DownloadProvider>
+        </NotificationProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>

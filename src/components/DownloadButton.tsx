@@ -5,6 +5,7 @@ import { Content } from "@/types/content";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDownloads } from "@/contexts/DownloadContext";
+import { useNotifications } from "@/contexts/NotificationContext";
 
 /* ─── Helper: trigger a real browser download for a local video ─────────── */
 const triggerFileDownload = (url: string, filename: string) => {
@@ -25,6 +26,7 @@ interface DownloadButtonProps {
 export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProps) => {
   const { isAuthenticated } = useAuth();
   const { add, remove, has } = useDownloads();
+  const { add: addNotification } = useNotifications();
 
   const isDownloaded = has(content.id);
   const [showModal, setShowModal] = useState(false);
@@ -71,6 +73,13 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
           }
 
           toast.success(`"${content.title}" is now available offline!`);
+          addNotification({
+            title: "Download complete",
+            message: `"${content.title}" is ready to watch offline.`,
+            imageUrl: content.imageUrl,
+            contentId: content.id,
+            contentType: content.type,
+          });
           setTimeout(() => setShowModal(false), 1500);
           return 100;
         }
@@ -81,6 +90,7 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
     }, 200);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDownloading, content, add]);
 
   const closeModal = () => {

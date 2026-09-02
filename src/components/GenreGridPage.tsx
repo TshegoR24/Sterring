@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { ContentCard } from "@/components/ContentCard";
 import { GenreFilter } from "@/components/GenreFilter";
 import {
@@ -44,12 +45,26 @@ export const GenreGridPage = ({
     }
   }, [filtered, sort]);
 
+  // Hero rotates through clips from this genre — items with an actual video clip
+  // come first so playback isn't just a static image most of the time.
+  const heroContent = useMemo(() => {
+    const withVideo = content.filter((c) => c.videoUrl);
+    const withoutVideo = content.filter((c) => !c.videoUrl);
+    return [...withVideo, ...withoutVideo].slice(0, 5);
+  }, [content]);
+
   return (
     <div className="min-h-screen bg-sterring-ink text-white">
       <Navbar />
 
-      <div className="pt-24 md:pt-28 pb-20 px-4 sm:px-6 md:px-8 lg:px-12 max-w-[1920px] mx-auto">
-        {/* Plain header, no cinematic hero — genre-page style */}
+      {heroContent.length > 0 && <HeroCarousel featuredContent={heroContent} />}
+
+      <div
+        className={`${
+          heroContent.length > 0 ? "relative z-10 -mt-8 md:-mt-16 pt-6" : "pt-24 md:pt-28"
+        } pb-20 px-4 sm:px-6 md:px-8 lg:px-12 max-w-[1920px] mx-auto`}
+      >
+        {/* Plain header, genre-page style */}
         <div className="flex flex-wrap items-end justify-between gap-4 mb-2">
           <div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2">

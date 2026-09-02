@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown, Download, Sparkles } from "lucide-react";
+import { Search, Menu, LogIn, Home, Clapperboard, Tv, Bookmark, User, LogOut, ChevronDown, Download, Sparkles, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useDownloads } from "@/contexts/DownloadContext";
+import { useNotifications } from "@/contexts/NotificationContext";
 
 const navLinks = [
   { to: "/", label: "Home", icon: Home },
@@ -16,22 +17,38 @@ const navLinks = [
   { to: "/downloads", label: "Downloads", icon: Download },
 ];
 
+const timeAgo = (timestamp: number) => {
+  const diffMs = Date.now() - timestamp;
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+};
+
 export const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { count: downloadCount } = useDownloads();
+  const { notifications, unreadCount, markRead, markAllRead } = useNotifications();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
   const isHome = location.pathname === "/";
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setIsUserMenuOpen(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(e.target as Node)) {
+        setIsNotificationsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -126,6 +143,95 @@ export const Navbar = () => {
               >
                 <Search className="h-5 w-5" />
               </Button>
+
+              {/* ── Notifications ────────────────────────────────────────── */}
+              <div className="relative" ref={notificationsRef}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative text-white hover:bg-white/10 rounded-sm transition-colors duration-150 w-11 h-11"
+                  onClick={() => {
+                    setIsNotificationsOpen((prev) => !prev);
+                    setIsUserMenuOpen(false);
+                  }}
+                  aria-label="Notifications"
+                >
+                  <Bell className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute top-1.5 right-1.5 min-w-[16px] h-[16px] px-1 rounded-full bg-sterring-orange text-white text-[10px] font-bold flex items-center justify-center">
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </span>
+                  )}
+                </Button>
+
+                <AnimatePresence>
+                  {isNotificationsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-sterring-charcoal border border-white/10 rounded-sm shadow-2xl shadow-black/50 overflow-hidden z-50"
+                    >
+                      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+                        <span className="text-sm font-bold text-white">Notifications</span>
+                        {unreadCount > 0 && (
+                          <button
+                            onClick={markAllRead}
+                            className="text-xs text-white/50 hover:text-white transition-colors duration-150"
+                          >
+                            Mark all as read
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="max-h-96 overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <p className="text-sm text-white/40 text-center py-10">
+                            You're all caught up.
+                          </p>
+                        ) : (
+                          notifications.map((n) => (
+                            <button
+                              key={n.id}
+                              onClick={() => {
+                                markRead(n.id);
+                                setIsNotificationsOpen(false);
+                                if (n.contentId) {
+                                  navigate(
+                                    n.contentType === "series"
+                                      ? `/show/${n.contentId}`
+                                      : `/movie/${n.contentId}`
+                                  );
+                                }
+                              }}
+                              className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-white/5 transition-colors duration-150 border-b border-white/5 last:border-b-0"
+                            >
+                              {n.imageUrl && (
+                                <img
+                                  src={n.imageUrl}
+                                  alt=""
+                                  className="w-12 h-16 object-cover rounded-sm flex-shrink-0"
+                                />
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <p className="text-sm font-semibold text-white truncate">{n.title}</p>
+                                  {!n.read && (
+                                    <span className="w-1.5 h-1.5 rounded-full bg-sterring-orange flex-shrink-0" />
+                                  )}
+                                </div>
+                                <p className="text-xs text-white/60 mt-0.5 line-clamp-2">{n.message}</p>
+                                <p className="text-[11px] text-white/35 mt-1">{timeAgo(n.timestamp)}</p>
+                              </div>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {isAuthenticated && user ? (
                 /* ── Logged-in user dropdown ─────────────────────────────── */
