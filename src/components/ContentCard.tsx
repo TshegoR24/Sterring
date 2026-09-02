@@ -113,7 +113,7 @@ export const ContentCard = ({ content, className }: ContentCardProps) => {
             <img
               src={content.imageUrl}
               alt=""
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+              className={`absolute inset-0 w-full h-full object-contain bg-black transition-opacity duration-300 ${
                 isPreviewing && hasVideo ? "opacity-0" : "opacity-100"
               }`}
             />
@@ -125,7 +125,7 @@ export const ContentCard = ({ content, className }: ContentCardProps) => {
                 loop
                 playsInline
                 preload="none"
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                className={`absolute inset-0 w-full h-full object-contain bg-black transition-opacity duration-300 ${
                   isPreviewing ? "opacity-100" : "opacity-0"
                 }`}
               />
