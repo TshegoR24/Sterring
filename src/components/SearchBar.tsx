@@ -48,7 +48,7 @@ export const SearchBar = ({ isOpen, onClose }: SearchBarProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] bg-black/97">
       <div className="max-w-4xl mx-auto px-4 pt-20">
         <div className="relative">
           <div className="relative flex items-center">
@@ -63,14 +63,14 @@ export const SearchBar = ({ isOpen, onClose }: SearchBarProps) => {
             />
             <button
               onClick={onClose}
-              className="absolute right-4 p-2 hover:bg-white/10 rounded-full transition-colors"
+              className="absolute right-4 p-2 hover:bg-white/10 rounded-sm transition-colors"
             >
               <X className="h-5 w-5 text-white" />
             </button>
           </div>
 
           {query.trim().length > 0 && (
-            <div className="mt-4 bg-black/80 backdrop-blur-md rounded-lg border border-white/10 max-h-[60vh] overflow-y-auto">
+            <div className="mt-4 bg-sterring-charcoal rounded-sm border border-white/10 max-h-[60vh] overflow-y-auto">
               {isSearching ? (
                 <div className="p-8 text-center text-white/60">Searching...</div>
               ) : results.length > 0 ? (
@@ -79,12 +79,12 @@ export const SearchBar = ({ isOpen, onClose }: SearchBarProps) => {
                     <button
                       key={item.id}
                       onClick={() => handleResultClick(item)}
-                      className="w-full flex items-center gap-4 p-3 hover:bg-white/10 rounded-lg transition-colors text-left"
+                      className="w-full flex items-center gap-4 p-3 hover:bg-white/8 rounded-sm transition-colors text-left"
                     >
                       <img
                         src={item.imageUrl}
                         alt={item.title}
-                        className="w-16 h-24 object-cover rounded"
+                        className="w-16 h-24 object-cover rounded-sm"
                         loading="lazy"
                       />
                       <div className="flex-1">

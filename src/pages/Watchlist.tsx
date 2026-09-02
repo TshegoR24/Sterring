@@ -52,7 +52,7 @@ const Watchlist = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-sterring-ink text-white">
       <Navbar />
 
       {/* Page Header */}
@@ -63,11 +63,11 @@ const Watchlist = () => {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-4 mb-2"
         >
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-sterring-orange/15 text-sterring-orange">
+          <div className="flex items-center justify-center w-12 h-12 rounded-sm bg-sterring-orange/15 text-sterring-orange">
             <Bookmark className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
               {isSharedView ? "Shared Watchlist" : "My Watchlist"}
             </h1>
             <p className="text-white/50 text-sm mt-0.5">
@@ -81,7 +81,7 @@ const Watchlist = () => {
           {!isSharedView ? (
             <button
               onClick={handleShare}
-              className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/10 rounded-lg text-sm font-semibold transition-all group/share"
+              className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/10 rounded-sm text-sm font-semibold transition-colors duration-150 group/share"
             >
               {copied ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4 text-white/70 group-hover/share:text-white transition-colors" />}
               <span>{copied ? "Copied!" : "Share"}</span>
@@ -89,7 +89,7 @@ const Watchlist = () => {
           ) : (
             <button
               onClick={handleSaveAll}
-              className="ml-auto flex items-center gap-2 px-4 py-2 bg-sterring-orange hover:bg-sterring-orange/90 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-sterring-orange/20"
+              className="ml-auto flex items-center gap-2 px-4 py-2 bg-sterring-orange hover:bg-sterring-orange-dark rounded-sm text-sm font-semibold transition-colors duration-150"
             >
               <Plus className="w-4 h-4" />
               Save All to My Watchlist
@@ -131,7 +131,7 @@ const Watchlist = () => {
               </p>
               <Link
                 to="/"
-                className="inline-flex items-center gap-2.5 px-7 py-3 bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-sterring-orange/25 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2.5 px-7 py-3 bg-sterring-orange hover:bg-sterring-orange-dark text-white font-bold rounded-sm transition-colors duration-150"
               >
                 <Play className="w-4 h-4" />
                 Browse Content
@@ -151,7 +151,7 @@ const Watchlist = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.35, delay: i * 0.04 }}
+                  transition={{ duration: 0.3 }}
                   className="relative group"
                 >
                   <ContentCard content={item} index={i} className="w-full" />

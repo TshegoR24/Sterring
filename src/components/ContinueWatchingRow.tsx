@@ -26,7 +26,7 @@ const ContinueWatchingCard = ({ item, onRemove }: { item: WatchProgress; onRemov
       onClick={() => navigate(route)}
     >
       {/* Thumbnail */}
-      <div className="relative h-[200px] sm:h-[240px] md:h-[260px] rounded-lg overflow-hidden bg-neutral-900">
+      <div className="relative h-[200px] sm:h-[240px] md:h-[260px] rounded-sm overflow-hidden bg-sterring-charcoal">
         <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         {/* Play overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">

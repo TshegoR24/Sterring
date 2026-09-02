@@ -54,10 +54,10 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
 
           {/* ── Main card ── */}
           <div
-            className="relative w-[300px] sm:w-[340px] rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+            className="relative w-[300px] sm:w-[340px] rounded-sm overflow-hidden shadow-2xl border border-white/10"
             style={{
               background: "linear-gradient(135deg, rgba(10,10,10,0.92) 0%, rgba(20,20,20,0.88) 100%)",
-              backdropFilter: "blur(20px)",
+              backdropFilter: "blur(12px)",
             }}
           >
             {/* Tab strip */}
@@ -162,7 +162,7 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               transition={{ duration: 0.25 }}
-              className="relative w-[340px] sm:w-[400px] rounded-2xl overflow-hidden shadow-2xl border border-white/15 mx-4"
+              className="relative w-[340px] sm:w-[400px] rounded-sm overflow-hidden shadow-2xl border border-white/15 mx-4"
               style={{
                 background: "linear-gradient(160deg, rgba(15,15,15,0.97) 0%, rgba(25,25,25,0.97) 100%)",
               }}
@@ -195,7 +195,7 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
 
                 {/* Name overlay */}
                 <div className="px-5 pt-2 pb-4">
-                  <h2 className="text-white text-2xl font-black leading-tight">
+                  <h2 className="text-white text-2xl font-bold leading-tight">
                     {selectedActor.name}
                   </h2>
                   <p className="text-sterring-orange text-sm font-medium mt-0.5">
@@ -210,21 +210,21 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
                 {(selectedActor.age || selectedActor.height || selectedActor.born) && (
                   <div className="grid grid-cols-3 gap-2">
                     {selectedActor.age && (
-                      <div className="bg-white/5 rounded-xl p-3 text-center">
+                      <div className="bg-white/5 rounded-sm p-3 text-center">
                         <Calendar className="w-3.5 h-3.5 text-sterring-orange mx-auto mb-1" />
                         <p className="text-white font-bold text-sm">{selectedActor.age}</p>
                         <p className="text-white/40 text-[10px] uppercase tracking-wide">Age</p>
                       </div>
                     )}
                     {selectedActor.height && (
-                      <div className="bg-white/5 rounded-xl p-3 text-center">
+                      <div className="bg-white/5 rounded-sm p-3 text-center">
                         <Ruler className="w-3.5 h-3.5 text-sterring-orange mx-auto mb-1" />
                         <p className="text-white font-bold text-sm leading-tight">{selectedActor.height.split(" ")[0]}</p>
                         <p className="text-white/40 text-[10px] uppercase tracking-wide">Height</p>
                       </div>
                     )}
                     {selectedActor.born && (
-                      <div className="bg-white/5 rounded-xl p-3 text-center">
+                      <div className="bg-white/5 rounded-sm p-3 text-center">
                         <MapPin className="w-3.5 h-3.5 text-sterring-orange mx-auto mb-1" />
                         <p className="text-white font-bold text-[10px] leading-tight">{selectedActor.born.split(",")[0]}</p>
                         <p className="text-white/40 text-[10px] uppercase tracking-wide">Born</p>
@@ -254,7 +254,7 @@ export const XRayPanel = ({ cast, currentTime, isPaused }: XRayPanelProps) => {
                       {selectedActor.seenIn.map((title, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-2 bg-white/5 hover:bg-white/8 rounded-lg px-3 py-2 transition-colors cursor-default"
+                          className="flex items-center gap-2 bg-white/5 hover:bg-white/8 rounded-sm px-3 py-2 transition-colors cursor-default"
                         >
                           <div className="w-1 h-1 rounded-full bg-sterring-orange/70 flex-shrink-0" />
                           <span className="text-white/80 text-sm">{title}</span>

@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
 import { Content } from "@/types/content";
 
 interface GenreFilterProps {
@@ -29,19 +28,17 @@ export const GenreFilter = ({ content, onFilter }: GenreFilterProps) => {
       {genres.map((genre) => {
         const isActive = genre === activeGenre;
         return (
-          <motion.button
+          <button
             key={genre}
             onClick={() => handleSelect(genre)}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200 ${
+            className={`px-4 py-1.5 rounded-sm text-sm font-semibold border transition-colors duration-150 ${
               isActive
-                ? "bg-sterring-orange border-sterring-orange text-white shadow-md shadow-sterring-orange/30"
+                ? "bg-sterring-orange border-sterring-orange text-white"
                 : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white hover:border-white/20"
             }`}
           >
             {genre}
-          </motion.button>
+          </button>
         );
       })}
     </div>

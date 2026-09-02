@@ -114,11 +114,9 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
   /* ─── Full button variant (for detail pages) ────────────────────────── */
   return (
     <>
-      <motion.button
-        whileHover={{ scale: 1.04, y: -1 }}
-        whileTap={{ scale: 0.97 }}
+      <button
         onClick={handleClick}
-        className={`inline-flex items-center gap-2.5 text-base md:text-lg px-7 py-4 rounded-xl font-semibold backdrop-blur-md transition-all border ${
+        className={`inline-flex items-center gap-2.5 text-base md:text-lg px-7 py-4 rounded-sm font-semibold transition-colors duration-150 border ${
           isDownloaded
             ? "bg-green-500/15 border-green-500/40 text-green-400 hover:bg-green-500/25"
             : "bg-white/10 hover:bg-white/20 border-white/20 text-white"
@@ -135,7 +133,7 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
             <span>Download</span>
           </>
         )}
-      </motion.button>
+      </button>
 
       {/* ── Download Modal ──────────────────────────────────────────────── */}
       <AnimatePresence>
@@ -144,23 +142,23 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 px-4"
             onClick={(e) => {
               if (e.target === e.currentTarget && !isDownloading) closeModal();
             }}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-md bg-[#141414] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+              exit={{ scale: 0.97, opacity: 0, y: 6 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="relative w-full max-w-md bg-sterring-charcoal border border-white/10 rounded-sm overflow-hidden shadow-2xl"
             >
               {/* Close button */}
               {!isDownloading && (
                 <button
                   onClick={closeModal}
-                  className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all"
+                  className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-150"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -173,7 +171,7 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
                   alt={content.title}
                   className="w-full h-full object-cover opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-sterring-charcoal to-transparent" />
                 <div className="absolute bottom-4 left-5 right-12">
                   <h3 className="text-white font-bold text-lg truncate">{content.title}</h3>
                   <p className="text-white/50 text-sm">
@@ -199,14 +197,9 @@ export const DownloadButton = ({ content, variant = "full" }: DownloadButtonProp
                     {/* Progress bar */}
                     <div className="relative w-full h-2 bg-white/10 rounded-full overflow-hidden">
                       <motion.div
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-sterring-orange to-orange-400 rounded-full"
+                        className="absolute inset-y-0 left-0 bg-sterring-orange rounded-full"
                         style={{ width: `${progress}%` }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
-                      />
-                      {/* Glow */}
-                      <motion.div
-                        className="absolute inset-y-0 left-0 bg-sterring-orange/30 rounded-full blur-sm"
-                        style={{ width: `${progress}%` }}
                       />
                     </div>
 

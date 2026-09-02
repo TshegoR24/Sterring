@@ -137,7 +137,7 @@ const TVShowDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-sterring-ink">
       <Navbar />
 
       <ContentProtection className="w-full">
@@ -183,8 +183,8 @@ const TVShowDetail = () => {
 
           {/* Layer 4: Gradients — pointer-events-none so clicks pass through */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-sterring-ink via-sterring-ink/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-sterring-ink/90 via-sterring-ink/40 to-transparent z-20 pointer-events-none" />
 
           {/* Layer 5: X-Ray Panel */}
           {hasVideo && hasCast && (
@@ -207,7 +207,7 @@ const TVShowDetail = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.4 }}
-                className="absolute bottom-28 right-6 z-40 flex items-center gap-2 bg-black/70 border border-white/10 backdrop-blur-md rounded-xl px-4 py-2.5 shadow-xl pointer-events-none"
+                className="absolute bottom-28 right-6 z-40 flex items-center gap-2 bg-black/80 border border-white/10 rounded-sm px-4 py-2.5 shadow-xl pointer-events-none"
               >
                 <div className="w-2 h-2 rounded-full bg-sterring-orange animate-pulse" />
                 <span className="text-white/80 text-sm font-medium">Pause to see who's in this scene</span>
@@ -232,7 +232,7 @@ const TVShowDetail = () => {
                 <motion.h1
                   initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-4 drop-shadow-xl"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-4"
                 >
                   {show.title}
                 </motion.h1>
@@ -256,7 +256,7 @@ const TVShowDetail = () => {
 
                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }} className="flex flex-wrap gap-2 mb-8">
                   {show.genres.map((genre) => (
-                    <span key={genre} className="px-3 py-1 bg-white/10 border border-white/5 text-white/90 rounded-full text-sm backdrop-blur-md">
+                    <span key={genre} className="px-3 py-1 bg-white/10 border border-white/10 text-white/90 rounded-sm text-sm">
                       {genre}
                     </span>
                   ))}
@@ -265,7 +265,7 @@ const TVShowDetail = () => {
                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap items-center gap-3">
                   <Button
                     size="lg"
-                    className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
+                    className="bg-sterring-orange hover:bg-sterring-orange-dark text-white text-base md:text-lg px-8 py-6 rounded-sm font-bold transition-colors duration-150"
                     onClick={handlePlayNow}
                   >
                     <Play className="mr-2 h-6 w-6 fill-white" />
@@ -274,7 +274,7 @@ const TVShowDetail = () => {
                   <Button
                     size="lg"
                     variant="outline"
-                    className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-md transition-all hover:scale-105 ${
+                    className={`text-base md:text-lg px-8 py-6 rounded-sm font-semibold transition-colors duration-150 ${
                       inWatchlist
                         ? "bg-sterring-orange/20 border-sterring-orange text-sterring-orange"
                         : "bg-white/10 hover:bg-white/20 border-white/20 text-white"
@@ -290,7 +290,7 @@ const TVShowDetail = () => {
                 <AnimatePresence>
                   {showVideo && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.8 }} className="mt-8 overflow-hidden">
-                      <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl border-l-2 border-sterring-orange/50 pl-4 py-1 bg-black/20 backdrop-blur-sm rounded-r-xl">
+                      <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl border-l-2 border-sterring-orange/50 pl-4 py-1 bg-black/30 rounded-r-sm">
                         {show.synopsis || show.description}
                       </p>
                     </motion.div>
@@ -303,16 +303,16 @@ const TVShowDetail = () => {
                 <div className="flex items-center gap-3 pb-2 pointer-events-auto">
                   <Button
                     variant="ghost" size="icon"
-                    className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110"
+                    className="rounded-full bg-black/50 hover:bg-black/70 border border-white/20 text-white w-12 h-12 transition-colors duration-150"
                     onClick={handleVideoClick}
                     title={isPaused ? "Play" : "Pause"}
                   >
                     {isPaused ? <Play className="w-5 h-5 fill-white" /> : <Pause className="w-5 h-5" />}
                   </Button>
-                  <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleMuteHandler}>
+                  <Button variant="ghost" size="icon" className="rounded-full bg-black/50 hover:bg-black/70 border border-white/20 text-white w-12 h-12 transition-colors duration-150" onClick={toggleMuteHandler}>
                     {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                   </Button>
-                  <Button variant="ghost" size="icon" className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 hover:scale-110" onClick={toggleFullscreen}>
+                  <Button variant="ghost" size="icon" className="rounded-full bg-black/50 hover:bg-black/70 border border-white/20 text-white w-12 h-12 transition-colors duration-150" onClick={toggleFullscreen}>
                     <Expand className="w-5 h-5" />
                   </Button>
                 </div>
@@ -321,7 +321,7 @@ const TVShowDetail = () => {
           </div>
 
           {hasVideo && !showVideo && !isVideoLoading && (
-            <motion.div className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 shadow-[0_0_10px_rgba(255,107,0,0.8)]"
+            <motion.div className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 "
               initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: 5, ease: "linear" }}
             />
           )}
@@ -333,13 +333,13 @@ const TVShowDetail = () => {
         <div className="flex flex-col gap-4">
           <motion.div
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/8 rounded-xl p-4 cursor-pointer transition-all group"
+            className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/8 rounded-sm p-4 cursor-pointer transition-colors duration-150 group"
             onClick={handlePlayNow}
           >
-            <div className="relative w-40 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-800">
+            <div className="relative w-40 h-24 flex-shrink-0 rounded-sm overflow-hidden bg-sterring-charcoal">
               <img src={show.imageUrl} alt={show.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-sterring-orange/90 transition-colors">
+                <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-sterring-orange transition-colors">
                   <Play className="w-5 h-5 fill-white text-white ml-0.5" />
                 </div>
               </div>

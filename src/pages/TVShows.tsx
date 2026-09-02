@@ -19,7 +19,7 @@ const TVShows = () => {
   const [filtered, setFiltered] = useState<Content[]>(localTVShowsCat?.content ?? []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-sterring-ink text-white">
       <Navbar />
 
       {/* ── Compact Cinematic Hero Section ──────────────────────────────── */}
@@ -38,7 +38,7 @@ const TVShows = () => {
         {/* Darkening vignette */}
         <div className="absolute inset-0 bg-black/60" />
         {/* Bottom fade to page background */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-sterring-ink to-transparent" />
         {/* Left-side text contrast fade */}
         <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-black/70 to-transparent" />
 
@@ -52,7 +52,7 @@ const TVShows = () => {
           >
             {/* Badge */}
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-sterring-orange/20 text-sterring-orange">
+              <div className="flex items-center justify-center w-9 h-9 rounded-sm bg-sterring-orange/15 text-sterring-orange">
                 <Tv className="w-5 h-5" />
               </div>
               <span className="text-sterring-orange text-xs font-bold uppercase tracking-[0.2em]">
@@ -61,7 +61,7 @@ const TVShows = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none mb-3 drop-shadow-xl">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-none mb-3 drop-shadow-xl">
               TV Shows
             </h1>
 
@@ -74,14 +74,10 @@ const TVShows = () => {
             {/* CTA — links to first show's detail page */}
             {hero && (
               <Link to={`/show/${hero.id}`}>
-                <motion.button
-                  whileHover={{ scale: 1.04, y: -1 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-3 px-7 py-3.5 bg-sterring-orange hover:bg-sterring-orange/90 text-white font-bold rounded-xl text-sm md:text-base shadow-lg shadow-sterring-orange/30 transition-all"
-                >
+                <button className="inline-flex items-center gap-3 px-7 py-3.5 bg-sterring-orange hover:bg-sterring-orange-dark text-white font-bold rounded-sm text-sm md:text-base transition-colors duration-150">
                   <Play className="w-5 h-5 fill-white" />
                   Watch {hero.title}
-                </motion.button>
+                </button>
               </Link>
             )}
 

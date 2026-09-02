@@ -15,11 +15,11 @@ const shimmer = {
 export const ContentSkeletonCard = ({ className }: { className?: string }) => (
   <div
     className={cn(
-      "relative w-[140px] sm:w-[180px] md:w-[220px] lg:w-[240px] flex-none rounded-lg overflow-hidden bg-neutral-800",
+      "relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[230px] flex-none rounded-sm overflow-hidden bg-sterring-charcoal",
       className
     )}
   >
-    <div className="w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[360px] relative overflow-hidden">
+    <div className="w-full h-[195px] sm:h-[255px] md:h-[315px] lg:h-[345px] relative overflow-hidden">
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent"
         {...shimmer}

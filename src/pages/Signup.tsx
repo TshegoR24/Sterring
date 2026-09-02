@@ -67,7 +67,7 @@ const Signup = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-20">
         <div className="w-full max-w-md">
-          <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8">
+          <div className="bg-black/80 rounded-sm border border-white/10 p-8 sm:p-10">
             <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
             <p className="text-white/60 mb-8">Join Sterring and start streaming</p>
 
@@ -167,7 +167,7 @@ const Signup = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-sterring-orange hover:bg-sterring-orange/90 text-white text-lg py-6 rounded-full font-semibold disabled:opacity-50"
+                className="w-full bg-sterring-orange hover:bg-sterring-orange-dark text-white text-lg py-6 rounded-sm font-bold disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>

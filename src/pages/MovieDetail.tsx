@@ -140,7 +140,7 @@ const MovieDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-sterring-ink">
       <Navbar />
 
       <ContentProtection className="w-full">
@@ -186,8 +186,8 @@ const MovieDetail = () => {
 
           {/* Layer 4: Gradients — pointer-events-none so clicks pass through to catcher */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-sterring-ink via-sterring-ink/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-sterring-ink/90 via-sterring-ink/40 to-transparent z-20 pointer-events-none" />
 
           {/* Layer 5: X-Ray Panel */}
           {hasVideo && hasCast && (
@@ -210,7 +210,7 @@ const MovieDetail = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.4 }}
-                className="absolute bottom-28 right-6 z-40 flex items-center gap-2 bg-black/70 border border-white/10 backdrop-blur-md rounded-xl px-4 py-2.5 shadow-xl pointer-events-none"
+                className="absolute bottom-28 right-6 z-40 flex items-center gap-2 bg-black/80 border border-white/10 rounded-sm px-4 py-2.5 shadow-xl pointer-events-none"
               >
                 <div className="w-2 h-2 rounded-full bg-sterring-orange animate-pulse" />
                 <span className="text-white/80 text-sm font-medium">Pause to see who's in this scene</span>
@@ -237,7 +237,7 @@ const MovieDetail = () => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-4 drop-shadow-xl"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-4"
                 >
                   {movie.title}
                 </motion.h1>
@@ -267,7 +267,7 @@ const MovieDetail = () => {
                   className="flex flex-wrap gap-2 mb-8"
                 >
                   {movie.genres.map((genre) => (
-                    <span key={genre} className="px-3 py-1 bg-white/10 border border-white/5 text-white/90 rounded-full text-sm backdrop-blur-md shadow-sm">
+                    <span key={genre} className="px-3 py-1 bg-white/10 border border-white/10 text-white/90 rounded-sm text-sm">
                       {genre}
                     </span>
                   ))}
@@ -281,7 +281,7 @@ const MovieDetail = () => {
                 >
                   <Button
                     size="lg"
-                    className="bg-sterring-orange hover:bg-sterring-orange/90 text-white shadow-lg shadow-sterring-orange/25 text-base md:text-lg px-8 py-6 rounded-xl font-bold transition-all hover:scale-105"
+                    className="bg-sterring-orange hover:bg-sterring-orange-dark text-white text-base md:text-lg px-8 py-6 rounded-sm font-bold transition-colors duration-150"
                     onClick={handlePlayNow}
                   >
                     <Play className="mr-2 h-6 w-6 fill-white" />
@@ -290,7 +290,7 @@ const MovieDetail = () => {
                   <Button
                     size="lg"
                     variant="outline"
-                    className={`text-base md:text-lg px-8 py-6 rounded-xl font-semibold backdrop-blur-md transition-all hover:scale-105 ${
+                    className={`text-base md:text-lg px-8 py-6 rounded-sm font-semibold transition-colors duration-150 ${
                       inWatchlist
                         ? "bg-sterring-orange/20 border-sterring-orange text-sterring-orange"
                         : "bg-white/10 hover:bg-white/20 border-white/20 text-white"
@@ -312,7 +312,7 @@ const MovieDetail = () => {
                       transition={{ duration: 0.8 }}
                       className="mt-8 overflow-hidden"
                     >
-                      <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl border-l-2 border-sterring-orange/50 pl-4 py-1 bg-black/20 backdrop-blur-sm rounded-r-xl">
+                      <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl border-l-2 border-sterring-orange/50 pl-4 py-1 bg-black/30 rounded-r-sm">
                         {movie.synopsis || movie.description}
                       </p>
                     </motion.div>
@@ -326,7 +326,7 @@ const MovieDetail = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 transition-all hover:scale-110"
+                    className="rounded-full bg-black/50 hover:bg-black/70 border border-white/20 text-white w-12 h-12 transition-colors duration-150"
                     onClick={handleVideoClick}
                     title={isPaused ? "Play" : "Pause"}
                   >
@@ -338,7 +338,7 @@ const MovieDetail = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 transition-all hover:scale-110"
+                    className="rounded-full bg-black/50 hover:bg-black/70 border border-white/20 text-white w-12 h-12 transition-colors duration-150"
                     onClick={toggleMute}
                   >
                     {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
@@ -346,7 +346,7 @@ const MovieDetail = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-white w-12 h-12 transition-all hover:scale-110"
+                    className="rounded-full bg-black/50 hover:bg-black/70 border border-white/20 text-white w-12 h-12 transition-colors duration-150"
                     onClick={toggleFullscreen}
                   >
                     <Expand className="w-5 h-5" />
@@ -359,7 +359,7 @@ const MovieDetail = () => {
           {/* 5s countdown bar */}
           {hasVideo && !showVideo && !isVideoLoading && (
             <motion.div
-              className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 shadow-[0_0_10px_rgba(255,107,0,0.8)]"
+              className="absolute bottom-0 left-0 h-1 bg-sterring-orange z-50 "
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ duration: 5, ease: "linear" }}

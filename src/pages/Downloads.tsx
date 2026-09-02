@@ -36,7 +36,7 @@ const Downloads = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-sterring-ink">
       <Navbar />
 
       {/* ── Page header ───────────────────────────────────────────────── */}
@@ -47,11 +47,11 @@ const Downloads = () => {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-4 mb-2"
         >
-          <div className="w-12 h-12 rounded-2xl bg-sterring-orange/15 border border-sterring-orange/30 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-sm bg-sterring-orange/15 border border-sterring-orange/30 flex items-center justify-center">
             <Download className="w-6 h-6 text-sterring-orange" />
           </div>
           <div>
-            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
               My Downloads
             </h1>
             <p className="text-white/50 text-sm mt-0.5">
@@ -68,7 +68,7 @@ const Downloads = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/25 text-green-400 text-xs font-semibold"
+            className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-green-500/10 border border-green-500/25 text-green-400 text-xs font-semibold"
           >
             <WifiOff className="w-3.5 h-3.5" />
             <span>Available without internet</span>
@@ -102,7 +102,7 @@ const Downloads = () => {
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 onClick={() => navigate("/movies")}
-                className="bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold px-6 py-3 rounded-xl"
+                className="bg-sterring-orange hover:bg-sterring-orange-dark text-white font-semibold px-6 py-3 rounded-sm"
               >
                 <Film className="w-4 h-4 mr-2" />
                 Browse Movies
@@ -110,7 +110,7 @@ const Downloads = () => {
               <Button
                 onClick={() => navigate("/tv-shows")}
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 px-6 py-3 rounded-xl"
+                className="border-white/20 text-white hover:bg-white/10 px-6 py-3 rounded-sm"
               >
                 <Tv className="w-4 h-4 mr-2" />
                 Browse TV Shows
@@ -129,11 +129,10 @@ const Downloads = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9, y: -10 }}
                   transition={{
-                    duration: 0.4,
-                    delay: index * 0.05,
+                    duration: 0.3,
                     layout: { duration: 0.3 },
                   }}
-                  className="group relative bg-white/5 border border-white/8 rounded-2xl overflow-hidden hover:bg-white/8 hover:border-white/15 transition-all duration-300"
+                  className="group relative bg-sterring-charcoal border border-white/8 rounded-sm overflow-hidden hover:border-white/20 transition-colors duration-200"
                 >
                   {/* Thumbnail */}
                   <div className="relative h-48 overflow-hidden">
@@ -145,7 +144,7 @@ const Downloads = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                     {/* Offline badge */}
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/20 border border-green-500/40 backdrop-blur-sm">
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-sm bg-green-500/20 border border-green-500/40">
                       <CheckCircle2 className="w-3 h-3 text-green-400" />
                       <span className="text-green-400 text-[10px] font-bold uppercase tracking-wider">
                         Offline
@@ -155,14 +154,14 @@ const Downloads = () => {
                     {/* Delete button */}
                     <button
                       onClick={() => setConfirmId(content.id)}
-                      className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 hover:bg-red-500/80 border border-white/20 hover:border-red-400/50 flex items-center justify-center text-white/60 hover:text-white transition-all duration-200 backdrop-blur-sm opacity-0 group-hover:opacity-100"
+                      className="absolute top-3 right-3 w-8 h-8 rounded-sm bg-black/60 hover:bg-red-500/80 border border-white/20 hover:border-red-400/50 flex items-center justify-center text-white/60 hover:text-white transition-colors duration-150 opacity-0 group-hover:opacity-100"
                       aria-label="Remove download"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
 
                     {/* Type badge */}
-                    <div className="absolute bottom-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded bg-black/60 backdrop-blur-sm">
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-sm bg-black/60">
                       {content.type === "series" ? (
                         <Tv className="w-3 h-3 text-white/70" />
                       ) : (
@@ -206,7 +205,7 @@ const Downloads = () => {
                               : `/movie/${content.id}`
                           )
                         }
-                        className="flex-1 bg-sterring-orange hover:bg-sterring-orange/90 text-white font-semibold rounded-xl py-2.5 text-sm"
+                        className="flex-1 bg-sterring-orange hover:bg-sterring-orange-dark text-white font-semibold rounded-sm py-2.5 text-sm"
                       >
                         <Play className="w-4 h-4 mr-1.5 fill-white" />
                         Play
@@ -214,7 +213,7 @@ const Downloads = () => {
                       <Button
                         onClick={() => setConfirmId(content.id)}
                         variant="outline"
-                        className="border-white/15 text-white/60 hover:text-red-400 hover:border-red-400/40 hover:bg-red-500/10 rounded-xl px-3"
+                        className="border-white/15 text-white/60 hover:text-red-400 hover:border-red-400/40 hover:bg-red-500/10 rounded-sm px-3"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -234,7 +233,7 @@ const Downloads = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 px-4"
             onClick={(e) => {
               if (e.target === e.currentTarget) setConfirmId(null);
             }}
@@ -243,8 +242,8 @@ const Downloads = () => {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-sm bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 shadow-2xl"
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="w-full max-w-sm bg-sterring-charcoal border border-white/10 rounded-sm p-6 shadow-2xl"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/30 flex items-center justify-center">
@@ -261,7 +260,7 @@ const Downloads = () => {
                 <Button
                   onClick={() => setConfirmId(null)}
                   variant="outline"
-                  className="flex-1 border-white/20 text-white hover:bg-white/10 rounded-xl"
+                  className="flex-1 border-white/20 text-white hover:bg-white/10 rounded-sm"
                 >
                   Cancel
                 </Button>
@@ -270,7 +269,7 @@ const Downloads = () => {
                     const item = downloads.find((d) => d.content.id === confirmId);
                     if (item) handleDelete(item.content.id, item.content.title);
                   }}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl"
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-sm"
                 >
                   <Trash2 className="w-4 h-4 mr-1.5" />
                   Remove
