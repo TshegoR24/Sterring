@@ -1,6 +1,5 @@
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -36,42 +35,39 @@ const legalLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-black border-t border-white/5 pt-16 pb-8">
+    <footer className="bg-sterring-ink border-t border-white/10 pt-16 pb-8">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="flex flex-col space-y-12">
           {/* Logo Section */}
           <div>
-            <Link to="/" className="text-3xl md:text-4xl font-black tracking-tighter hover:opacity-90 transition-opacity duration-200 inline-block mb-4">
+            <Link to="/" className="text-2xl md:text-3xl font-extrabold tracking-tight hover:opacity-90 transition-opacity duration-200 inline-block mb-4">
               <span className="text-sterring-orange">Sterring</span>
-              <span className="text-white">!</span>
             </Link>
           </div>
 
           {/* Links and Socials Row */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/5 pb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-8">
             <div className="flex flex-wrap gap-x-6 gap-y-3">
               {legalLinks.map((link) => (
                 <a
                   key={link}
                   href="#"
-                  className="text-white/40 hover:text-white text-sm transition-colors duration-200"
+                  className="text-white/45 hover:text-white text-sm transition-colors duration-150"
                 >
                   {link}
                 </a>
               ))}
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {socialLinks.map(({ icon: Icon, href }, index) => (
-                <motion.a
+                <a
                   key={index}
                   href={href}
-                  whileHover={{ scale: 1.1, backgroundColor: "rgba(255, 255, 255, 0.2)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all duration-200"
+                  className="w-9 h-9 rounded-sm bg-white/8 hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-150"
                 >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
-                </motion.a>
+                  <Icon className="w-4 h-4 flex-shrink-0" />
+                </a>
               ))}
             </div>
           </div>
@@ -87,6 +83,10 @@ export const Footer = () => {
     </footer>
   );
 };
+
+
+
+
 
 
 

@@ -42,7 +42,9 @@ export default {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         "sterring-orange": {
-          DEFAULT: "#FF6B35",
+          DEFAULT: "#F5390F",
+          dark: "#C22A0A",
+          light: "#FF5A2E",
           foreground: "#FFFFFF",
         },
         "sterring-gold": {
@@ -57,6 +59,8 @@ export default {
           DEFAULT: "#991B1B",
           foreground: "#FFFFFF",
         },
+        "sterring-charcoal": "#141414",
+        "sterring-ink": "#0A0A0A",
       },
       borderRadius: {
         lg: "var(--radius)",

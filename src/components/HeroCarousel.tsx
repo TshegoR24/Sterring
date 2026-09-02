@@ -71,21 +71,18 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
   if (!currentContent) return null;
 
   return (
-    <div className="relative h-[70vh] md:h-[80vh] lg:h-[85vh] w-full overflow-hidden bg-black">
-      {/* Film Grain Overlay - Subtle cinematic texture */}
-      <div className="absolute inset-0 z-[5] pointer-events-none opacity-[0.02] film-grain mix-blend-overlay" />
+    <div className="relative h-[64vh] md:h-[78vh] lg:h-[88vh] w-full overflow-hidden bg-sterring-ink">
+      {/* Film Grain Overlay - subtle texture, kept understated */}
+      <div className="absolute inset-0 z-[5] pointer-events-none opacity-[0.015] film-grain mix-blend-overlay" />
 
-      {/* Background Media - Cinematic crossfade with subtle scale */}
+      {/* Background Media - hard cut with a touch of scale, no bounce */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{
-            opacity: { duration: 1, ease: [0.25, 0.1, 0.25, 1] },
-            scale: { duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           className="absolute inset-0 h-full w-full"
         >
           {hasVideo ? (
@@ -93,7 +90,6 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
               ref={videoRef}
               src={currentContent.videoUrl}
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ filter: 'brightness(1.15) contrast(1.05)' }}
               autoPlay
               muted={isMuted}
               loop
@@ -109,154 +105,117 @@ export const HeroCarousel = ({ featuredContent }: HeroCarouselProps) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Lighter Gradient Overlays - Cinematic brightness with text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 via-30% to-transparent z-10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 via-60% to-transparent z-10" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/90 z-10" />
-      {/* Subtle vignette for cinematic depth without over-darkening */}
-      <div className="absolute inset-0 z-10" style={{ background: 'radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0,0,0,0.3) 100%)' }} />
+      {/* Single deliberate gradient system - left-to-right for text, bottom fade to blend into the page */}
+      <div className="absolute inset-0 bg-gradient-to-r from-sterring-ink via-sterring-ink/70 via-40% to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-sterring-ink via-transparent to-transparent z-10" />
 
-      {/* Navigation Arrows - Mobile optimized */}
-      <motion.button
+      {/* Navigation Arrows */}
+      <button
         onClick={goToPrevious}
-        whileHover={{ scale: 1.1, x: -4 }}
-        whileTap={{ scale: 0.95 }}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 rounded-full p-3 md:p-4 transition-all duration-300 backdrop-blur-xl border border-white/10 shadow-2xl group"
+        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-black/75 rounded-sm p-2.5 md:p-3 transition-colors duration-200"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="h-6 w-6 md:h-8 md:w-8 text-white group-hover:scale-110 transition-transform" />
-      </motion.button>
-      <motion.button
+        <ChevronLeft className="h-6 w-6 md:h-7 md:w-7 text-white" />
+      </button>
+      <button
         onClick={goToNext}
-        whileHover={{ scale: 1.1, x: 4 }}
-        whileTap={{ scale: 0.95 }}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 rounded-full p-3 md:p-4 transition-all duration-300 backdrop-blur-xl border border-white/10 shadow-2xl group"
+        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-black/75 rounded-sm p-2.5 md:p-3 transition-colors duration-200"
         aria-label="Next slide"
       >
-        <ChevronRight className="h-6 w-6 md:h-8 md:w-8 text-white group-hover:scale-110 transition-transform" />
-      </motion.button>
+        <ChevronRight className="h-6 w-6 md:h-7 md:w-7 text-white" />
+      </button>
 
-      {/* Mute Button - Mobile optimized positioning */}
+      {/* Mute Button */}
       {hasVideo && (
-        <motion.button
+        <button
           onClick={toggleMute}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.3 }}
-          className="absolute right-4 md:right-8 bottom-24 md:bottom-32 z-30 p-2.5 md:p-3 rounded-full border-2 border-white/30 bg-black/40 text-white backdrop-blur-xl hover:bg-black/60 hover:border-white/50 transition-all duration-300 shadow-xl"
+          className="absolute right-4 md:right-8 bottom-20 md:bottom-24 z-30 p-2.5 md:p-3 rounded-full border border-white/40 bg-black/40 text-white hover:bg-black/60 transition-colors duration-200"
         >
           {isMuted ? <VolumeX className="w-5 h-5 md:w-6 md:h-6" /> : <Volume2 className="w-5 h-5 md:w-6 md:h-6" />}
-        </motion.button>
+        </button>
       )}
 
-      {/* Content - Mobile optimized */}
-      <div className="relative z-20 max-w-4xl px-6 sm:px-8 md:px-12 lg:px-16 pt-24 md:pt-32 h-full flex flex-col justify-center pb-24 md:pb-32">
+      {/* Content */}
+      <div className="relative z-20 max-w-3xl px-6 sm:px-8 md:px-12 lg:px-16 pt-24 md:pt-32 h-full flex flex-col justify-center pb-20 md:pb-28">
         <AnimatePresence mode="wait">
           <motion.div
             key={`content-${currentIndex}`}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            {/* Title - Mobile responsive */}
-            <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tighter text-white mb-4 md:mb-6 leading-[0.9]"
-              style={{
-                textShadow: '0 8px 32px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.7)',
-              }}
+            {/* Title */}
+            <h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 leading-[0.95] max-w-2xl"
+              style={{ textShadow: "0 4px 20px rgba(0,0,0,0.85)" }}
             >
               {currentContent.title}
-            </motion.h1>
+            </h1>
 
-            {/* Description - Mobile optimized */}
-            <motion.p
-              className="mt-4 md:mt-6 text-white leading-relaxed max-w-2xl text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-light"
+            {/* Metadata row - square chips, no pill shapes */}
+            <div className="flex items-center gap-2.5 md:gap-3 text-sm md:text-base text-white/85 mb-4 md:mb-5">
+              <span className="font-bold text-sterring-orange-light">{currentContent.genres[0]}</span>
+              <span className="font-medium">{currentContent.year}</span>
+              <span className="px-1.5 py-0.5 border border-white/40 text-xs font-medium">
+                {currentContent.rating}
+              </span>
+              <span className="font-medium hidden sm:inline">{currentContent.duration}</span>
+            </div>
+
+            {/* Description */}
+            <p
+              className="text-white/90 leading-relaxed max-w-xl text-sm sm:text-base md:text-lg mb-6 md:mb-8"
               style={{
-                textShadow: '0 4px 16px rgba(0,0,0,0.9), 0 2px 8px rgba(0,0,0,0.7)',
-                lineClamp: 3,
-                display: '-webkit-box',
+                textShadow: "0 2px 10px rgba(0,0,0,0.8)",
+                display: "-webkit-box",
                 WebkitLineClamp: 3,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
               }}
             >
               {currentContent.description}
-            </motion.p>
+            </p>
 
-            {/* Metadata - Mobile responsive */}
-            <motion.div
-              className="mt-4 md:mt-6 flex items-center gap-2 md:gap-4 text-xs sm:text-sm md:text-base text-white/90"
-              style={{
-                textShadow: '0 2px 8px rgba(0,0,0,0.8)',
-              }}
-            >
-              <span className="font-bold text-sm md:text-lg">{currentContent.year}</span>
-              <span className="w-1 h-1 rounded-full bg-white/60" />
-              <span className="font-medium hidden sm:inline">{currentContent.duration}</span>
-              <span className="w-1 h-1 rounded-full bg-white/60 hidden sm:inline" />
-              <span className="px-2 md:px-3 py-0.5 md:py-1 border-2 border-white/40 rounded-md text-xs md:text-sm font-semibold backdrop-blur-sm bg-white/5">
-                {currentContent.genres[0]}
-              </span>
-            </motion.div>
-
-            {/* Action Buttons - Mobile optimized CTAs */}
-            <motion.div
-              className="mt-6 md:mt-10 flex flex-col sm:flex-row gap-3 md:gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(255,255,255,0.3)' }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center justify-center gap-2 md:gap-3 rounded-lg bg-white px-8 md:px-10 py-3.5 md:py-4 text-base md:text-lg text-black font-bold hover:bg-white/95 transition-all duration-300 shadow-2xl relative overflow-hidden group min-h-[44px]"
+            {/* Action Buttons - solid, square-cornered, no shimmer sweep */}
+            <div className="flex items-center gap-3">
+              <button
+                className="flex items-center justify-center gap-2 rounded-sm bg-white px-6 md:px-8 py-3 md:py-3.5 text-base md:text-lg text-black font-bold hover:bg-white/85 transition-colors duration-150 min-h-[44px]"
                 onClick={() => navigate(currentContent.type === "series" ? `/show/${currentContent.id}` : `/movie/${currentContent.id}`)}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                <Play className="h-5 w-5 md:h-6 md:w-6 fill-black relative z-10" />
-                <span className="relative z-10">Watch Now</span>
-              </motion.button>
+                <Play className="h-5 w-5 md:h-6 md:w-6 fill-black" />
+                Play
+              </button>
 
-              {/* Hide More Info on mobile for simplicity */}
-              <motion.button
-                whileHover={{ scale: 1.05, borderColor: 'rgba(255,255,255,0.6)' }}
-                whileTap={{ scale: 0.98 }}
-                className="hidden sm:flex items-center justify-center gap-2 md:gap-3 rounded-lg bg-white/20 px-8 md:px-10 py-3.5 md:py-4 text-base md:text-lg text-white font-semibold backdrop-blur-xl hover:bg-white/30 transition-all duration-300 border-2 border-white/30 shadow-xl min-h-[44px]"
+              <button
+                className="flex items-center justify-center gap-2 rounded-sm bg-white/20 px-6 md:px-8 py-3 md:py-3.5 text-base md:text-lg text-white font-bold hover:bg-white/30 transition-colors duration-150 min-h-[44px]"
                 onClick={() => navigate(currentContent.type === "series" ? `/show/${currentContent.id}` : `/movie/${currentContent.id}`)}
               >
                 <Info className="h-5 w-5 md:h-6 md:w-6" />
                 More Info
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Carousel Indicators - Mobile optimized */}
-      <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex gap-1.5 md:gap-2 z-30">
+      {/* Slide indicators - thin lines, no glow */}
+      <div className="absolute bottom-6 md:bottom-10 left-6 md:left-12 flex gap-1.5 z-30">
         {featuredContent.map((_, index) => (
-          <motion.button
+          <button
             key={index}
             onClick={() => goToSlide(index)}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
+            className="relative"
             aria-label={`Go to slide ${index + 1}`}
           >
             <div
-              className={`h-1 rounded-full transition-all duration-500 ${index === currentIndex
-                ? "w-10 md:w-12 bg-white shadow-lg shadow-white/50"
-                : "w-6 md:w-8 bg-white/40 group-hover:bg-white/60"
-                }`}
+              className={`h-[3px] rounded-full transition-all duration-300 ${
+                index === currentIndex ? "w-8 bg-sterring-orange" : "w-4 bg-white/35 hover:bg-white/55"
+              }`}
             />
-          </motion.button>
+          </button>
         ))}
       </div>
     </div>
   );
 };
-
-

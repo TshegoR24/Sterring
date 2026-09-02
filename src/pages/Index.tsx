@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { ContentRow } from "@/components/ContentRow";
@@ -11,22 +10,14 @@ const Index = () => {
   const contentCategories = categories.filter((cat) => cat.id !== "featured");
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-sterring-ink text-white relative overflow-hidden">
       <Navbar />
 
       {/* Hero Section */}
-      {featuredCategory && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <HeroCarousel featuredContent={featuredCategory.content} />
-        </motion.div>
-      )}
+      {featuredCategory && <HeroCarousel featuredContent={featuredCategory.content} />}
 
       {/* Content Rows */}
-      <div className="relative z-10 mt-8 pb-20">
+      <div className="relative z-10 -mt-8 md:-mt-16 pb-20">
         {/* Continue Watching — only visible after user has played something */}
         <ContinueWatchingRow />
 

@@ -2,7 +2,7 @@ import { Content } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Play, Bookmark } from "lucide-react";
+import { Play, Plus, Check, ThumbsUp } from "lucide-react";
 import { useWatchlist } from "@/contexts/WatchlistContext";
 import { toast } from "sonner";
 import { DownloadButton } from "@/components/DownloadButton";
@@ -13,7 +13,7 @@ interface ContentCardProps {
   index?: number;
 }
 
-export const ContentCard = ({ content, className, index }: ContentCardProps) => {
+export const ContentCard = ({ content, className }: ContentCardProps) => {
   const navigate = useNavigate();
   const { toggle, has } = useWatchlist();
   const inWatchlist = has(content.id);
@@ -29,129 +29,100 @@ export const ContentCard = ({ content, className, index }: ContentCardProps) => 
     }
   };
 
+  const goToDetail = () =>
+    navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`);
+
   return (
-    <motion.div
+    <div
       className={cn(
-        "group relative w-[140px] sm:w-[180px] md:w-[220px] lg:w-[240px] flex-none cursor-pointer overflow-hidden rounded-lg",
+        "group relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[230px] flex-none cursor-pointer",
         className
       )}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.4,
-        delay: index ? Math.min(index * 0.05, 0.3) : 0,
-        ease: [0.25, 0.1, 0.25, 1]
-      }}
-      whileHover={{
-        scale: 1.04,
-        transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }
-      }}
-      onClick={() => navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`)}
+      onClick={goToDetail}
     >
-      {/* Thumbnail — fixed size box, image always fills with object-cover */}
-      <div className="relative w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[360px] overflow-hidden rounded-lg bg-neutral-900 flex-shrink-0">
-        <motion.img
+      {/* Poster - stays fixed size; the card that grows is the hover panel below */}
+      <div className="relative w-full h-[195px] sm:h-[255px] md:h-[315px] lg:h-[345px] overflow-hidden rounded-sm bg-sterring-charcoal">
+        <img
           src={content.imageUrl}
           alt={content.title}
           className="absolute inset-0 w-full h-full object-cover object-center"
           loading="lazy"
         />
-
-        {/* Subtle darkening on hover */}
-        <motion.div
-          className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300"
-          initial={false}
-        />
       </div>
 
-      {/* Hover Overlay - Apple TV-style refined reveal */}
+      {/* Netflix-style hover pop: scales up and reveals a solid info panel below the poster */}
       <motion.div
-        className="absolute inset-0 rounded-lg bg-gradient-to-t from-black via-black/85 to-transparent flex flex-col justify-end p-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0 }}
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        className="absolute top-0 left-0 right-0 z-30 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto origin-top hidden md:block"
+        initial={false}
+        whileHover={{}}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       >
         <motion.div
-          initial={{ y: 8, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.05, duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.35 }}
+          transition={{ duration: 0.2, ease: "easeOut", delay: 0.3 }}
+          className="bg-sterring-charcoal rounded-sm shadow-2xl shadow-black/60 overflow-hidden"
         >
-          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1 line-clamp-2 leading-tight">
-            {content.title}
-          </h3>
-          <div className="flex items-center gap-2 text-xs md:text-sm text-white/75 mb-2 md:mb-3 font-medium">
-            <span>{content.year}</span>
-            {content.genres && content.genres[0] && (
-              <>
-                <span className="w-1 h-1 rounded-full bg-white/60 hidden sm:inline" />
-                <span className="hidden sm:inline">{content.genres[0]}</span>
-              </>
-            )}
+          <div className="relative w-full aspect-[2/3]">
+            <img
+              src={content.imageUrl}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </div>
-          
-          <p className="text-[10px] sm:text-xs text-white/70 mb-3 line-clamp-3 leading-relaxed">
-            {content.synopsis || content.description}
-          </p>
-
-          {/* Action buttons row */}
-          <div className="flex items-center gap-2">
-            <motion.button
-              whileHover={{
-                scale: 1.04,
-                y: -1,
-                backgroundColor: "rgba(255,255,255,1)",
-                transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
-              }}
-              whileTap={{ scale: 0.96 }}
-              className="flex items-center justify-center gap-1.5 md:gap-2 flex-1 rounded-lg bg-white/95 px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base text-black font-semibold transition-all duration-200 shadow-lg min-h-[44px]"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(content.type === "series" ? `/show/${content.id}` : `/movie/${content.id}`);
-              }}
-            >
-              <Play className="h-4 w-4 fill-black" />
-              Play
-            </motion.button>
-
-            {/* Watchlist button inside overlay */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleWatchlistToggle}
-              className={`flex items-center justify-center w-[44px] h-[44px] rounded-lg border transition-all duration-200 flex-shrink-0 ${
-                inWatchlist
-                  ? "bg-sterring-orange/30 border-sterring-orange text-sterring-orange"
-                  : "bg-white/15 border-white/30 text-white hover:bg-white/25"
-              }`}
-              aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
-            >
-              <Bookmark className={`w-5 h-5 ${inWatchlist ? "fill-current" : ""}`} />
-            </motion.button>
-
-            {/* Download button inside overlay */}
-            <DownloadButton content={content} variant="icon" />
+          <div className="p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToDetail();
+                }}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-black hover:bg-white/85 transition-colors"
+                aria-label="Play"
+              >
+                <Play className="h-4 w-4 fill-black ml-0.5" />
+              </button>
+              <button
+                onClick={handleWatchlistToggle}
+                className="flex items-center justify-center w-8 h-8 rounded-full border border-white/50 text-white hover:border-white transition-colors"
+                aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
+              >
+                {inWatchlist ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              </button>
+              <button
+                className="flex items-center justify-center w-8 h-8 rounded-full border border-white/50 text-white hover:border-white transition-colors"
+                aria-label="Rate"
+              >
+                <ThumbsUp className="w-3.5 h-3.5" />
+              </button>
+              <div className="ml-auto">
+                <DownloadButton content={content} variant="icon" />
+              </div>
+            </div>
+            <h3 className="text-xs font-bold text-white mb-1 line-clamp-1">{content.title}</h3>
+            <div className="flex items-center gap-2 text-[11px] text-white/70 font-medium">
+              <span className="text-sterring-green font-bold">{content.rating}</span>
+              <span>{content.year}</span>
+              {content.genres?.[0] && <span>{content.genres[0]}</span>}
+            </div>
           </div>
         </motion.div>
       </motion.div>
 
-      {/* Watchlist bookmark — always visible when in watchlist, shows on hover otherwise.
-           Positioned AFTER the overlay in DOM so it renders on top (z-30). */}
+      {/* Watchlist bookmark for touch devices, always tappable */}
       <button
         onClick={handleWatchlistToggle}
-        className={`absolute top-2 right-2 z-30 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md border
-          ${inWatchlist
-            ? "bg-sterring-orange/30 border-sterring-orange/60 text-sterring-orange opacity-100"
-            : "bg-black/50 border-white/20 text-white/80 opacity-0 group-hover:opacity-100 hover:bg-white/20 hover:text-white"
-          }`}
+        className={`md:hidden absolute top-2 right-2 z-20 w-8 h-8 rounded-sm flex items-center justify-center transition-colors
+          ${inWatchlist ? "bg-sterring-orange text-white" : "bg-black/60 text-white/90"}`}
         aria-label={inWatchlist ? "Remove from watchlist" : "Add to watchlist"}
       >
-        <Bookmark className={`w-4 h-4 ${inWatchlist ? "fill-current" : ""}`} />
+        {inWatchlist ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
       </button>
 
-      {/* Shadow enhancement - Apple TV depth */}
-      <div className="absolute inset-0 rounded-lg shadow-lg group-hover:shadow-2xl transition-shadow duration-300 pointer-events-none" />
-    </motion.div>
+      {/* Title shown under the poster on mobile / touch, since hover panel is desktop-only */}
+      <div className="md:hidden mt-1.5">
+        <h3 className="text-xs font-semibold text-white line-clamp-1">{content.title}</h3>
+      </div>
+    </div>
   );
 };

@@ -1,9 +1,7 @@
-import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ContentCard } from "./ContentCard";
 import { Category } from "@/types/content";
 import { useRef } from "react";
-import { Button } from "@/components/ui/button";
 
 interface ContentRowProps {
   category: Category;
@@ -23,74 +21,43 @@ export const ContentRow = ({ category }: ContentRowProps) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-      className="mb-12 md:mb-16"
-    >
-      {/* Category Header - Mobile optimized */}
-      <div className="flex items-center justify-between mb-4 md:mb-6 px-4 sm:px-6 md:px-8 lg:px-12">
-        <motion.h2
-          initial={{ opacity: 0, x: -8 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight leading-tight"
-        >
+    <div className="mb-10 md:mb-14">
+      {/* Category Header */}
+      <div className="flex items-center justify-between mb-3 md:mb-4 px-4 sm:px-6 md:px-8 lg:px-12">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight">
           {category.name}
-        </motion.h2>
-        <div className="flex items-center gap-2">
-          {/* Navigation Controls - Mobile optimized */}
-          <motion.button
-            whileHover={{
-              scale: 1.08,
-              x: -2,
-              transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
-            }}
-            whileTap={{ scale: 0.96 }}
+        </h2>
+        <div className="hidden md:flex items-center gap-1">
+          <button
             onClick={() => scroll("left")}
-            className="h-11 w-11 md:h-10 md:w-10 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:border-white/30 flex items-center justify-center transition-all duration-250 backdrop-blur-lg shadow-lg group"
+            className="h-9 w-9 rounded-sm bg-white/5 hover:bg-white/15 flex items-center justify-center transition-colors duration-150"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="h-5 w-5 text-white/90 group-hover:text-white transition-colors" />
-          </motion.button>
-          <motion.button
-            whileHover={{
-              scale: 1.08,
-              x: 2,
-              transition: { duration: 0.2, ease: [0.34, 1.56, 0.64, 1] }
-            }}
-            whileTap={{ scale: 0.96 }}
+            <ChevronLeft className="h-5 w-5 text-white/80" />
+          </button>
+          <button
             onClick={() => scroll("right")}
-            className="h-11 w-11 md:h-10 md:w-10 rounded-full bg-black/50 hover:bg-black/70 border border-white/15 hover:border-white/30 flex items-center justify-center transition-all duration-250 backdrop-blur-lg shadow-lg group"
+            className="h-9 w-9 rounded-sm bg-white/5 hover:bg-white/15 flex items-center justify-center transition-colors duration-150"
             aria-label="Scroll right"
           >
-            <ChevronRight className="h-5 w-5 text-white/90 group-hover:text-white transition-colors" />
-          </motion.button>
+            <ChevronRight className="h-5 w-5 text-white/80" />
+          </button>
         </div>
       </div>
 
-      {/* Scrollable Content - Mobile optimized */}
+      {/* Scrollable Content */}
       <div
         ref={scrollRef}
-        className="flex gap-2 sm:gap-3 md:gap-4 overflow-x-scroll scrollbar-hide px-4 sm:px-6 md:px-8 lg:px-12 pb-4"
+        className="flex gap-1.5 sm:gap-2 md:gap-2.5 overflow-x-scroll scrollbar-hide px-4 sm:px-6 md:px-8 lg:px-12 pb-4"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
         }}
       >
         {category.content.map((item, index) => (
-          <ContentCard
-            key={item.id}
-            content={item}
-            index={index}
-            className="flex-shrink-0"
-          />
+          <ContentCard key={item.id} content={item} index={index} className="flex-shrink-0" />
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 };
-
