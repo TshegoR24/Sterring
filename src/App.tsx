@@ -9,6 +9,7 @@ import MovieDetail from "./pages/MovieDetail";
 import TVShowDetail from "./pages/TVShowDetail";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import Watchlist from "./pages/Watchlist";
 import Movies from "./pages/Movies";
 import TVShows from "./pages/TVShows";
@@ -39,6 +40,7 @@ const App = () => (
                     <Route path="/show/:id" element={<TVShowDetail />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/watchlist" element={<Watchlist />} />
                     <Route path="/movies" element={<Movies />} />
                     <Route path="/tv-shows" element={<TVShows />} />

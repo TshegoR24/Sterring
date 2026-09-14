@@ -14,6 +14,8 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signup: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -23,6 +25,8 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   login: async () => ({ success: false }),
   signup: async () => ({ success: false }),
+  loginWithGoogle: async () => ({ success: false }),
+  resetPassword: async () => ({ success: false }),
   logout: () => {},
 });
 
@@ -75,13 +79,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return { success: true };
   }, []);
 
+  // Redirects to Google's consent screen; Supabase handles the callback and
+  // the onAuthStateChange listener above picks up the resulting session.
+  const loginWithGoogle = useCallback(async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  }, []);
+
+  const resetPassword = useCallback(async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/login`,
+    });
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  }, []);
+
   const logout = useCallback(() => {
     supabase.auth.signOut();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, isLoading, login, signup, logout }}
+      value={{ user, isAuthenticated: !!user, isLoading, login, signup, loginWithGoogle, resetPassword, logout }}
     >
       {children}
     </AuthContext.Provider>

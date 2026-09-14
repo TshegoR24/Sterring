@@ -18,8 +18,9 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false);
   const navigate = useNavigate();
-  const { signup, isAuthenticated } = useAuth();
+  const { signup, loginWithGoogle, isAuthenticated } = useAuth();
 
   // If already logged in, redirect
   useEffect(() => {
@@ -62,6 +63,15 @@ const Signup = () => {
     setIsSubmitting(false);
   };
 
+  const handleGoogleSignup = async () => {
+    setIsGoogleSubmitting(true);
+    const result = await loginWithGoogle();
+    if (!result.success) {
+      toast.error(result.error || "Google sign-in failed");
+      setIsGoogleSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
@@ -70,6 +80,32 @@ const Signup = () => {
           <div className="bg-black/80 rounded-sm border border-white/10 p-8 sm:p-10">
             <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
             <p className="text-white/60 mb-8">Join Sterring and start streaming</p>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleGoogleSignup}
+              disabled={isGoogleSubmitting || isSubmitting}
+              className="w-full bg-white hover:bg-white/90 text-black text-sm font-semibold py-6 rounded-sm border-0 flex items-center justify-center gap-3 disabled:opacity-50"
+            >
+              {isGoogleSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <svg className="h-4 w-4" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.63h6.47c-.28 1.5-1.13 2.77-2.4 3.62v3h3.88c2.27-2.09 3.57-5.17 3.57-8.8z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.26v3.1C3.24 21.3 7.28 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29v-3.1H1.26A11.97 11.97 0 0 0 0 12c0 1.94.46 3.77 1.26 5.39l4.01-3.1z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.28 0 3.24 2.7 1.26 6.61l4.01 3.1C6.22 6.86 8.87 4.75 12 4.75z"/>
+                </svg>
+              )}
+              Continue with Google
+            </Button>
+
+            <div className="flex items-center gap-3 my-6">
+              <div className="h-px flex-1 bg-white/10" />
+              <span className="text-white/40 text-xs uppercase tracking-wider">or</span>
+              <div className="h-px flex-1 bg-white/10" />
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
