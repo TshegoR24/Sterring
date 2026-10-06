@@ -13,6 +13,8 @@ import { useVolumePreference } from "@/hooks/useVolumePreference";
 import { DownloadButton } from "@/components/DownloadButton";
 import { ContentProtection } from "@/components/ContentProtection";
 import { XRayPanel } from "@/components/XRayPanel";
+import { VideoPlayer } from "@/components/video/VideoPlayer";
+import { VideoElementHandle } from "@/components/video/types";
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +29,7 @@ const MovieDetail = () => {
   const [isPaused, setIsPaused] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [showXRayHint, setShowXRayHint] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<VideoElementHandle>(null);
 
   useEffect(() => {
     setShowVideo(false);
@@ -94,7 +96,7 @@ const MovieDetail = () => {
     .filter((m) => m.id !== movie.id && m.genres.some((genre) => movie.genres.includes(genre)))
     .slice(0, 6);
 
-  const hasVideo = Boolean(movie.videoUrl);
+  const hasVideo = Boolean(movie.videoUrl || movie.cloudflareUid || movie.muxPlaybackId);
   const hasCast = (movie.cast?.length ?? 0) > 0;
   const inWatchlist = has(movie.id);
 
@@ -155,20 +157,21 @@ const MovieDetail = () => {
           {/* Layer 2: Video */}
           {hasVideo && (
             <div className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out pointer-events-none ${showVideo ? "opacity-100" : "opacity-0"}`}>
-              <video
+              <VideoPlayer
                 key={movie.id}
                 ref={videoRef}
+                provider={movie.videoProvider ?? "local"}
                 src={movie.videoUrl}
+                cloudflareUid={movie.cloudflareUid}
+                muxPlaybackId={movie.muxPlaybackId}
                 className="w-full h-full object-cover"
                 loop
-                playsInline
                 preload="auto"
                 muted={isMuted}
                 onCanPlay={() => setIsVideoLoading(false)}
                 onPlay={() => setIsPaused(false)}
                 onPause={() => setIsPaused(true)}
-                onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
-                controlsList="nodownload noremoteplayback"
+                onTimeUpdate={(t) => setCurrentTime(t)}
                 disablePictureInPicture
                 onContextMenu={(e) => e.preventDefault()}
               />

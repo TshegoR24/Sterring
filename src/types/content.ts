@@ -32,7 +32,14 @@ export interface Content {
   rating: string;
   duration: string;
   imageUrl: string;
+  /** Local file path or full URL. Used when videoProvider is "local" (default) or unset. */
   videoUrl?: string;
+  /** Which backend serves the full playback video. Defaults to "local" for existing content. */
+  videoProvider?: "local" | "cloudflare" | "mux";
+  /** Cloudflare Stream video UID. Required when videoProvider is "cloudflare". */
+  cloudflareUid?: string;
+  /** Mux playback ID. Required when videoProvider is "mux". */
+  muxPlaybackId?: string;
   videoStart?: number;
   videoEnd?: number;
   featured?: boolean;
